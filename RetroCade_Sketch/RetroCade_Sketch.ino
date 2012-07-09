@@ -948,107 +948,107 @@ void HandleControlChange(byte channel, byte number, byte value) {
       SIDREG(SID_ADDR_V1_ATTACK_DECAY) = *(char*)&SID_REG_V1_ATTACK_DECAY;
       SIDREG(SID_ADDR_V1_SUSTAIN_RELEASE) = *(char*)&SID_REG_V1_SUSTAIN_RELEASE;
       SIDREG(SID_ADDR_V1_CONTROLREG) = *(char*)&SID_REG_V1_CONTROLREG;  
-//    case 2:
-//      switch(number) {
-//        //Voice1
-//        case 74:
-//          SID_REG_V2_ATTACK_DECAY.ATTACK = value/8;
-//          break;
-//        case 71:
-//          SID_REG_V2_ATTACK_DECAY.DECAY = value/8;
-//          break;
-//        case 91:
-//          SID_REG_V2_SUSTAIN_RELEASE.SUSTAIN = value/8;
-//          break;      
-//        case 93:
-//          SID_REG_V2_SUSTAIN_RELEASE.RELEASE = value/8;
-//          break; 
-//        case 75:  //Voice1 PW Fine
-//          SIDREG(SID_ADDR_V2_PW_LOW) = (value << 1);
-//          break;      
-//        case 76:  //Voice1 PW Coarse
-//          SIDREG(SID_ADDR_V2_PW_HI) = (value << 1);
-//        break;  
-//          if (value == 0)
-//            SID_REG_V2_CONTROLREG.TRIANGLE_WAVE = 0;
-//          else
-//            SID_REG_V2_CONTROLREG.TRIANGLE_WAVE = 1;             
-//          break;
-//        case 3:
-//          if (value == 0)
-//            SID_REG_V2_CONTROLREG.SAWTOOTH_WAVE = 0;
-//          else
-//            SID_REG_V2_CONTROLREG.SAWTOOTH_WAVE = 1;             
-//          break;
-//        case 4:
-//          if (value == 0)
-//            SID_REG_V2_CONTROLREG.SQUARE_WAVE = 0;
-//          else
-//            SID_REG_V2_CONTROLREG.SQUARE_WAVE = 1;             
-//          break;
-//        case 5:
-//          if (value == 0)
-//            SID_REG_V2_CONTROLREG.NOISE_WAVE = 0;
-//          else
-//            SID_REG_V2_CONTROLREG.NOISE_WAVE = 1;             
-//          break;   
-//        default:
-//          return;             
-//      }      
-//      SIDREG(SID_ADDR_V2_ATTACK_DECAY) = *(char*)&SID_REG_V2_ATTACK_DECAY;
-//      SIDREG(SID_ADDR_V2_SUSTAIN_RELEASE) = *(char*)&SID_REG_V2_SUSTAIN_RELEASE;
-//      SIDREG(SID_ADDR_V2_CONTROLREG) = *(char*)&SID_REG_V2_CONTROLREG;       
-//    case 3:
-//      switch(number) {
-//        //Voice1
-//        case 74:
-//          SID_REG_V3_ATTACK_DECAY.ATTACK = value/8;
-//          break;
-//        case 71:
-//          SID_REG_V3_ATTACK_DECAY.DECAY = value/8;
-//          break;
-//        case 91:
-//          SID_REG_V3_SUSTAIN_RELEASE.SUSTAIN = value/8;
-//          break;      
-//        case 93:
-//          SID_REG_V3_SUSTAIN_RELEASE.RELEASE = value/8;
-//          break; 
-//        case 75:  //Voice1 PW Fine
-//          SIDREG(SID_ADDR_V3_PW_LOW) = (value << 1);
-//          break;      
-//        case 76:  //Voice1 PW Coarse
-//          SIDREG(SID_ADDR_V3_PW_HI) = (value << 1);
-//          break; 
-//        case 2:
-//          if (value == 0)
-//            SID_REG_V3_CONTROLREG.TRIANGLE_WAVE = 0;
-//          else
-//            SID_REG_V3_CONTROLREG.TRIANGLE_WAVE = 1;             
-//          break;
-//        case 3:
-//          if (value == 0)
-//            SID_REG_V3_CONTROLREG.SAWTOOTH_WAVE = 0;
-//          else
-//            SID_REG_V3_CONTROLREG.SAWTOOTH_WAVE = 1;             
-//          break;
-//        case 4:
-//          if (value == 0)
-//            SID_REG_V3_CONTROLREG.SQUARE_WAVE = 0;
-//          else
-//            SID_REG_V3_CONTROLREG.SQUARE_WAVE = 1;             
-//          break;
-//        case 5:
-//          if (value == 0)
-//            SID_REG_V3_CONTROLREG.NOISE_WAVE = 0;
-//          else
-//            SID_REG_V3_CONTROLREG.NOISE_WAVE = 1;             
-//          break; 
-//        default:
-//          return;             
-//      }      
-//      SIDREG(SID_ADDR_V3_ATTACK_DECAY) = *(char*)&SID_REG_V3_ATTACK_DECAY;
-//      SIDREG(SID_ADDR_V3_SUSTAIN_RELEASE) = *(char*)&SID_REG_V3_SUSTAIN_RELEASE; 
-//      SIDREG(SID_ADDR_V3_CONTROLREG) = *(char*)&SID_REG_V3_CONTROLREG;        
+    case 2:
+      switch(number) {
+        //Voice1
+        case 74:
+          SID_REG_V2_ATTACK_DECAY.ATTACK = value/8;
+          break;
+        case 71:
+          SID_REG_V2_ATTACK_DECAY.DECAY = value/8;
+          break;
+        case 91:
+          SID_REG_V2_SUSTAIN_RELEASE.SUSTAIN = value/8;
+          break;      
+        case 93:
+          SID_REG_V2_SUSTAIN_RELEASE.RELEASE = value/8;
+          break; 
+        case 75:  //Voice1 PW Fine
+          SIDREG(SID_ADDR_V2_PW_LOW) = (value << 1);
+          break;      
+        case 76:  //Voice1 PW Coarse
+          SIDREG(SID_ADDR_V2_PW_HI) = (value << 1);
+        break;  
+          if (value == 0)
+            SID_REG_V2_CONTROLREG.TRIANGLE_WAVE = 0;
+          else
+            SID_REG_V2_CONTROLREG.TRIANGLE_WAVE = 1;             
+          break;
+        case 3:
+          if (value == 0)
+            SID_REG_V2_CONTROLREG.SAWTOOTH_WAVE = 0;
+          else
+            SID_REG_V2_CONTROLREG.SAWTOOTH_WAVE = 1;             
+          break;
+        case 4:
+          if (value == 0)
+            SID_REG_V2_CONTROLREG.SQUARE_WAVE = 0;
+          else
+            SID_REG_V2_CONTROLREG.SQUARE_WAVE = 1;             
+          break;
+        case 5:
+          if (value == 0)
+            SID_REG_V2_CONTROLREG.NOISE_WAVE = 0;
+          else
+            SID_REG_V2_CONTROLREG.NOISE_WAVE = 1;             
+          break;   
+        default:
+          return;             
+      }      
+      SIDREG(SID_ADDR_V2_ATTACK_DECAY) = *(char*)&SID_REG_V2_ATTACK_DECAY;
+      SIDREG(SID_ADDR_V2_SUSTAIN_RELEASE) = *(char*)&SID_REG_V2_SUSTAIN_RELEASE;
+      SIDREG(SID_ADDR_V2_CONTROLREG) = *(char*)&SID_REG_V2_CONTROLREG;       
+    case 3:
+      switch(number) {
+        //Voice1
+        case 74:
+          SID_REG_V3_ATTACK_DECAY.ATTACK = value/8;
+          break;
+        case 71:
+          SID_REG_V3_ATTACK_DECAY.DECAY = value/8;
+          break;
+        case 91:
+          SID_REG_V3_SUSTAIN_RELEASE.SUSTAIN = value/8;
+          break;      
+        case 93:
+          SID_REG_V3_SUSTAIN_RELEASE.RELEASE = value/8;
+          break; 
+        case 75:  //Voice1 PW Fine
+          SIDREG(SID_ADDR_V3_PW_LOW) = (value << 1);
+          break;      
+        case 76:  //Voice1 PW Coarse
+          SIDREG(SID_ADDR_V3_PW_HI) = (value << 1);
+          break; 
+        case 2:
+          if (value == 0)
+            SID_REG_V3_CONTROLREG.TRIANGLE_WAVE = 0;
+          else
+            SID_REG_V3_CONTROLREG.TRIANGLE_WAVE = 1;             
+          break;
+        case 3:
+          if (value == 0)
+            SID_REG_V3_CONTROLREG.SAWTOOTH_WAVE = 0;
+          else
+            SID_REG_V3_CONTROLREG.SAWTOOTH_WAVE = 1;             
+          break;
+        case 4:
+          if (value == 0)
+            SID_REG_V3_CONTROLREG.SQUARE_WAVE = 0;
+          else
+            SID_REG_V3_CONTROLREG.SQUARE_WAVE = 1;             
+          break;
+        case 5:
+          if (value == 0)
+            SID_REG_V3_CONTROLREG.NOISE_WAVE = 0;
+          else
+            SID_REG_V3_CONTROLREG.NOISE_WAVE = 1;             
+          break; 
+        default:
+          return;             
+      }      
+      SIDREG(SID_ADDR_V3_ATTACK_DECAY) = *(char*)&SID_REG_V3_ATTACK_DECAY;
+      SIDREG(SID_ADDR_V3_SUSTAIN_RELEASE) = *(char*)&SID_REG_V3_SUSTAIN_RELEASE; 
+      SIDREG(SID_ADDR_V3_CONTROLREG) = *(char*)&SID_REG_V3_CONTROLREG;        
     case 4:  //YM2149 Voice A
       switch(number) {
         //VoiceA
@@ -1100,126 +1100,126 @@ void HandleControlChange(byte channel, byte number, byte value) {
         case 71:
           YM_REG_VA_LEVEL.LEVEL = value/8;
           break;
-//        case 75:  //YM Envelope Freq Fine
-//          YM2149REG(YM_ADDR_FREQ_E) = (value << 1);
-//          break;      
-//        case 76:  //YM Envelope Freq Coarse
-//          YM2149REG(YM_ADDR_FREQ_E+1) = (value << 1);
-//          break; 
+        case 75:  //YM Envelope Freq Fine
+          YM2149REG(YM_ADDR_FREQ_E) = (value << 1);
+          break;      
+        case 76:  //YM Envelope Freq Coarse
+          YM2149REG(YM_ADDR_FREQ_E+1) = (value << 1);
+          break; 
         default:
           return;        
       }      
       YM2149REG(YM_ADDR_LEVEL_A) = *(char*)&YM_REG_VA_LEVEL;
       YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
       YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;      
-//    case 5:  //YM2149 Voice B
-//      switch(number) {
-//        //VoiceB
-//        case 2:
-//          if (value == 0)
-//            YM_REG_ENVSHAPE.CONT = 0;
-//          else
-//            YM_REG_ENVSHAPE.CONT = 1;             
-//          break;
-//        case 3:
-//          if (value == 0)
-//            YM_REG_ENVSHAPE.ATT = 0;
-//          else
-//            YM_REG_ENVSHAPE.ATT = 1;             
-//          break;
-//        case 4:
-//          if (value == 0)
-//            YM_REG_ENVSHAPE.ALT = 0;
-//          else
-//            YM_REG_ENVSHAPE.ALT = 1;             
-//          break;
-//        case 5:
-//          if (value == 0)
-//            YM_REG_ENVSHAPE.HOLD = 0;
-//          else
-//            YM_REG_ENVSHAPE.HOLD = 1;             
-//          break;   
-//        case 6:
-//          if (value == 0)
-//            YM_REG_MIXER.NOISEB = 1;
-//          else
-//            YM_REG_MIXER.NOISEB = 0;             
-//          break;  
-//        case 7:
-//          if (value == 0)
-//            YM_REG_MIXER.TONEB = 1;
-//          else
-//            YM_REG_MIXER.TONEB = 0;             
-//          break;  
-//        case 8:
-//          if (value == 0)
-//            YM_REG_VB_LEVEL.MODE = 0;
-//          else
-//            YM_REG_VB_LEVEL.MODE = 1;             
-//          break;           
-//        case 74:
-//          YM2149REG(YM_ADDR_NOISE) = value/4;
-//          break;
-//        case 71:
-//          YM_REG_VB_LEVEL.LEVEL = value/8;
-//          break;
-//        case 75:  //YM Envelope Freq Fine
-//          YM2149REG(YM_ADDR_FREQ_E) = (value << 1);
-//          break;      
-//        case 76:  //YM Envelope Freq Coarse
-//          YM2149REG(YM_ADDR_FREQ_E+1) = (value << 1);
-//          break; 
-//        default:
-//          return;        
-//      }      
-//      YM2149REG(YM_ADDR_LEVEL_B) = *(char*)&YM_REG_VB_LEVEL;
-//      YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
-//      YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
+    case 5:  //YM2149 Voice B
+      switch(number) {
+        //VoiceB
+        case 2:
+          if (value == 0)
+            YM_REG_ENVSHAPE.CONT = 0;
+          else
+            YM_REG_ENVSHAPE.CONT = 1;             
+          break;
+        case 3:
+          if (value == 0)
+            YM_REG_ENVSHAPE.ATT = 0;
+          else
+            YM_REG_ENVSHAPE.ATT = 1;             
+          break;
+        case 4:
+          if (value == 0)
+            YM_REG_ENVSHAPE.ALT = 0;
+          else
+            YM_REG_ENVSHAPE.ALT = 1;             
+          break;
+        case 5:
+          if (value == 0)
+            YM_REG_ENVSHAPE.HOLD = 0;
+          else
+            YM_REG_ENVSHAPE.HOLD = 1;             
+          break;   
+        case 6:
+          if (value == 0)
+            YM_REG_MIXER.NOISEB = 1;
+          else
+            YM_REG_MIXER.NOISEB = 0;             
+          break;  
+        case 7:
+          if (value == 0)
+            YM_REG_MIXER.TONEB = 1;
+          else
+            YM_REG_MIXER.TONEB = 0;             
+          break;  
+        case 8:
+          if (value == 0)
+            YM_REG_VB_LEVEL.MODE = 0;
+          else
+            YM_REG_VB_LEVEL.MODE = 1;             
+          break;           
+        case 74:
+          YM2149REG(YM_ADDR_NOISE) = value/4;
+          break;
+        case 71:
+          YM_REG_VB_LEVEL.LEVEL = value/8;
+          break;
+        case 75:  //YM Envelope Freq Fine
+          YM2149REG(YM_ADDR_FREQ_E) = (value << 1);
+          break;      
+        case 76:  //YM Envelope Freq Coarse
+          YM2149REG(YM_ADDR_FREQ_E+1) = (value << 1);
+          break; 
+        default:
+          return;        
+      }      
+      YM2149REG(YM_ADDR_LEVEL_B) = *(char*)&YM_REG_VB_LEVEL;
+      YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
+      YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
     case 6:  //YM2149 Voice C
       switch(number) {
         //VoiceC
-//        case 2:
-//          if (value == 0)
-//            YM_REG_ENVSHAPE.CONT = 0;
-//          else
-//            YM_REG_ENVSHAPE.CONT = 1;             
-//          break;
-//        case 3:
-//          if (value == 0)
-//            YM_REG_ENVSHAPE.ATT = 0;
-//          else
-//            YM_REG_ENVSHAPE.ATT = 1;             
-//          break;
-//        case 4:
-//          if (value == 0)
-//            YM_REG_ENVSHAPE.ALT = 0;
-//          else
-//            YM_REG_ENVSHAPE.ALT = 1;             
-//          break;
-//        case 5:
-//          if (value == 0)
-//            YM_REG_ENVSHAPE.HOLD = 0;
-//          else
-//            YM_REG_ENVSHAPE.HOLD = 1;             
-//          break;   
-//        case 6:
-//          if (value == 0)
-//            YM_REG_MIXER.NOISEC = 1;
-//          else
-//            YM_REG_MIXER.NOISEC = 0;             
-//          break;  
-//        case 7:
-//          if (value == 0)
-//            YM_REG_MIXER.TONEC = 1;
-//          else
-//            YM_REG_MIXER.TONEC = 0;             
-//          break;  
-//        case 8:
-//          if (value == 0)
-//            YM_REG_VC_LEVEL.MODE = 0;
-//          else
-//            YM_REG_VC_LEVEL.MODE = 1;             
-//          break;   
+        case 2:
+          if (value == 0)
+            YM_REG_ENVSHAPE.CONT = 0;
+          else
+            YM_REG_ENVSHAPE.CONT = 1;             
+          break;
+        case 3:
+          if (value == 0)
+            YM_REG_ENVSHAPE.ATT = 0;
+          else
+            YM_REG_ENVSHAPE.ATT = 1;             
+          break;
+        case 4:
+          if (value == 0)
+            YM_REG_ENVSHAPE.ALT = 0;
+          else
+            YM_REG_ENVSHAPE.ALT = 1;             
+          break;
+        case 5:
+          if (value == 0)
+            YM_REG_ENVSHAPE.HOLD = 0;
+          else
+            YM_REG_ENVSHAPE.HOLD = 1;             
+          break;   
+        case 6:
+          if (value == 0)
+            YM_REG_MIXER.NOISEC = 1;
+          else
+            YM_REG_MIXER.NOISEC = 0;             
+          break;  
+        case 7:
+          if (value == 0)
+            YM_REG_MIXER.TONEC = 1;
+          else
+            YM_REG_MIXER.TONEC = 0;             
+          break;  
+        case 8:
+          if (value == 0)
+            YM_REG_VC_LEVEL.MODE = 0;
+          else
+            YM_REG_VC_LEVEL.MODE = 1;             
+          break;   
         case 9:
           if (value == 0)
             playMOD = 0;
@@ -1301,9 +1301,9 @@ void HandleControlChange(byte channel, byte number, byte value) {
         default:
           return;   
       }      
-//      YM2149REG(YM_ADDR_LEVEL_C) = *(char*)&YM_REG_VC_LEVEL;
-//      YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
-//      YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER; 
+      YM2149REG(YM_ADDR_LEVEL_C) = *(char*)&YM_REG_VC_LEVEL;
+      YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
+      YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER; 
     case 16:  //Transport
       switch(number) {
         //Transport
