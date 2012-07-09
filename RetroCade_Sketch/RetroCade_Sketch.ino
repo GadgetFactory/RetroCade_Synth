@@ -35,35 +35,12 @@
 #undef DO_CHECKS
 #undef DEBUG
 
-struct YM_REG_MIXER_STRUCT{
-    unsigned int EMPTY : 2;
-    unsigned int NOISEC : 1; 
-    unsigned int NOISEB : 1;
-    unsigned int NOISEA : 1;
-    unsigned int TONEC : 1; 
-    unsigned int TONEB : 1;
-    unsigned int TONEA : 1;
-} ;
+
 YM_REG_MIXER_STRUCT YM_REG_MIXER;
-
-struct YM_REG_ENVSHAPE_STRUCT{
-    unsigned int EMPTY : 4;
-    unsigned int CONT : 1; 
-    unsigned int ATT : 1;
-    unsigned int ALT : 1;
-    unsigned int HOLD : 1;      
-} ;
 YM_REG_ENVSHAPE_STRUCT YM_REG_ENVSHAPE;
-
-struct YM_REG_LEVEL_STRUCT{
-    unsigned int EMPTY : 3;
-    unsigned int MODE : 1; 
-    unsigned int LEVEL : 4;
-} ;
 YM_REG_LEVEL_STRUCT YM_REG_VA_LEVEL;
 YM_REG_LEVEL_STRUCT YM_REG_VB_LEVEL;
 YM_REG_LEVEL_STRUCT YM_REG_VC_LEVEL;
-
 
 
 //#define AUDIOPIN WING_A_15  //Connected to the Arcade MegaWing
@@ -124,10 +101,6 @@ int ym2149_note2MIDI[] = {//MIDI note number
   24, 22, 21, 20, 19, 18, 17, 16,//112-119
   15, 14, 13, 13, 12, 11, 11, 10,//120-127
   0//off
-};
-
-struct ymframe {
-	unsigned char regval[14];
 };
 
 CircularBuffer<ymframe,2> YMaudioBuffer;

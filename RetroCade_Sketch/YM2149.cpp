@@ -1,8 +1,6 @@
 #include "YM2149.h"
 #include <inttypes.h> 
 
-
-
 void ym_write_data(unsigned char address, unsigned char data)
 {
   YM2149REG(address) = data;

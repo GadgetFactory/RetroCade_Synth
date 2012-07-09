@@ -26,12 +26,38 @@
 #define YM_ADDR_FREQ_E 0x0B
 #define YM_ADDR_SHAPE_E 0x0D
 
-
-
-
-
 #define YM2149BASE IO_SLOT(13)
 #define YM2149REG(x) REGISTER(YM2149BASE,x)
+
+struct YM_REG_MIXER_STRUCT{
+    unsigned int EMPTY : 2;
+    unsigned int NOISEC : 1; 
+    unsigned int NOISEB : 1;
+    unsigned int NOISEA : 1;
+    unsigned int TONEC : 1; 
+    unsigned int TONEB : 1;
+    unsigned int TONEA : 1;
+} ;
+
+
+struct YM_REG_ENVSHAPE_STRUCT{
+    unsigned int EMPTY : 4;
+    unsigned int CONT : 1; 
+    unsigned int ATT : 1;
+    unsigned int ALT : 1;
+    unsigned int HOLD : 1;      
+} ;
+
+
+struct YM_REG_LEVEL_STRUCT{
+    unsigned int EMPTY : 3;
+    unsigned int MODE : 1; 
+    unsigned int LEVEL : 4;
+} ;
+
+struct ymframe {
+	unsigned char regval[14];
+};
 
 void ym_write_data(unsigned char address, unsigned char data);
 void ym_set_freq(unsigned char address, int freq);
