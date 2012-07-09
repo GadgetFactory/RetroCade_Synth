@@ -1,0 +1,5 @@
+The RetroCade Synth is made by Gadget Factory (http://www.GadgetFactory.net) and was started on Kickstarter (http://www.kickstarter.com/projects/13588168/retrocade-synth-one-chiptune-board-to-rule-them-al)
+
+Welcome to the R-R-R-R-RetroCade Synth from Gadget Factory.  This exciting new hardware synthesizer is built on Gadget Factory's own Papilio platform, and is designed with both hardware hackers and musicians in mind.  Musicians will love the ease of use and extreme retro glitchiness that the Retrocade has to offer. Hackers will love that it is open-source, and is designed to be HACKED.  Either way, you're in luck.  You will find no better, more flexible synthesizer at this price point anywhere else!
+
+The RetroCade Synth boasts the capability to play the built-in Commodore 64 SID chip, the Yamaha YM-2149 chip, .mod files, and MIDI files - all at the same time! The RetroCade Synth can be played via any external MIDI control interface or via your favorite audio/ sequencing software. We have built a custom VST software dashboard which gives you visual control over all the various parameters the synth has to offer.
