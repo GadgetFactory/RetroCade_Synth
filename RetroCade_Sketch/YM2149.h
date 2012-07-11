@@ -14,6 +14,7 @@
 #include <inttypes.h> 
 #include <zpuino-types.h>
 #include <zpuino.h>
+#include "Arduino.h"
 
 
 #define YM_ADDR_FREQ_A 0x00
@@ -35,10 +36,15 @@ class YM2149
   public:
     YM2149();
     void writeData(unsigned char address, unsigned char data);
-    void setFreq(unsigned char address, int freq);
-    void setVolume(byte pVolume);
+    void setFreq(byte voice, int freq, boolean active);
+    void setNoise(byte voice, byte freq, boolean active);
+    void setVolume(byte voice, byte volume);
+    void setEnvelope(byte voice, int freq, boolean active);
+    void setEnvelopeCONT(boolean active);
+    void setEnvelopeATT(boolean active);
+    void setEnvelopeALT(boolean active);
+    void setEnvelopeHOLD(boolean active);    
     void reset();
-    void controlChange(byte voice, byte number, byte value);    
   private:
     struct YM_REG_MIXER_STRUCT{
         unsigned int EMPTY : 2;
