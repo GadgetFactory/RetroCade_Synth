@@ -5,7 +5,7 @@
  *	Version		1.0
  *  @author		Jack Gassett 
  *	@date		4/10/12
- *  License		Creative Commons Atribution
+ *  License		GPL
  */
 
 #ifndef LIB_YM2149_H_
@@ -36,7 +36,7 @@ class YM2149
   public:
     YM2149();
     void writeData(unsigned char address, unsigned char data);
-    void setFreq(byte voice, int freq, boolean active);
+    void setNote(byte voice, int note, boolean active);
     void setNoise(byte voice, byte freq, boolean active);
     void setVolume(byte voice, byte volume);
     void setEnvelope(byte voice, int freq, boolean active);

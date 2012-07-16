@@ -5,7 +5,7 @@
  *	Version		1.0
  *  @author		Jack Gassett 
  *	@date		4/10/12
- *  License		Creative Commons Atribution
+ *  License		GPL
  */
 #include "YM2149.h"
 //#include "WProgram.h"
@@ -28,7 +28,7 @@ void YM2149::writeData(unsigned char address, unsigned char data)
   YM2149REG(address) = data;
 }
 
-void YM2149::setFreq(byte voice, int freq, boolean active)
+void YM2149::setNote(byte voice, int note, boolean active)
 {
   int address;
   switch (voice) {
@@ -45,8 +45,8 @@ void YM2149::setFreq(byte voice, int freq, boolean active)
       YM_REG_MIXER.TONEC = active;
       break;
   }
-  writeData(address, ym2149_note2MIDI[freq]);
-  writeData(address+1, (ym2149_note2MIDI[freq] >> 8));
+  writeData(address, ym2149_note2MIDI[note]);
+  writeData(address+1, (ym2149_note2MIDI[note] >> 8));
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
 }
 
