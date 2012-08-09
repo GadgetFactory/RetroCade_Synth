@@ -60,10 +60,10 @@
 //#define SPICLOCK WING_C_2  //Clock
 
 //SD Card
-//#define CSPIN  WING_C_13
-//#define SDIPIN WING_C_12
-//#define SCKPIN WING_C_11
-//#define SDOPIN WING_C_10
+#define CSPIN  WING_C_13
+#define SDIPIN WING_C_12
+#define SCKPIN WING_C_11
+#define SDOPIN WING_C_10
 
 #define HAVE_YM
 
@@ -82,12 +82,25 @@ SmallFSFile ymaudiofile;
 static unsigned int timerTicks = 0;
 
 int adc;
-//boolean firstPress = TRUE;
+int adcCmp[8];
+int adcMask[] = {1,0,1,0,1,0,1,0,1};
+
+byte adcTestPinsNeg[] = {WING_A_0, WING_A_2, WING_A_4, WING_A_6, WING_A_8, WING_A_10, WING_A_12, WING_A_14};
+byte adcTestPinsPos[] = {WING_A_1, WING_A_3, WING_A_5, WING_A_7, WING_A_9, WING_A_11, WING_A_13, WING_A_15};
+byte adcCount = 8;
 
 LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);		//Connect LCD Wing to AH. Change all instances of AH to your desired Wing Slot.
 
-void setup(){
+  void setup(){
   Serial.begin(9600);
+
+  //Setup pattern on Wing A for ADC testing. Alternating 1's and 0's.
+  for (int i = 0; i < adcCount; i++)  {
+    pinMode(adcTestPinsNeg[i], OUTPUT);
+    pinMode(adcTestPinsPos[i], OUTPUT); 
+    digitalWrite(adcTestPinsNeg[i],LOW);
+    digitalWrite(adcTestPinsPos[i],HIGH); 
+  }
 
   //Move the audio output to the appropriate pins on the Papilio Hardware
   pinMode(AUDIO_J1_L,OUTPUT);
@@ -119,19 +132,19 @@ void setup(){
   pinModePPS(SERIAL1TXPIN, HIGH);  
  
   //Setup SD Card
-//  outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
-//  pinModePPS(SDIPIN,HIGH);
-//  pinMode(SDIPIN,OUTPUT);
-//
-//  outputPinForFunction( SCKPIN, IOPIN_USPI_SCK);
-//  pinModePPS(SCKPIN,HIGH);
-//  pinMode(SCKPIN,OUTPUT);
-//
-//  pinModePPS(CSPIN,LOW);
-//  pinMode(CSPIN,OUTPUT);
-//
-//  inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
-//  pinMode(SDOPIN,INPUT);   
+  outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
+  pinModePPS(SDIPIN,HIGH);
+  pinMode(SDIPIN,OUTPUT);
+
+  outputPinForFunction( SCKPIN, IOPIN_USPI_SCK);
+  pinModePPS(SCKPIN,HIGH);
+  pinMode(SCKPIN,OUTPUT);
+
+  pinModePPS(CSPIN,LOW);
+  pinMode(CSPIN,OUTPUT);
+
+  inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
+  pinMode(SDOPIN,INPUT);   
 
 //  //For SD Card
 //  USPICTL=BIT(SPICP1)|BIT(SPICP0)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK); 
@@ -168,7 +181,6 @@ void setup(){
  
   // Connect the HandleNoteOn function to the library, so it is called upon reception of a NoteOn.
   MIDI.setHandleNoteOn(HandleNoteOn);  // Put only the name of the function
-  MIDI.setHandleNoteOff(HandleNoteOff);  // Put only the name of the function  
   
   //Setup LCD
   pinMode(WING_C_14, OUTPUT);     //Set contrast to GND
@@ -177,8 +189,8 @@ void setup(){
  lcd.begin(16,2);
  // clear the LCD screen:
  lcd.clear();
- lcd.setCursor(0,0);
- lcd.print("RetroCade Test"); 
+ lcd.setCursor(7,0);
+ lcd.print("RCade Tst"); 
 // lcd.setCursor(0,1); 
 // lcd.print("Press to Start");  
 // delay(2000);
@@ -229,42 +241,56 @@ void loop(){
   MIDI.read();
   audiofill();
 
-//  lcd.home();
-//  if (digitalRead(JUP) == 0) {
-//    lcd.setCursor(0,0);
-//    lcd.print("U");}
-//  if (digitalRead(JDOWN) == 0) {
-//    lcd.setCursor(1,0);
-//    lcd.print("D");}
-//  if (digitalRead(JLEFT) == 0) {
-//    lcd.setCursor(2,0);
-//    lcd.print("L");}
-//  if (digitalRead(JRIGHT) == 0) {
-//    lcd.setCursor(3,0);
-//    lcd.print("R"); }
-//  if (digitalRead(JSELECT) == 0) {
-//    lcd.setCursor(4,0);
-//    lcd.print("S");
-//    setup();
-//    //ffiv();
-//  }    
-//  
-//  for (int i=1; i<9; i++){
-//    adc = read_adc(i);
-//    lcd.setCursor(i,1);
-//    if (adc == 4064) {
-//      lcd.print(i);
-//    }
-//    else {
-//      lcd.print(" ");
-//    }
-////    Serial.print(i-1);
-////    Serial.print(": ");
-////    Serial.print(adc, DEC); 
-////    Serial.print(": ");
-//  }
-//      delay(100);
-//      Serial.println("");
+  lcd.home();
+  if (digitalRead(JUP) == 0) {
+    lcd.setCursor(0,0);
+    lcd.print("U");}
+  if (digitalRead(JDOWN) == 0) {
+    lcd.setCursor(1,0);
+    lcd.print("D");}
+  if (digitalRead(JLEFT) == 0) {
+    lcd.setCursor(2,0);
+    lcd.print("L");}
+  if (digitalRead(JRIGHT) == 0) {
+    lcd.setCursor(3,0);
+    lcd.print("R"); }
+  if (digitalRead(JSELECT) == 0) {
+    lcd.setCursor(4,0);
+    lcd.print("S");
+    //setup();
+    //ffiv();
+  }    
+  
+  lcd.setCursor(0,1);
+  if (checkADC(1))
+    lcd.print("ADC1");
+    //Serial.println("Good!");
+
+  //MIDI.sendNoteOn(53,127,1);
+
+}
+
+boolean checkADC(byte adcDevice) {
+  for (int i=1; i<9; i++){
+    adc = read_adc(i);
+    if (adc <= 15)
+      adcCmp[i]=0;
+    else if (adc >= 220)
+      adcCmp[i]=1;
+    else
+      adcCmp[i]=adc;
+  }
+  
+  for (int i=1; i<9; i++){
+//    Serial.print(i);
+//    Serial.print("CMP: ");
+//    Serial.print(adcCmp[i], DEC);
+//    Serial.print(" MSK: ");
+//    Serial.println(adcMask[i], DEC);    
+    if (adcCmp[i] != adcMask[i])
+      return false;
+  }
+  return true;
 }
 
 void HandleNoteOn(byte channel, byte pitch, byte velocity) { 
@@ -272,20 +298,10 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   // Do whatever you want when you receive a Note On.
   Serial.print("Note Received: ");
   Serial.println(pitch);
-  set_ch(ADDR_FREQ_A,pitch);
-  set_ch(ADDR_FREQ_B,pitch+4);
-  set_ch(ADDR_FREQ_C,pitch+7);
-  //MIDI.sendNoteOn(53,55,1);
-  // Try to keep your callbacks short (no delays ect) as the contrary would slow down the loop()
-  // and have a bad impact on real-time performance.
+  lcd.setCursor(10,1);
+  lcd.print("MIDI");
 }
 
-void HandleNoteOff(byte channel, byte pitch, byte velocity) { 
-    set_ch(ADDR_FREQ_A,128);
-    set_ch(ADDR_FREQ_B,128);
-    set_ch(ADDR_FREQ_C,128);
-//    Serial.print("In NoteOff");
-}
 
 int read_adc(int channel){
   int adcvalue = 0;
@@ -300,7 +316,7 @@ int read_adc(int channel){
 
   digitalWrite(SELPIN,LOW); //Select adc
   // setup bits to be written
-  for (int i=7; i>=3; i--){
+  for (int i=7; i>=3; i--){          //7 for 8 bit chip and 11 for 12 bit chip
     temp = commandbits&1<<i;
     digitalWrite(DATAOUT,temp);
 //    Serial.print(temp, DEC);
@@ -312,7 +328,7 @@ int read_adc(int channel){
 
 
   //read bits from adc
-  for (int i=11; i>=0; i--){
+  for (int i=8; i>=0; i--){
     adcvalue+=digitalRead(DATAIN)<<i;
     //cycle clock
     digitalWrite(SPICLOCK,HIGH);
@@ -359,10 +375,4 @@ void audiofill()
 		YMaudioBuffer.push(f);
 	}
 #endif
-}
-
-
-
-void set_chA(byte note) {
-   MIDI.sendNoteOn(note,127,1); 
 }
