@@ -54,10 +54,10 @@
 #define SPICLOCK WING_C_6  //Clock
 
 //For SPI ADC2
-//#define SELPIN WING_C_5    //Selection Pin
-//#define DATAOUT WING_C_4   //MOSI
-//#define DATAIN  WING_C_3   //MISO
-//#define SPICLOCK WING_C_2  //Clock
+#define SELPIN2 WING_C_5    //Selection Pin
+#define DATAOUT2 WING_C_4   //MOSI
+#define DATAIN2  WING_C_3   //MISO
+#define SPICLOCK2 WING_C_2  //Clock
 
 //SD Card
 #define CSPIN  WING_C_13
@@ -84,6 +84,11 @@ static unsigned int timerTicks = 0;
 int adc;
 int adcCmp[8];
 int adcMask[] = {1,0,1,0,1,0,1,0,1};
+
+int adcCS[] = {SELPIN, SELPIN2};
+int adcMISO[] = {DATAOUT, DATAOUT2};
+int adcMOSI[] = {DATAIN, DATAIN2};
+int adcCLK[] = {SPICLOCK, SPICLOCK2};
 
 byte adcTestPinsNeg[] = {WING_A_0, WING_A_2, WING_A_4, WING_A_6, WING_A_8, WING_A_10, WING_A_12, WING_A_14};
 byte adcTestPinsPos[] = {WING_A_1, WING_A_3, WING_A_5, WING_A_7, WING_A_9, WING_A_11, WING_A_13, WING_A_15};
@@ -208,13 +213,20 @@ LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, W
   //Setup SPI ADC
    //set pin modes
    pinMode(SELPIN, OUTPUT);
+   pinMode(SELPIN2, OUTPUT);   
    pinMode(DATAOUT, OUTPUT);
+   pinMode(DATAOUT2, OUTPUT);   
    pinMode(DATAIN, INPUT);
+   pinMode(DATAIN2, INPUT);   
    pinMode(SPICLOCK, OUTPUT);
+   pinMode(SPICLOCK2, OUTPUT);   
    //disable device to start with
    digitalWrite(SELPIN,HIGH);
+   digitalWrite(SELPIN2,HIGH);   
    digitalWrite(DATAOUT,LOW);
+   digitalWrite(DATAOUT2,LOW);   
    digitalWrite(SPICLOCK,LOW); 
+   digitalWrite(SPICLOCK2,LOW);    
    
 	if (SmallFS.begin()<0) {
 		Serial.println("No SmalLFS found, aborting.");
@@ -262,20 +274,26 @@ void loop(){
   }    
   
   lcd.setCursor(0,1);
-  if (checkADC(1))
+  if (checkADC(0))
     lcd.print("ADC1");
-    //Serial.println("Good!");
+  else
+    lcd.print("    ");
+  lcd.setCursor(5,1);
+  if (checkADC(1))
+    lcd.print("ADC2"); 
+  else
+    lcd.print("    ");    
 
-  //MIDI.sendNoteOn(53,127,1);
+  MIDI.sendNoteOn(53,127,1);
 
 }
 
-boolean checkADC(byte adcDevice) {
+boolean checkADC(byte device) {
   for (int i=1; i<9; i++){
-    adc = read_adc(i);
-    if (adc <= 15)
+    adc = read_adc(i, device);
+    if (adc <= 50)
       adcCmp[i]=0;
-    else if (adc >= 220)
+    else if (adc >= 180)
       adcCmp[i]=1;
     else
       adcCmp[i]=adc;
@@ -302,8 +320,7 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   lcd.print("MIDI");
 }
 
-
-int read_adc(int channel){
+int read_adc(int channel, byte device){
   int adcvalue = 0;
   int temp;
   byte commandbits = 00000000; //command bits - dont care (2), chn (3), dont care (3)
@@ -314,33 +331,33 @@ int read_adc(int channel){
   //Serial.print(commandbits, BIN);
   //Serial.print(" ");
 
-  digitalWrite(SELPIN,LOW); //Select adc
+  digitalWrite(adcCS[device],LOW); //Select adc
   // setup bits to be written
   for (int i=7; i>=3; i--){          //7 for 8 bit chip and 11 for 12 bit chip
     temp = commandbits&1<<i;
-    digitalWrite(DATAOUT,temp);
+    digitalWrite(adcMISO[device],temp);
 //    Serial.print(temp, DEC);
 //    Serial.println(" ");
     //cycle clock
-    digitalWrite(SPICLOCK,HIGH);
-    digitalWrite(SPICLOCK,LOW);
+    digitalWrite(adcCLK[device],HIGH);
+    digitalWrite(adcCLK[device],LOW);
   }
 
 
   //read bits from adc
   for (int i=8; i>=0; i--){
-    adcvalue+=digitalRead(DATAIN)<<i;
+    adcvalue+=digitalRead(adcMOSI[device])<<i;
     //cycle clock
-    digitalWrite(SPICLOCK,HIGH);
-    digitalWrite(SPICLOCK,LOW);
+    digitalWrite(adcCLK[device],HIGH);
+    digitalWrite(adcCLK[device],LOW);
   }
   
-  digitalWrite(SPICLOCK,HIGH);    //ignores 2 null bits
-  digitalWrite(SPICLOCK,LOW);
-  digitalWrite(SPICLOCK,HIGH);
-  digitalWrite(SPICLOCK,LOW);
+  digitalWrite(adcCLK[device],HIGH);    //ignores 2 null bits
+  digitalWrite(adcCLK[device],LOW);
+  digitalWrite(adcCLK[device],HIGH);
+  digitalWrite(adcCLK[device],LOW);
   
-  digitalWrite(SELPIN, HIGH); //turn off device
+  digitalWrite(adcCS[device], HIGH); //turn off device
   return adcvalue;
 }
 
