@@ -27,9 +27,7 @@
 #include "MIDI.h"                   //Had to change MIDI.h to use Serial1 instead of Serial
 #include <LiquidCrystal.h>
 #include "cbuffer.h"
-//#include <SD.h>
-
-#define DEBUG(x...)
+#include <SD.h>
 
 #define AUDIO_J1_L WING_B_1
 #define AUDIO_J1_R WING_B_0
@@ -75,7 +73,7 @@ CircularBuffer<ymframe,2> YMaudioBuffer;
 
 SmallFSFile ymaudiofile;
 
-//Sd2Card card;
+Sd2Card card;
 
 
 
@@ -150,29 +148,6 @@ LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, W
 
   inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
   pinMode(SDOPIN,INPUT);   
-
-//  //For SD Card
-//  USPICTL=BIT(SPICP1)|BIT(SPICP0)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK); 
-//
-//  digitalWrite(CSPIN,LOW);
-//  int i;
-//  for (i=0;i<51200;i++)
-//	USPIDATA=0xff;
-//
-//  digitalWrite(CSPIN,HIGH);
-//
-//  for (i=0;i<51200;i++)
-//	USPIDATA=0xff;
-//
-//  if (!card.init(SPI_HALF_SPEED, CSPIN)) {
-//    Serial.println("initialization failed. Things to check:");
-//    Serial.println("* is a card is inserted?");
-//    Serial.println("* Is your wiring correct?");
-//    Serial.println("* did you change the chipSelect pin to match your shield or module?");
-//          //return;
-//    } else {
-//      Serial.println("Wiring is correct and a card is present."); 
-//    }  
   
   //Setup the pin modes for the YMZ294
   setupYM2149();
@@ -194,12 +169,34 @@ LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, W
  lcd.begin(16,2);
  // clear the LCD screen:
  lcd.clear();
- lcd.setCursor(7,0);
- lcd.print("RCade Tst"); 
-// lcd.setCursor(0,1); 
-// lcd.print("Press to Start");  
-// delay(2000);
-// lcd.clear();
+ lcd.setCursor(6,0);
+ lcd.print("RCade Test"); 
+
+  //For SD Card
+  USPICTL=BIT(SPICP1)|BIT(SPICP0)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK); 
+
+  digitalWrite(CSPIN,LOW);
+  int i;
+  for (i=0;i<51200;i++)
+	USPIDATA=0xff;
+
+  digitalWrite(CSPIN,HIGH);
+
+  for (i=0;i<51200;i++)
+	USPIDATA=0xff;
+
+  if (!card.init(SPI_HALF_SPEED, CSPIN)) {
+    Serial.println("initialization failed. Things to check:");
+    Serial.println("* is a card is inserted?");
+    Serial.println("* Is your wiring correct?");
+    Serial.println("* did you change the chipSelect pin to match your shield or module?");
+          //return;
+    } else {
+      Serial.println("Wiring is correct and a card is present."); 
+      lcd.setCursor(9,1);
+      lcd.print("SD");
+    }   
+ 
  
   //Setup Joystick
   pinMode(JSELECT, INPUT); 
@@ -245,13 +242,18 @@ LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, W
 	TMR0CTL = BIT(TCTLENA)|BIT(TCTLCCM)|BIT(TCTLDIR)|BIT(TCTLCP2)|BIT(TCTLCP0)|BIT(TCTLIEN);
 
         //For SD Card
-        //USPICTL=BIT(SPICP1)|BIT(SPICP0)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
+        //USPICTL=BIT(SPICP1)|BIT(SPICP0)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);
+
+  //only use this if ym file is not playing right. Comment out audiofill.      
+  set_ch(ADDR_FREQ_A,53);
+  set_ch(ADDR_FREQ_B,53+4);
+  set_ch(ADDR_FREQ_C,53+7);        
 }
 
 void loop(){
   // Call MIDI.read the fastest you can for real-time performance.
   MIDI.read();
-  audiofill();
+  //audiofill();
 
   lcd.home();
   if (digitalRead(JUP) == 0) {
@@ -269,7 +271,7 @@ void loop(){
   if (digitalRead(JSELECT) == 0) {
     lcd.setCursor(4,0);
     lcd.print("S");
-    //setup();
+    setup();
     //ffiv();
   }    
   
@@ -278,7 +280,7 @@ void loop(){
     lcd.print("ADC1");
   else
     lcd.print("    ");
-  lcd.setCursor(5,1);
+  lcd.setCursor(4,1);
   if (checkADC(1))
     lcd.print("ADC2"); 
   else
@@ -316,7 +318,7 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   // Do whatever you want when you receive a Note On.
   Serial.print("Note Received: ");
   Serial.println(pitch);
-  lcd.setCursor(10,1);
+  lcd.setCursor(12,1);
   lcd.print("MIDI");
 }
 

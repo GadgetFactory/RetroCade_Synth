@@ -31,9 +31,10 @@
 #include "ptplay.h"
 #include "SmallFS.h"
 #include "cbuffer.h"
+#include <LiquidCrystal.h>
 
 #undef DO_CHECKS
-#undef DEBUG
+#define DEBUG
 
 
 YM_REG_MIXER_STRUCT YM_REG_MIXER;
@@ -57,11 +58,20 @@ YM_REG_LEVEL_STRUCT YM_REG_VC_LEVEL;
 //#define AUDIO_LEFT WING_A_13
 
 //Connected to Audio Wing on AH
-#define AUDIOPIN WING_C_7
-//#define AUDIO_RIGHT WING_A_15
-#define AUDIO_LEFT WING_C_5
+//#define AUDIOPIN WING_C_7
+////#define AUDIO_RIGHT WING_A_15
+//#define AUDIO_LEFT WING_C_5
+//
+//#define SERIAL1RXPIN WING_A_7  //MIDI Wing connected to CH
 
-#define SERIAL1RXPIN WING_A_7  //MIDI Wing connected to CH
+
+//Definition for the RetroCade MegaWing
+#define AUDIOPIN WING_B_0
+//#define AUDIO_RIGHT WING_A_15
+#define AUDIO_LEFT WING_B_1
+
+#define SERIAL1RXPIN WING_C_1  //MIDI Wing connected to CH
+
 
 int sid_midi[] = {//MIDI note number
   291, 291, 291, 291, 291, 291, 291, 291,//0-7
@@ -106,6 +116,8 @@ int ym2149_note2MIDI[] = {//MIDI note number
 CircularBuffer<ymframe,2> YMaudioBuffer;
 
 SmallFSFile ymaudiofile;
+
+LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);
 
 SmallFSFile modfile;
 char buf[128];
@@ -699,42 +711,55 @@ void setup(){
   MIDI.setHandleNoteOff(HandleNoteOff);  // Put only the name of the function
   MIDI.setHandleControlChange(HandleControlChange);  // Put only the name of the function  
   MIDI.setHandleProgramChange(HandleProgramChange);  // Put only the name of the function    
-  MIDI.setHandlePitchBend(HandlePitchBend);  // Put only the name of the function    
+  MIDI.setHandlePitchBend(HandlePitchBend);  // Put only the name of the function  
+
+  //Setup LCD
+  pinMode(WING_C_14, OUTPUT);     //Set contrast to GND
+  digitalWrite(WING_C_14, LOW);   //Set contrast to GND    
+ // set up the LCD's number of columns and rows:
+ lcd.begin(16,2);
+ // clear the LCD screen:
+ lcd.clear();
+ lcd.setCursor(3,0);
+ lcd.print("RetroCade");   
+ lcd.setCursor(3,1);
+ lcd.print("Prototype"); 
   
 }
 
 void loop(){
   // Call MIDI.read the fastest you can for real-time performance.
   MIDI.read();
-  if (playTrack == 1){
-    if (playYM == 1){
-      if (ymTimeStamp == 32)
-        ymTimeStamp = 0;
-      if (ymTimeStamp == 0 && playMOD == 1){
-            modfile = SmallFS.open("kick.mod");
-            mod = pt_init_smallfs(modfile);
-      }
-      if (ymTimeStamp == 16 && playMOD == 1){
-            modfile = SmallFS.open("hihat.mod");
-            mod = pt_init_smallfs(modfile);
-      }      
-      audiofill();       
-    }
-    
-    if (playMOD == 1){
-      int i;
-      pt_render(modfile, mod, buf, NULL, 2, 16 /* Samples */, 1, 16, 1);
-  	for (i=0;i<32;i+=2) {
-  	  unsigned v = buf[i];
-  	  v += buf[i+1]<<8;
-  	  v += buf[i]<<16;
-          v += buf[i+1]<<24;
-  	  v+=0x80008000;
-          while (audioBuffer.isFull());
-  	    audioBuffer.push(v);
-  	}
-    }      
-  }
+  //Serial.println("Serial Test");
+//  if (playTrack == 1){
+//    if (playYM == 1){
+//      if (ymTimeStamp == 32)
+//        ymTimeStamp = 0;
+//      if (ymTimeStamp == 0 && playMOD == 1){
+//            modfile = SmallFS.open("kick.mod");
+//            mod = pt_init_smallfs(modfile);
+//      }
+//      if (ymTimeStamp == 16 && playMOD == 1){
+//            modfile = SmallFS.open("hihat.mod");
+//            mod = pt_init_smallfs(modfile);
+//      }      
+//      audiofill();       
+//    }
+//    
+//    if (playMOD == 1){
+//      int i;
+//      pt_render(modfile, mod, buf, NULL, 2, 16 /* Samples */, 1, 16, 1);
+//  	for (i=0;i<32;i+=2) {
+//  	  unsigned v = buf[i];
+//  	  v += buf[i+1]<<8;
+//  	  v += buf[i]<<16;
+//          v += buf[i+1]<<24;
+//  	  v+=0x80008000;
+//          while (audioBuffer.isFull());
+//  	    audioBuffer.push(v);
+//  	}
+//    }      
+//  }
 }
 
 void HandlePitchBend(byte channel, int bend) { 
