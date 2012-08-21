@@ -1,0 +1,1 @@
+Visit http://www.gadgetfactory.net/opmanuals/index.php?n=Main.RetroCadeSynthMegaWing for directions on running the RetroCade Synth MegaWing test.

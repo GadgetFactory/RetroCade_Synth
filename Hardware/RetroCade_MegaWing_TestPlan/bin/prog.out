@@ -1,0 +1,5 @@
+JTAG chainpos: 0 Device IDCODE = 0x41c22093	Desc: XC3S500E
+
+Uploading "C:\Users\killian\Dropbox\GadgetFactory\Papilio-Programmer\Helper_App\Quickstart-Papilio_One_250K-v1.5.bit". Done.
+Programming time 330.1 ms
+USB transactions: Write 86 read 2 retries 0
