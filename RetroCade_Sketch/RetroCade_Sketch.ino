@@ -37,12 +37,46 @@
 #undef DO_CHECKS
 #define DEBUG
 
-//Connected to Audio Wing on AH
-#define AUDIOPIN WING_C_7
-//#define AUDIO_RIGHT WING_A_15
-#define AUDIO_LEFT WING_C_5
+////Connected to Audio Wing on AH
+//#define AUDIOPIN WING_C_7
+////#define AUDIO_RIGHT WING_A_15
+//#define AUDIO_LEFT WING_C_5
+//
+//#define SERIAL1RXPIN WING_C_1 
 
-#define SERIAL1RXPIN WING_A_7  //MIDI Wing connected to CH
+#define AUDIO_J1_L WING_B_1
+#define AUDIO_J1_R WING_B_0
+
+#define AUDIO_J2_L WING_B_3
+#define AUDIO_J2_R WING_B_2
+
+#define SERIAL1RXPIN WING_C_1 
+#define SERIAL1TXPIN WING_C_0
+
+//Joystick
+#define JSELECT WING_B_15
+#define JDOWN WING_B_14
+#define JUP WING_B_13
+#define JRIGHT WING_B_12
+#define JLEFT WING_B_11
+
+//For SPI ADC1
+#define SELPIN WING_C_9    //Selection Pin
+#define DATAOUT WING_C_8   //MOSI
+#define DATAIN  WING_C_7   //MISO
+#define SPICLOCK WING_C_6  //Clock
+
+//For SPI ADC2
+#define SELPIN2 WING_C_5    //Selection Pin
+#define DATAOUT2 WING_C_4   //MOSI
+#define DATAIN2  WING_C_3   //MISO
+#define SPICLOCK2 WING_C_2  //Clock
+
+//SD Card
+#define CSPIN  WING_C_13
+#define SDIPIN WING_C_12
+#define SCKPIN WING_C_11
+#define SDOPIN WING_C_10
 
 
 //YM2149 ym2149;
@@ -64,31 +98,51 @@ void setup(){
   
 #ifdef DEBUG 
   Serial.begin(9600);
-#endif
+#endif 
 
-	SIGMADELTACTL=0x3;
-	//pinMode(AUDIO_RIGHT,OUTPUT);
-	pinMode(AUDIO_LEFT,OUTPUT);
-	pinModePPS(AUDIO_LEFT,HIGH);
-	//pinModePPS(AUDIO_RIGHT,HIGH);
+  //Move the audio output to the appropriate pins on the Papilio Hardware
+  pinMode(AUDIO_J1_L,OUTPUT);
+  digitalWrite(AUDIO_J1_L,HIGH);
+  outputPinForFunction(AUDIO_J1_L, 8);
+  pinModePPS(AUDIO_J1_L, HIGH);
 
-	//outputPinForFunction(AUDIO_RIGHT, IOPIN_SIGMADELTA0);
-        outputPinForFunction(AUDIO_LEFT, IOPIN_SIGMADELTA1);
-
-	pinMode(AUDIOPIN,OUTPUT);
-	digitalWrite(AUDIOPIN,HIGH);
-	outputPinForFunction(AUDIOPIN, 8);
-	pinModePPS(AUDIOPIN, HIGH);
-
-#ifdef AUDIOPINEXTRA
-	pinMode(AUDIOPINEXTRA,OUTPUT);
-	outputPinForFunction(AUDIOPINEXTRA, 8);
-	pinModePPS(AUDIOPINEXTRA, HIGH);
-#endif  
+  pinMode(AUDIO_J1_R,OUTPUT);
+  digitalWrite(AUDIO_J1_R,HIGH);
+  outputPinForFunction(AUDIO_J1_R, 8);
+  pinModePPS(AUDIO_J1_R, HIGH);
   
-	pinMode(SERIAL1RXPIN,INPUT);
-	inputPinForFunction(SERIAL1RXPIN, 1);
-	//pinModePPS(SERIAL1RXPIN, HIGH);  
+  pinMode(AUDIO_J2_L,OUTPUT);
+  digitalWrite(AUDIO_J2_L,HIGH);
+  outputPinForFunction(AUDIO_J2_L, 8);
+  pinModePPS(AUDIO_J2_L, HIGH);
+
+  pinMode(AUDIO_J2_R,OUTPUT);
+  digitalWrite(AUDIO_J2_R,HIGH);
+  outputPinForFunction(AUDIO_J2_R, 8);
+  pinModePPS(AUDIO_J2_R, HIGH);  
+  
+  //Move the second serial port pin to where we need it, this is for MIDI input.
+  pinMode(SERIAL1RXPIN,INPUT);
+  inputPinForFunction(SERIAL1RXPIN, 1);
+  pinMode(SERIAL1TXPIN,OUTPUT);
+  //digitalWrite(SERIAL1TXPIN,HIGH);
+  outputPinForFunction(SERIAL1TXPIN, 6);
+  pinModePPS(SERIAL1TXPIN, HIGH);  
+ 
+  //Setup SD Card
+  outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
+  pinModePPS(SDIPIN,HIGH);
+  pinMode(SDIPIN,OUTPUT);
+
+  outputPinForFunction( SCKPIN, IOPIN_USPI_SCK);
+  pinModePPS(SCKPIN,HIGH);
+  pinMode(SCKPIN,OUTPUT);
+
+  pinModePPS(CSPIN,LOW);
+  pinMode(CSPIN,OUTPUT);
+
+  inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
+  pinMode(SDOPIN,INPUT);   
   
    ///Setup the pin modes for the YM2149 and SID
 //   reset_sid();

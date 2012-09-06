@@ -1,3 +1,5 @@
+
+
 //#define AUDIOPIN WING_A_15  //Connected to the Arcade MegaWing
 //#define AUDIOPIN WING_A_7    //Audio Wing connected to AL. This is for Jack 1
 //#define AUDIOPIN WING_C_8    //Midi Audio Wing connected to CH. This is for Jack 1
@@ -10,6 +12,32 @@
 //#define AUDIOPIN WING_A_15
 ////#define AUDIO_RIGHT WING_A_15
 //#define AUDIO_LEFT WING_A_13
+
+//setup(){
+  //	SIGMADELTACTL=0x3;
+//	//pinMode(AUDIO_RIGHT,OUTPUT);
+//	pinMode(AUDIO_LEFT,OUTPUT);
+//	pinModePPS(AUDIO_LEFT,HIGH);
+//	//pinModePPS(AUDIO_RIGHT,HIGH);
+//
+//	//outputPinForFunction(AUDIO_RIGHT, IOPIN_SIGMADELTA0);
+//        outputPinForFunction(AUDIO_LEFT, IOPIN_SIGMADELTA1);
+//
+//	pinMode(AUDIOPIN,OUTPUT);
+//	digitalWrite(AUDIOPIN,HIGH);
+//	outputPinForFunction(AUDIOPIN, 8);
+//	pinModePPS(AUDIOPIN, HIGH);
+//
+//#ifdef AUDIOPINEXTRA
+//	pinMode(AUDIOPINEXTRA,OUTPUT);
+//	outputPinForFunction(AUDIOPINEXTRA, 8);
+//	pinModePPS(AUDIOPINEXTRA, HIGH);
+//#endif  
+//  
+//	pinMode(SERIAL1RXPIN,INPUT);
+//	inputPinForFunction(SERIAL1RXPIN, 1);
+//	//pinModePPS(SERIAL1RXPIN, HIGH); 
+//}
 
 //void write_data(unsigned char address, unsigned char data)
 //{
