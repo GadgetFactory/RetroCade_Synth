@@ -153,7 +153,7 @@ void YM2149::reset(){
   YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER; 
 
-  setFreq(1,128,0);   
-  setFreq(2,128,0);     
-  setFreq(3,128,0);   
+  setNote(1,128,0);   
+  setNote(2,128,0);     
+  setNote(3,128,0);   
 }  
