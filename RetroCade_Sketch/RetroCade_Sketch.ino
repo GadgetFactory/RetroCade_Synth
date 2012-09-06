@@ -33,16 +33,8 @@
 //#include "SmallFS.h"
 //#include "cbuffer.h"
 
-
 #undef DO_CHECKS
 #define DEBUG
-
-////Connected to Audio Wing on AH
-//#define AUDIOPIN WING_C_7
-////#define AUDIO_RIGHT WING_A_15
-//#define AUDIO_LEFT WING_C_5
-//
-//#define SERIAL1RXPIN WING_C_1 
 
 #define AUDIO_J1_L WING_B_1
 #define AUDIO_J1_R WING_B_0
@@ -78,8 +70,7 @@
 #define SCKPIN WING_C_11
 #define SDOPIN WING_C_10
 
-
-//YM2149 ym2149;
+YM2149 ym2149;
 
 byte nrpn;
 byte transpose_v1;
@@ -145,6 +136,7 @@ void setup(){
   pinMode(SDOPIN,INPUT);   
   
    ///Setup the pin modes for the YM2149 and SID
+   ym2149.setVolume(1, 0x7f);
 //   reset_sid();
 //   
 //   setupSID();
@@ -157,7 +149,7 @@ void setup(){
   // Connect the HandleNoteOn function to the library, so it is called upon reception of a NoteOn.
   MIDI.setHandleNoteOn(HandleNoteOn);  // Put only the name of the function
   MIDI.setHandleControlChange(HandleControlChange);  // Put only the name of the function  
-  //MIDI.setHandleNoteOff(HandleNoteOff);  // Put only the name of the function  
+  MIDI.setHandleNoteOff(HandleNoteOff);  // Put only the name of the function  
 //  MIDI.setHandleProgramChange(HandleProgramChange);  // Put only the name of the function    
 //  MIDI.setHandlePitchBend(HandlePitchBend);  // Put only the name of the function    
   
@@ -187,5 +179,26 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   Serial.print("Channel Received: ");
   Serial.println(channel);  
  #endif 
+ //ym2149.setNote(1,pitch,true); 
+  switch (channel){
+    case 1:
+      ym2149.setNote(1,pitch,true); 
+      break;         
+    default:
+      break;             
+  }
+}
+
+void HandleNoteOff(byte channel, byte pitch, byte velocity) { 
+   #ifdef DEBUG 
+    Serial.println("In NoteOff");
+   #endif  
+  switch(channel){
+      case 1:
+        ym2149.setNote(1,128,false);
+        break;
+      default:
+        return;      
+  }  
 }
 

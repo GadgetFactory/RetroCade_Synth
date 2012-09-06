@@ -1,4 +1,9 @@
-
+////Connected to Audio Wing on AH
+//#define AUDIOPIN WING_C_7
+////#define AUDIO_RIGHT WING_A_15
+//#define AUDIO_LEFT WING_C_5
+//
+//#define SERIAL1RXPIN WING_C_1 
 
 //#define AUDIOPIN WING_A_15  //Connected to the Arcade MegaWing
 //#define AUDIOPIN WING_A_7    //Audio Wing connected to AL. This is for Jack 1
