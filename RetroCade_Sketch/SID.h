@@ -8,32 +8,13 @@
  *  License		Creative Commons Atribution
  */
 
-//int sid_midi[] = {//MIDI note number
-//  291, 291, 291, 291, 291, 291, 291, 291,//0-7
-//  291, 291, 291, 291, 291, 291, 308, 326,//8-15
-//  346, 366, 388, 411, 435, 461, 489, 518,//16-23
-//  549, 581, 616, 652, 691, 732, 776, 822,//24-31
-//  871, 923, 978, 1036, 1097, 1163, 1232, 1305,//32-39
-//  1383, 1465, 1552, 1644, 1742, 1845, 1955, 2071,//40-47
-//  2195, 2325, 2463, 2610, 2765, 2930, 3104, 3288,//48-55
-//  3484, 3691, 3910, 4143, 4389, 4650, 4927, 5220,//56-63
-//  5530, 5859, 6207, 6577, 6968, 7382, 7821, 8286,//64-71
-//  8779, 9301, 9854, 10440, 11060, 11718, 12415, 13153,//72-79
-//  13935, 14764, 15642, 16572, 17557, 18601, 19709, 20897,//80-87
-//  22121, 23436, 24830, 26306, 27871, 29528, 31234, 33144,//88-95
-//  35115, 37203, 39415, 41759, 44242, 46873, 49660, 52613,//96-103
-//  55741, 59056, 62567, 66288, 66288, 66288, 66288, 66288,//104-111
-//  66288, 66288, 66288, 66288, 66288, 66288, 66288, 66288,//112-119
-//  66288, 66288, 66288, 66288, 66288, 66288, 66288, 66288,//120-127
-//  0//off
-//};
-
 #ifndef LIB_SID_H_
 #define LIB_SID_H_
 
 #include <inttypes.h> 
-#include <zpuino.h>
 #include <zpuino-types.h>
+#include <zpuino.h>
+#include "Arduino.h"
 
 #define SID_ADDR_V1_FREQ_LOW         0x00
 #define SID_ADDR_V1_FREQ_HI          0x01
@@ -66,45 +47,62 @@
 
 #define SID_ADDR_MISC_ENV3           0x1C
 
-struct SID_REG_CONTROLREG_STRUCT{
-    unsigned int NOISE_WAVE : 1; 
-    unsigned int SQUARE_WAVE : 1;
-    unsigned int SAWTOOTH_WAVE : 1;
-    unsigned int TRIANGLE_WAVE : 1;
-    unsigned int TEST : 1;
-    unsigned int RING_MOD : 1;
-    unsigned int SYNC : 1;
-    unsigned int GATE : 1;  
-} ;
-SID_REG_CONTROLREG_STRUCT SID_REG_V1_CONTROLREG;
-SID_REG_CONTROLREG_STRUCT SID_REG_V2_CONTROLREG;
-SID_REG_CONTROLREG_STRUCT SID_REG_V3_CONTROLREG;
-
-struct SID_REG_ATTACK_DECAY_STRUCT{
-    unsigned int ATTACK : 4; 
-    unsigned int DECAY : 4;    
-};
-SID_REG_ATTACK_DECAY_STRUCT SID_REG_V1_ATTACK_DECAY;
-SID_REG_ATTACK_DECAY_STRUCT SID_REG_V2_ATTACK_DECAY;
-SID_REG_ATTACK_DECAY_STRUCT SID_REG_V3_ATTACK_DECAY;
-
-struct SID_REG_SUSTAIN_RELEASE_STRUCT{
-    unsigned int SUSTAIN : 4; 
-    unsigned int RELEASE : 4;    
-};
-SID_REG_SUSTAIN_RELEASE_STRUCT SID_REG_V1_SUSTAIN_RELEASE;
-SID_REG_SUSTAIN_RELEASE_STRUCT SID_REG_V2_SUSTAIN_RELEASE;
-SID_REG_SUSTAIN_RELEASE_STRUCT SID_REG_V3_SUSTAIN_RELEASE;
-
-//struct SID_REG_FREQ_STRUCT{
-//    unsigned int FHI : 8; 
-//    unsigned int FLOW : 8;    
-//};
-//SID_REG_FREQ_STRUCT SID_REG_V1_FREQ;
-//SID_REG_FREQ_STRUCT SID_REG_V2_FREQ;
-//SID_REG_FREQ_STRUCT SID_REG_V3_FREQ;
-
 #define SIDBASE IO_SLOT(14)
 #define SIDREG(x) REGISTER(SIDBASE,x)
 
+class SID
+{
+  public:
+    SID();
+    void writeData(unsigned char address, unsigned char data);
+    void setNote(byte voice, int note);
+    void setPWLo(byte voice, byte dutyCycle); 
+    void setPWHi(byte voice, byte dutyCycle);    
+    void setGate(byte voice, boolean active);
+    void setSync(byte voice, boolean active);
+    void setRingMod(byte voice, boolean active);
+    void setTest(byte voice, boolean active);
+    void setTriangle(byte voice, boolean active);
+    void setSawtooth(byte voice, boolean active);
+    void setPulse(byte voice, boolean active);
+    void setNoise(byte voice, boolean active);
+    void setEnvelopeAttack(byte voice, byte rate);
+    void setEnvelopeDecay(byte voice, byte rate);
+    void setEnvelopeSustain(byte voice, byte level);
+    void setEnvelopeRelease(byte voice, byte rate);     
+    void setVolume(byte voice, byte volume);      
+    void reset();
+  private:
+    struct SID_REG_CONTROLREG_STRUCT{
+        unsigned int NOISE_WAVE : 1; 
+        unsigned int SQUARE_WAVE : 1;
+        unsigned int SAWTOOTH_WAVE : 1;
+        unsigned int TRIANGLE_WAVE : 1;
+        unsigned int TEST : 1;
+        unsigned int RING_MOD : 1;
+        unsigned int SYNC : 1;
+        unsigned int GATE : 1;  
+    } ;
+    SID_REG_CONTROLREG_STRUCT SID_REG_V1_CONTROLREG;
+    SID_REG_CONTROLREG_STRUCT SID_REG_V2_CONTROLREG;
+    SID_REG_CONTROLREG_STRUCT SID_REG_V3_CONTROLREG;
+
+    struct SID_REG_ATTACK_DECAY_STRUCT{
+        unsigned int ATTACK : 4; 
+        unsigned int DECAY : 4;    
+    };
+    SID_REG_ATTACK_DECAY_STRUCT SID_REG_V1_ATTACK_DECAY;
+    SID_REG_ATTACK_DECAY_STRUCT SID_REG_V2_ATTACK_DECAY;
+    SID_REG_ATTACK_DECAY_STRUCT SID_REG_V3_ATTACK_DECAY;
+    
+    struct SID_REG_SUSTAIN_RELEASE_STRUCT{
+        unsigned int SUSTAIN : 4; 
+        unsigned int RELEASE : 4;    
+    };
+    SID_REG_SUSTAIN_RELEASE_STRUCT SID_REG_V1_SUSTAIN_RELEASE;
+    SID_REG_SUSTAIN_RELEASE_STRUCT SID_REG_V2_SUSTAIN_RELEASE;
+    SID_REG_SUSTAIN_RELEASE_STRUCT SID_REG_V3_SUSTAIN_RELEASE;
+    
+    static const int sid_MIDI2note[129];
+};
 #endif // LIB_SID_H_

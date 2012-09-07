@@ -81,11 +81,6 @@ int freqV1, freqV2, freqV3, freqV4, freqV5, freqV6;
 
 void setup(){
 
-  playYM = 0;
-  playMOD = 0;
-  playTrack = 0;
-  counter = 1;
-  ymTimeStamp = 0;
   
 #ifdef DEBUG 
   Serial.begin(9600);
@@ -179,7 +174,6 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   Serial.print("Channel Received: ");
   Serial.println(channel);  
  #endif 
- //ym2149.setNote(1,pitch,true); 
   switch (channel){
     case 1:
       ym2149.setNote(1,pitch,true); 
@@ -195,7 +189,7 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
    #endif  
   switch(channel){
       case 1:
-        ym2149.setNote(1,128,false);
+        ym2149.setNote(1,pitch,false);
         break;
       default:
         return;      

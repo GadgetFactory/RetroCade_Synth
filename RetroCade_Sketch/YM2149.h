@@ -33,7 +33,6 @@
 
 class YM2149
 {
-    static const int ym2149_note2MIDI[129];
   public:
     YM2149();
     void writeData(unsigned char address, unsigned char data);
@@ -71,10 +70,13 @@ class YM2149
     struct ymframe {
     	unsigned char regval[14];
     };  
+    static const int ym2149_MIDI2note[129];
+    static const byte ymAddress[4];  
+    
     YM_REG_MIXER_STRUCT YM_REG_MIXER;
     YM_REG_ENVSHAPE_STRUCT YM_REG_ENVSHAPE;
     YM_REG_LEVEL_STRUCT YM_REG_VA_LEVEL;
     YM_REG_LEVEL_STRUCT YM_REG_VB_LEVEL;
-    YM_REG_LEVEL_STRUCT YM_REG_VC_LEVEL; 
+    YM_REG_LEVEL_STRUCT YM_REG_VC_LEVEL;  
 };
 #endif // LIB_YM2149_H_

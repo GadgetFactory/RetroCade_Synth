@@ -1,145 +1,184 @@
+/*!
+ *  @file		SID.cpp
+ *  Project		C64 SID Library
+ *	@brief		SID Library for the ZPUino
+ *	Version		1.0
+ *  @author		Jack Gassett 
+ *	@date		4/10/12
+ *  License		GPL
+ */
+#include "SID.h"
 
-//void reset_sid(){
-//  //Filter
-//  SIDREG(SID_ADDR_FILTER_FC_LOW) = 0;
-//  SIDREG(SID_ADDR_FILTER_FC_HI) = 0;
-//  SIDREG(SID_ADDR_FILTER_RES_FILT) = 0;
-//  SIDREG(SID_ADDR_FILTER_MODE_VOL) = 0xF;
-//  
-//  //Voice1
-//  SIDREG(SID_ADDR_V1_FREQ_LOW) = 0;
-//  SIDREG(SID_ADDR_V1_FREQ_HI) = 0; 
-//  SIDREG(SID_ADDR_V1_PW_LOW) = 0;
-//  SIDREG(SID_ADDR_V1_PW_HI) = 0; 
-//  SID_REG_V1_ATTACK_DECAY.ATTACK = 0;
-//  SID_REG_V1_ATTACK_DECAY.DECAY = 0; 
-//  SID_REG_V1_SUSTAIN_RELEASE.SUSTAIN = 0;
-//  SID_REG_V1_SUSTAIN_RELEASE.RELEASE = 0;
-//  SID_REG_V1_CONTROLREG.NOISE_WAVE = 0;
-//  SID_REG_V1_CONTROLREG.SQUARE_WAVE = 0;
-//  SID_REG_V1_CONTROLREG.SAWTOOTH_WAVE = 0;
-//  SID_REG_V1_CONTROLREG.TRIANGLE_WAVE = 0; 
-//  SID_REG_V1_CONTROLREG.TEST = 0;  
-//  SID_REG_V1_CONTROLREG.RING_MOD = 0;
-//  SID_REG_V1_CONTROLREG.SYNC = 0;
-//  SID_REG_V1_CONTROLREG.GATE = 0;
-//  SIDREG(SID_ADDR_V1_ATTACK_DECAY) = *(char*)&SID_REG_V1_ATTACK_DECAY;
-//  SIDREG(SID_ADDR_V1_SUSTAIN_RELEASE) = *(char*)&SID_REG_V1_SUSTAIN_RELEASE; 
-//  SIDREG(SID_ADDR_V1_CONTROLREG) = *(char*)&SID_REG_V1_CONTROLREG;
-//  
-//  //Voice2
-//  SIDREG(SID_ADDR_V2_FREQ_LOW) = 0;
-//  SIDREG(SID_ADDR_V2_FREQ_HI) = 0; 
-//  SIDREG(SID_ADDR_V2_PW_LOW) = 0;
-//  SIDREG(SID_ADDR_V2_PW_HI) = 0; 
-//  SID_REG_V2_ATTACK_DECAY.ATTACK = 0;
-//  SID_REG_V2_ATTACK_DECAY.DECAY = 0; 
-//  SID_REG_V2_SUSTAIN_RELEASE.SUSTAIN = 0;
-//  SID_REG_V2_SUSTAIN_RELEASE.RELEASE = 0;
-//  SID_REG_V2_CONTROLREG.NOISE_WAVE = 0;
-//  SID_REG_V2_CONTROLREG.SQUARE_WAVE = 0;
-//  SID_REG_V2_CONTROLREG.SAWTOOTH_WAVE = 0;
-//  SID_REG_V2_CONTROLREG.TRIANGLE_WAVE = 0; 
-//  SID_REG_V2_CONTROLREG.TEST = 0;  
-//  SID_REG_V2_CONTROLREG.RING_MOD = 0;
-//  SID_REG_V2_CONTROLREG.SYNC = 0;
-//  SID_REG_V2_CONTROLREG.GATE = 0;
-//  SIDREG(SID_ADDR_V2_ATTACK_DECAY) = *(char*)&SID_REG_V2_ATTACK_DECAY;
-//  SIDREG(SID_ADDR_V2_SUSTAIN_RELEASE) = *(char*)&SID_REG_V2_SUSTAIN_RELEASE; 
-//  SIDREG(SID_ADDR_V2_CONTROLREG) = *(char*)&SID_REG_V2_CONTROLREG;
-//
-//  //Voice3
-//  SIDREG(SID_ADDR_V3_FREQ_LOW) = 0;
-//  SIDREG(SID_ADDR_V3_FREQ_HI) = 0; 
-//  SIDREG(SID_ADDR_V3_PW_LOW) = 0;
-//  SIDREG(SID_ADDR_V3_PW_HI) = 0; 
-//  SID_REG_V3_ATTACK_DECAY.ATTACK = 0;
-//  SID_REG_V3_ATTACK_DECAY.DECAY = 0; 
-//  SID_REG_V3_SUSTAIN_RELEASE.SUSTAIN = 0;
-//  SID_REG_V3_SUSTAIN_RELEASE.RELEASE = 0;
-//  SID_REG_V3_CONTROLREG.NOISE_WAVE = 0;
-//  SID_REG_V3_CONTROLREG.SQUARE_WAVE = 0;
-//  SID_REG_V3_CONTROLREG.SAWTOOTH_WAVE = 0;
-//  SID_REG_V3_CONTROLREG.TRIANGLE_WAVE = 0; 
-//  SID_REG_V3_CONTROLREG.TEST = 0;  
-//  SID_REG_V3_CONTROLREG.RING_MOD = 0;
-//  SID_REG_V3_CONTROLREG.SYNC = 0;
-//  SID_REG_V3_CONTROLREG.GATE = 0;
-//  SIDREG(SID_ADDR_V3_ATTACK_DECAY) = *(char*)&SID_REG_V3_ATTACK_DECAY;
-//  SIDREG(SID_ADDR_V3_SUSTAIN_RELEASE) = *(char*)&SID_REG_V3_SUSTAIN_RELEASE; 
-//  SIDREG(SID_ADDR_V3_CONTROLREG) = *(char*)&SID_REG_V3_CONTROLREG;  
-// 
-//}
-//
-////makes the setup for the SID component
-//void setupSID(){
-////waveform
-////
-////    0 = triangle
-////    1 = sawtooth
-////    2 = pulse (square)
-////    3 = noise
-////    4 = ring modulation   
-//  
-////Envelope                                               Wave-
-////Number    Instrument  Attack  Decay  Sustain  Release  form   Width
-////
-////0         Piano       0       9      0        0        2      1536
-////1         Accordion   12      0      12       0        1
-////2         Calliope    0       0      15       0        0
-////3         Drum        0       5      5        0        3
-////4         Flute       9       4      4        0        0
-////5         Guitar      0       9      2        1        1
-////6         Harpsicord  0       9      0        0        2      512
-////7         Organ       0       9      9        0        2      2048
-////8         Trumpet     8       9      4        1        2      512
-////9         Xylophone   0       9      0        0        0  
-//  
-//  
-//  //Set ADSR Attack=0 Decay=9 Sustain=0 Release=0 For Piano 
-//  //Address 5 = 0xA8 for attack and decay
-//  //Address 6 = 0xA9 for sustain and release
-//  SID_REG_V1_ATTACK_DECAY.ATTACK = 0x0;
-//  SID_REG_V1_ATTACK_DECAY.DECAY = 0x09; 
-//  SID_REG_V1_SUSTAIN_RELEASE.SUSTAIN = 0x00;
-//  SID_REG_V1_SUSTAIN_RELEASE.RELEASE = 0x00;
-//  SID_REG_V1_CONTROLREG.SQUARE_WAVE = 1;
-//  set_pwm(SID_ADDR_V1_PW_LOW, 1536);  
-//  
-//  //Set ADSR Attack=0 Decay=9 Sustain=0 Release=0 For Piano 
-//  //Address 5 = 0xA8 for attack and decay
-//  //Address 6 = 0xA9 for sustain and release
-//  SID_REG_V2_ATTACK_DECAY.ATTACK = 0x0;
-//  SID_REG_V2_ATTACK_DECAY.DECAY = 0x09; 
-//  SID_REG_V2_SUSTAIN_RELEASE.SUSTAIN = 0x00;
-//  SID_REG_V2_SUSTAIN_RELEASE.RELEASE = 0x00;
-//  SID_REG_V2_CONTROLREG.SQUARE_WAVE = 1;
-//  set_pwm(SID_ADDR_V2_PW_LOW, 1536);  
-//  
-//    //Set ADSR Attack=0 Decay=9 Sustain=0 Release=0 For Piano 
-//  //Address 5 = 0xA8 for attack and decay
-//  //Address 6 = 0xA9 for sustain and release
-//  SID_REG_V3_ATTACK_DECAY.ATTACK = 0x0;
-//  SID_REG_V3_ATTACK_DECAY.DECAY = 0x09; 
-//  SID_REG_V3_SUSTAIN_RELEASE.SUSTAIN = 0x00;
-//  SID_REG_V3_SUSTAIN_RELEASE.RELEASE = 0x00;
-//  SID_REG_V3_CONTROLREG.SQUARE_WAVE = 1;
-//  set_pwm(SID_ADDR_V3_PW_LOW, 1536);  
-//
-//  SIDREG(SID_ADDR_V1_ATTACK_DECAY) = *(char*)&SID_REG_V1_ATTACK_DECAY;
-//  SIDREG(SID_ADDR_V1_SUSTAIN_RELEASE) = *(char*)&SID_REG_V1_SUSTAIN_RELEASE; 
-//  SIDREG(SID_ADDR_V1_CONTROLREG) = *(char*)&SID_REG_V1_CONTROLREG;
-//
-//  SIDREG(SID_ADDR_V2_ATTACK_DECAY) = *(char*)&SID_REG_V2_ATTACK_DECAY;
-//  SIDREG(SID_ADDR_V2_SUSTAIN_RELEASE) = *(char*)&SID_REG_V2_SUSTAIN_RELEASE; 
-//  SIDREG(SID_ADDR_V2_CONTROLREG) = *(char*)&SID_REG_V2_CONTROLREG;
-//
-//  SIDREG(SID_ADDR_V3_ATTACK_DECAY) = *(char*)&SID_REG_V3_ATTACK_DECAY;
-//  SIDREG(SID_ADDR_V3_SUSTAIN_RELEASE) = *(char*)&SID_REG_V3_SUSTAIN_RELEASE; 
-//  SIDREG(SID_ADDR_V3_CONTROLREG) = *(char*)&SID_REG_V3_CONTROLREG;  
-//  
-//  //Set Volume
-//  write_data(0x18, 0xF);
-//
-//}
+const int SID::sid_MIDI2note[] = {//MIDI note number
+  291, 291, 291, 291, 291, 291, 291, 291,//0-7
+  291, 291, 291, 291, 291, 291, 308, 326,//8-15
+  346, 366, 388, 411, 435, 461, 489, 518,//16-23
+  549, 581, 616, 652, 691, 732, 776, 822,//24-31
+  871, 923, 978, 1036, 1097, 1163, 1232, 1305,//32-39
+  1383, 1465, 1552, 1644, 1742, 1845, 1955, 2071,//40-47
+  2195, 2325, 2463, 2610, 2765, 2930, 3104, 3288,//48-55
+  3484, 3691, 3910, 4143, 4389, 4650, 4927, 5220,//56-63
+  5530, 5859, 6207, 6577, 6968, 7382, 7821, 8286,//64-71
+  8779, 9301, 9854, 10440, 11060, 11718, 12415, 13153,//72-79
+  13935, 14764, 15642, 16572, 17557, 18601, 19709, 20897,//80-87
+  22121, 23436, 24830, 26306, 27871, 29528, 31234, 33144,//88-95
+  35115, 37203, 39415, 41759, 44242, 46873, 49660, 52613,//96-103
+  55741, 59056, 62567, 66288, 66288, 66288, 66288, 66288,//104-111
+  66288, 66288, 66288, 66288, 66288, 66288, 66288, 66288,//112-119
+  66288, 66288, 66288, 66288, 66288, 66288, 66288, 66288,//120-127
+  0//off
+};
+
+
+
+SID::SID(){  
+  reset();
+}  
+
+void SID::writeData(unsigned char address, unsigned char data)
+{
+  SIDREG(address) = data;
+}
+
+void SID::setNote(byte voice, int note)
+{
+
+}
+
+void SID::setPWLo(byte voice, byte dutyCycle) 
+{
+
+}
+
+void SID::setPWHi(byte voice, byte dutyCycle)
+{
+
+}
+void SID::setGate(byte voice, boolean active)
+{
+
+}
+void SID::setSync(byte voice, boolean active)
+{
+
+}
+void SID::setRingMod(byte voice, boolean active)
+{
+
+}
+void SID::setTest(byte voice, boolean active)
+{
+
+}
+void SID::setTriangle(byte voice, boolean active)
+{
+
+}
+void SID::setSawtooth(byte voice, boolean active)
+{
+
+}
+void SID::setPulse(byte voice, boolean active)
+{
+
+}
+void SID::setNoise(byte voice, boolean active)
+{
+
+}
+
+void SID::setEnvelopeAttack(byte voice, byte rate)
+{
+
+}
+void SID::setEnvelopeDecay(byte voice, byte rate)
+{
+
+}
+void SID::setEnvelopeSustain(byte voice, byte level)
+{
+
+}
+void SID::setEnvelopeRelease(byte voice, byte rate)
+{
+
+}
+void SID::setVolume(byte voice, byte volume)
+{
+
+}
+
+void SID::reset(){
+  //Filter
+  SIDREG(SID_ADDR_FILTER_FC_LOW) = 0;
+  SIDREG(SID_ADDR_FILTER_FC_HI) = 0;
+  SIDREG(SID_ADDR_FILTER_RES_FILT) = 0;
+  SIDREG(SID_ADDR_FILTER_MODE_VOL) = 0xF;
+  
+  //Voice1
+  SIDREG(SID_ADDR_V1_FREQ_LOW) = 0;
+  SIDREG(SID_ADDR_V1_FREQ_HI) = 0; 
+  SIDREG(SID_ADDR_V1_PW_LOW) = 0;
+  SIDREG(SID_ADDR_V1_PW_HI) = 0; 
+  SID_REG_V1_ATTACK_DECAY.ATTACK = 0;
+  SID_REG_V1_ATTACK_DECAY.DECAY = 0; 
+  SID_REG_V1_SUSTAIN_RELEASE.SUSTAIN = 0;
+  SID_REG_V1_SUSTAIN_RELEASE.RELEASE = 0;
+  SID_REG_V1_CONTROLREG.NOISE_WAVE = 0;
+  SID_REG_V1_CONTROLREG.SQUARE_WAVE = 0;
+  SID_REG_V1_CONTROLREG.SAWTOOTH_WAVE = 0;
+  SID_REG_V1_CONTROLREG.TRIANGLE_WAVE = 0; 
+  SID_REG_V1_CONTROLREG.TEST = 0;  
+  SID_REG_V1_CONTROLREG.RING_MOD = 0;
+  SID_REG_V1_CONTROLREG.SYNC = 0;
+  SID_REG_V1_CONTROLREG.GATE = 0;
+  SIDREG(SID_ADDR_V1_ATTACK_DECAY) = *(char*)&SID_REG_V1_ATTACK_DECAY;
+  SIDREG(SID_ADDR_V1_SUSTAIN_RELEASE) = *(char*)&SID_REG_V1_SUSTAIN_RELEASE; 
+  SIDREG(SID_ADDR_V1_CONTROLREG) = *(char*)&SID_REG_V1_CONTROLREG;
+  
+  //Voice2
+  SIDREG(SID_ADDR_V2_FREQ_LOW) = 0;
+  SIDREG(SID_ADDR_V2_FREQ_HI) = 0; 
+  SIDREG(SID_ADDR_V2_PW_LOW) = 0;
+  SIDREG(SID_ADDR_V2_PW_HI) = 0; 
+  SID_REG_V2_ATTACK_DECAY.ATTACK = 0;
+  SID_REG_V2_ATTACK_DECAY.DECAY = 0; 
+  SID_REG_V2_SUSTAIN_RELEASE.SUSTAIN = 0;
+  SID_REG_V2_SUSTAIN_RELEASE.RELEASE = 0;
+  SID_REG_V2_CONTROLREG.NOISE_WAVE = 0;
+  SID_REG_V2_CONTROLREG.SQUARE_WAVE = 0;
+  SID_REG_V2_CONTROLREG.SAWTOOTH_WAVE = 0;
+  SID_REG_V2_CONTROLREG.TRIANGLE_WAVE = 0; 
+  SID_REG_V2_CONTROLREG.TEST = 0;  
+  SID_REG_V2_CONTROLREG.RING_MOD = 0;
+  SID_REG_V2_CONTROLREG.SYNC = 0;
+  SID_REG_V2_CONTROLREG.GATE = 0;
+  SIDREG(SID_ADDR_V2_ATTACK_DECAY) = *(char*)&SID_REG_V2_ATTACK_DECAY;
+  SIDREG(SID_ADDR_V2_SUSTAIN_RELEASE) = *(char*)&SID_REG_V2_SUSTAIN_RELEASE; 
+  SIDREG(SID_ADDR_V2_CONTROLREG) = *(char*)&SID_REG_V2_CONTROLREG;
+
+  //Voice3
+  SIDREG(SID_ADDR_V3_FREQ_LOW) = 0;
+  SIDREG(SID_ADDR_V3_FREQ_HI) = 0; 
+  SIDREG(SID_ADDR_V3_PW_LOW) = 0;
+  SIDREG(SID_ADDR_V3_PW_HI) = 0; 
+  SID_REG_V3_ATTACK_DECAY.ATTACK = 0;
+  SID_REG_V3_ATTACK_DECAY.DECAY = 0; 
+  SID_REG_V3_SUSTAIN_RELEASE.SUSTAIN = 0;
+  SID_REG_V3_SUSTAIN_RELEASE.RELEASE = 0;
+  SID_REG_V3_CONTROLREG.NOISE_WAVE = 0;
+  SID_REG_V3_CONTROLREG.SQUARE_WAVE = 0;
+  SID_REG_V3_CONTROLREG.SAWTOOTH_WAVE = 0;
+  SID_REG_V3_CONTROLREG.TRIANGLE_WAVE = 0; 
+  SID_REG_V3_CONTROLREG.TEST = 0;  
+  SID_REG_V3_CONTROLREG.RING_MOD = 0;
+  SID_REG_V3_CONTROLREG.SYNC = 0;
+  SID_REG_V3_CONTROLREG.GATE = 0;
+  SIDREG(SID_ADDR_V3_ATTACK_DECAY) = *(char*)&SID_REG_V3_ATTACK_DECAY;
+  SIDREG(SID_ADDR_V3_SUSTAIN_RELEASE) = *(char*)&SID_REG_V3_SUSTAIN_RELEASE; 
+  SIDREG(SID_ADDR_V3_CONTROLREG) = *(char*)&SID_REG_V3_CONTROLREG; 
+  //Set Volume
+  writeData(0x18, 0x0);  
+}
+
 

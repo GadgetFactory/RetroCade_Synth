@@ -13,7 +13,7 @@
 //#include <zpuino.h>
 //#include <zpuino-types.h>
  
-const int YM2149::ym2149_note2MIDI[129] = {//MIDI note number
+const int YM2149::ym2149_MIDI2note[129] = {//MIDI note number
   15289, 14431, 13621, 12856, 12135, 11454, 10811, 10204,//0-7
   9631, 9091, 8581, 8099, 7645, 7215, 6810, 6428,//8-15
   6067, 5727, 5405, 5102, 4816, 4545, 4290, 4050,//16-23
@@ -33,9 +33,15 @@ const int YM2149::ym2149_note2MIDI[129] = {//MIDI note number
   0//off
 }; 
 
-//makes the setup for the Yamaha YMZ294 component
-YM2149::YM2149(){
+const byte YM2149::ymAddress[4] = {
+   YM_ADDR_FREQ_A,
+   YM_ADDR_FREQ_A,
+   YM_ADDR_FREQ_B,
+   YM_ADDR_FREQ_C
+};
 
+//makes the setup for the Yamaha YMZ294 component
+YM2149::YM2149(){  
   //no noise 
   writeData(YM_ADDR_NOISE, 0x00);
   //mixer
@@ -48,29 +54,26 @@ void YM2149::writeData(unsigned char address, unsigned char data)
   YM2149REG(address) = data;
 }
 
-void YM2149::setNote(byte voice, int note, boolean active)
+void YM2149::setNote(byte voice, int MIDINote, boolean active)
 {
-  int address;
-  switch (voice) {
+  switch (voice) {  //TODO figure more efficient way to do this. Want to avoid case statements.
     case 1:
-      address = YM_ADDR_FREQ_A;
-      YM_REG_MIXER.TONEA != active;
+      YM_REG_MIXER.TONEA = !active;
       break;
     case 2:
-      address = YM_ADDR_FREQ_B;
-      YM_REG_MIXER.TONEB != active;
+      YM_REG_MIXER.TONEB = !active;
       break;
     case 3:
-      address = YM_ADDR_FREQ_C;
-      YM_REG_MIXER.TONEC != active;
+      YM_REG_MIXER.TONEC = !active;
       break;
     default:
       return;
       break;       
   }
-  writeData(address, ym2149_note2MIDI[note]);
-  writeData(address+1, (ym2149_note2MIDI[note] >> 8));
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
+
+  writeData(ymAddress[voice], ym2149_MIDI2note[MIDINote]);
+  writeData(ymAddress[voice]+1, (ym2149_MIDI2note[MIDINote] >> 8));
 }
 
 void YM2149::setNoise(byte voice, byte freq, boolean active)
@@ -181,7 +184,7 @@ void YM2149::reset(){
   YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER; 
 
-  setNote(1,128,0);   
-  setNote(2,128,0);     
-  setNote(3,128,0);   
+  setNote(1,128,true);   
+  setNote(2,128,true);     
+  setNote(3,128,true);   
 }  
