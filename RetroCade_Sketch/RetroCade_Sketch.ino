@@ -26,7 +26,7 @@
  */
 
 
-//#include "SID.h"
+#include "SID.h"
 #include "YM2149.h"
 #include "MIDI.h"    //Be sure to change MIDI.h to user Serial1 instead of Serial
 //#include "ptplay.h"
@@ -71,6 +71,7 @@
 #define SDOPIN WING_C_10
 
 YM2149 ym2149;
+SID sid;
 
 byte nrpn;
 byte transpose_v1;
@@ -137,6 +138,8 @@ void setup(){
 //   setupSID();
    //setupYM2149();
    //ym2149.reset();
+   sid.setVolume(0,0xf);
+   sid.V1.setInstrument(0,0,15,0,0,0,0,1,0);
    
   // Initiate MIDI communications, listen to all channels
   MIDI.begin(MIDI_CHANNEL_OMNI);
@@ -174,25 +177,27 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   Serial.print("Channel Received: ");
   Serial.println(channel);  
  #endif 
-  switch (channel){
-    case 1:
-      ym2149.setNote(1,pitch,true); 
-      break;         
-    default:
-      break;             
-  }
+ sid.V1.setNote(1,pitch);
+ 
+//  switch (channel){
+//    case 1:
+//      ym2149.setNote(1,pitch,true); 
+//      break;         
+//    default:
+//      break;             
+//  }
 }
 
 void HandleNoteOff(byte channel, byte pitch, byte velocity) { 
    #ifdef DEBUG 
     Serial.println("In NoteOff");
    #endif  
-  switch(channel){
-      case 1:
-        ym2149.setNote(1,pitch,false);
-        break;
-      default:
-        return;      
-  }  
+//  switch(channel){
+//      case 1:
+//        ym2149.setNote(1,pitch,false);
+//        break;
+//      default:
+//        return;      
+//  }  
 }
 

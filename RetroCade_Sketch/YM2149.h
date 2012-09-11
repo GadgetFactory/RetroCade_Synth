@@ -70,8 +70,8 @@ class YM2149
     struct ymframe {
     	unsigned char regval[14];
     };  
-    static const int ym2149_MIDI2note[129];
-    static const byte ymAddress[4];  
+    static const int MIDI2freq[129];
+    static const byte YM_ADDR_FREQ_Array[4];     
     
     YM_REG_MIXER_STRUCT YM_REG_MIXER;
     YM_REG_ENVSHAPE_STRUCT YM_REG_ENVSHAPE;

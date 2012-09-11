@@ -13,7 +13,7 @@
 //#include <zpuino.h>
 //#include <zpuino-types.h>
  
-const int YM2149::ym2149_MIDI2note[129] = {//MIDI note number
+const int YM2149::MIDI2freq[129] = {//MIDI note number
   15289, 14431, 13621, 12856, 12135, 11454, 10811, 10204,//0-7
   9631, 9091, 8581, 8099, 7645, 7215, 6810, 6428,//8-15
   6067, 5727, 5405, 5102, 4816, 4545, 4290, 4050,//16-23
@@ -33,7 +33,7 @@ const int YM2149::ym2149_MIDI2note[129] = {//MIDI note number
   0//off
 }; 
 
-const byte YM2149::ymAddress[4] = {
+const byte YM2149::YM_ADDR_FREQ_Array[4] = {
    YM_ADDR_FREQ_A,
    YM_ADDR_FREQ_A,
    YM_ADDR_FREQ_B,
@@ -72,8 +72,8 @@ void YM2149::setNote(byte voice, int MIDINote, boolean active)
   }
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
 
-  writeData(ymAddress[voice], ym2149_MIDI2note[MIDINote]);
-  writeData(ymAddress[voice]+1, (ym2149_MIDI2note[MIDINote] >> 8));
+  writeData(YM_ADDR_FREQ_Array[voice], MIDI2freq[MIDINote]);
+  writeData(YM_ADDR_FREQ_Array[voice]+1, (MIDI2freq[MIDINote] >> 8));
 }
 
 void YM2149::setNoise(byte voice, byte freq, boolean active)
