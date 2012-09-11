@@ -137,9 +137,9 @@ void setup(){
 
   sid.V1.setInstrument(0,0,15,0,0,0,0,1,0);  //Calliope
 //  sid.V1.setInstrument(0,5,5,0,1,0,0,0,0);  //Drum
-//  sid.V1.setInstrument(12,0,12,0,0,0,1,0,0);  //Accordian
+  sid.V2.setInstrument(12,0,12,0,0,0,1,0,0);  //Accordian
 //  sid.V1.setInstrument(0,9,2,1,0,0,1,0,0);  //Guitar
-//  sid.V1.setInstrument(0,9,0,0,0,1,0,0,512);  //Harpsicord
+  sid.V3.setInstrument(0,9,0,0,0,1,0,0,512);  //Harpsicord
 //  sid.V1.setInstrument(0,9,9,0,0,1,0,0,2048);  //Organ
 //  sid.V1.setInstrument(8,9,4,1,0,1,0,0,512);  //Trumpet
 //  sid.V1.setInstrument(0,9,0,0,0,0,0,1,0);  //Xylophone
@@ -181,28 +181,43 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   Serial.print("Channel Received: ");
   Serial.println(channel);  
  #endif 
- sid.V1.setNote(pitch, 1);
+// sid.V1.setNote(pitch, 1);
+// ym2149.setNote(1,pitch,true);  
  
-//  switch (channel){
-//    case 1:
-//      ym2149.setNote(1,pitch,true); 
-//      break;         
-//    default:
-//      break;             
-//  }
+ 
+  switch (channel){
+    case 1:
+      sid.V1.setNote(pitch, 1); 
+      break;  
+    case 2:
+      sid.V2.setNote(pitch, 1); 
+      break;  
+    case 3:
+      sid.V3.setNote(pitch, 1); 
+      break;        
+    default:
+      break;             
+  }
 }
 
 void HandleNoteOff(byte channel, byte pitch, byte velocity) { 
    #ifdef DEBUG 
     Serial.println("In NoteOff");
    #endif  
-   sid.V1.setNote(pitch, 0);
-//  switch(channel){
-//      case 1:
-//        ym2149.setNote(1,pitch,false);
-//        break;
-//      default:
-//        return;      
-//  }  
+   //sid.V1.setNote(pitch, 0);
+   //ym2149.setNote(1,pitch,false);
+  switch(channel){
+      case 1:
+        sid.V1.setNote(pitch, 0);
+        break;
+      case 2:
+        sid.V2.setNote(pitch, 0);
+        break;
+      case 3:
+        sid.V3.setNote(pitch, 0);
+        break;        
+      default:
+        return;      
+  }  
 }
 
