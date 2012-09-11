@@ -29,18 +29,132 @@ const int YM2149::MIDI2freq[129] = {//MIDI note number
   0//off
 }; 
 
-const byte YM2149::YM_ADDR_FREQ_Array[4] = {
-   YM_ADDR_FREQ_A,
-   YM_ADDR_FREQ_A,
-   YM_ADDR_FREQ_B,
-   YM_ADDR_FREQ_C
-};
+    //TODO: This is not the right place for this
+    struct YM_REG_MIXER_STRUCT{
+        unsigned int EMPTY : 2;
+        unsigned int NOISEC : 1; 
+        unsigned int NOISEB : 1;
+        unsigned int NOISEA : 1;
+        unsigned int TONEC : 1; 
+        unsigned int TONEB : 1;
+        unsigned int TONEA : 1;
+    } ;    
+    YM_REG_MIXER_STRUCT YM_REG_MIXER;
+
+//const byte YM2149::YM_ADDR_FREQ_Array[4] = {
+//   YM_ADDR_FREQ_A,
+//   YM_ADDR_FREQ_A,
+//   YM_ADDR_FREQ_B,
+//   YM_ADDR_FREQ_C
+//};
+
+
+void YMVoice::setBase(int freqAddress, int volumeAddress)
+{
+  YM_ADDR_FREQ = freqAddress;
+  YM_ADDR_LEVEL = volumeAddress; 
+}
+
+void YMVoice::setNote(int note, boolean active)
+{
+  switch (YM_ADDR_FREQ) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+    case 0:
+      YM_REG_MIXER.TONEA = !active;
+      break;
+    case 2:
+      YM_REG_MIXER.TONEB = !active;
+      break;
+    case 4:
+      YM_REG_MIXER.TONEC = !active;
+      break;
+    default:
+      return;
+      break;       
+  }
+  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;  
+  YM2149::writeData(YM_ADDR_FREQ, YM2149::MIDI2freq[note]);
+  YM2149::writeData(YM_ADDR_FREQ+1, (YM2149::MIDI2freq[note] >> 8));  
+  
+//  switch (voice) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+//    case 1:
+//      YM_REG_MIXER.TONEA = !active;
+//      break;
+//    case 2:
+//      YM_REG_MIXER.TONEB = !active;
+//      break;
+//    case 3:
+//      YM_REG_MIXER.TONEC = !active;
+//      break;
+//    default:
+//      return;
+//      break;       
+//  }
+//  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
+//
+//  writeData(YM_ADDR_FREQ_Array[voice], MIDI2freq[MIDINote]);
+//  writeData(YM_ADDR_FREQ_Array[voice]+1, (MIDI2freq[MIDINote] >> 8));
+}
+
+void YMVoice::setNoise(boolean active)
+{
+  switch (YM_ADDR_FREQ) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+    case 0:
+      YM_REG_MIXER.NOISEA = !active;
+      break;
+    case 2:
+      YM_REG_MIXER.NOISEB = !active;
+      break;
+    case 4:
+      YM_REG_MIXER.NOISEC = !active;
+      break;
+  }  
+  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
+//  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
+//  YM2149REG(YM_ADDR_NOISE) = freq;    //TODO There should be a way to just keep previous value. Make it an optional parameter?
+}
+
+void YMVoice::setEnvelope(boolean active)
+{
+//  switch (YM_ADDR_FREQ) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+//    case 0:
+//      YM_REG_VA_LEVEL.MODE = active;
+//      YM2149REG(YM_ADDR_LEVEL_A) = *(char*)&YM_REG_VA_LEVEL;
+//      break;
+//    case 2:
+//      YM_REG_VB_LEVEL.MODE = active;
+//      YM2149REG(YM_ADDR_LEVEL_B) = *(char*)&YM_REG_VB_LEVEL;
+//      break;
+//    case 4:
+//      YM_REG_VC_LEVEL.MODE = active;
+//      YM2149REG(YM_ADDR_LEVEL_C) = *(char*)&YM_REG_VC_LEVEL;
+//      break;
+//  }  
+}
+
+void YMVoice::setVolume(byte volume)
+{
+  YM2149::writeData(YM_ADDR_LEVEL, volume & 0x0f);
+//  switch (voice) {
+//    case 1:
+//      writeData(YM_ADDR_LEVEL_A, volume & 0x0f);
+//      break;
+//    case 2:
+//      writeData(YM_ADDR_LEVEL_B, volume & 0x0f);
+//      break;
+//    case 3:
+//      writeData(YM_ADDR_LEVEL_C, volume & 0x0f);
+//      break;
+//  }    
+}
 
 YM2149::YM2149(){  
   //no noise 
   writeData(YM_ADDR_NOISE, 0x00);
   //mixer
   writeData(YM_ADDR_MIXER, 0x38);
+  V1.setBase(YM_ADDR_FREQ_A, YM_ADDR_LEVEL_A);
+  V2.setBase(YM_ADDR_FREQ_B, YM_ADDR_LEVEL_B);
+  V3.setBase(YM_ADDR_FREQ_C, YM_ADDR_LEVEL_C);  
   reset();
 }
 
@@ -49,76 +163,9 @@ void YM2149::writeData(unsigned char address, unsigned char data)
   YM2149REG(address) = data;
 }
 
-void YM2149::setNote(byte voice, int MIDINote, boolean active)
-{
-  switch (voice) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-    case 1:
-      YM_REG_MIXER.TONEA = !active;
-      break;
-    case 2:
-      YM_REG_MIXER.TONEB = !active;
-      break;
-    case 3:
-      YM_REG_MIXER.TONEC = !active;
-      break;
-    default:
-      return;
-      break;       
-  }
-  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
 
-  writeData(YM_ADDR_FREQ_Array[voice], MIDI2freq[MIDINote]);
-  writeData(YM_ADDR_FREQ_Array[voice]+1, (MIDI2freq[MIDINote] >> 8));
-}
-
-void YM2149::setNoise(byte voice, byte freq, boolean active)
-{
-  switch (voice) {
-    case 1:
-      YM_REG_MIXER.NOISEA = active;
-      break;
-    case 2:
-      YM_REG_MIXER.NOISEA = active;
-      break;
-    case 3:
-      YM_REG_MIXER.NOISEA = active;
-      break;
-  }  
-  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
-  YM2149REG(YM_ADDR_NOISE) = freq;    //TODO There should be a way to just keep previous value. Make it an optional parameter?
-}
-
-void YM2149::setVolume(byte voice, byte volume)
-{
-  switch (voice) {
-    case 1:
-      writeData(YM_ADDR_LEVEL_A, volume & 0x0f);
-      break;
-    case 2:
-      writeData(YM_ADDR_LEVEL_B, volume & 0x0f);
-      break;
-    case 3:
-      writeData(YM_ADDR_LEVEL_C, volume & 0x0f);
-      break;
-  }    
-}
-
-void YM2149::setEnvelope(byte voice, int freq, boolean active)
-{
-  switch (voice) {
-    case 1:
-      YM_REG_VA_LEVEL.MODE = active;
-      YM2149REG(YM_ADDR_LEVEL_A) = *(char*)&YM_REG_VA_LEVEL;
-      break;
-    case 2:
-      YM_REG_VB_LEVEL.MODE = active;
-      YM2149REG(YM_ADDR_LEVEL_B) = *(char*)&YM_REG_VB_LEVEL;
-      break;
-    case 3:
-      YM_REG_VC_LEVEL.MODE = active;
-      YM2149REG(YM_ADDR_LEVEL_C) = *(char*)&YM_REG_VC_LEVEL;
-      break;
-  }      
+void YM2149::setEnvelopeFrequency(int freq)
+{    
   writeData(YM_ADDR_FREQ_E, freq);
   writeData(YM_ADDR_FREQ_E+1, (freq >> 8));
 }
@@ -162,23 +209,24 @@ void YM2149::reset(){
   YM_REG_MIXER.TONEB = 0;
   YM_REG_MIXER.TONEA = 0;  
   
-  YM_REG_VA_LEVEL.EMPTY = 0;  
-  YM_REG_VA_LEVEL.MODE = 0;  
-  YM_REG_VA_LEVEL.LEVEL = 0;   
-  
-  YM_REG_VB_LEVEL.EMPTY = 0; 
-  YM_REG_VB_LEVEL.MODE = 0;  
-  YM_REG_VB_LEVEL.LEVEL = 0;  
- 
-  YM_REG_VC_LEVEL.EMPTY = 0;
-  YM_REG_VB_LEVEL.MODE = 0;  
-  YM_REG_VB_LEVEL.LEVEL = 0;  
+  //TODO: move these to voice reset
+//  YM_REG_VA_LEVEL.EMPTY = 0;  
+//  YM_REG_VA_LEVEL.MODE = 0;  
+//  YM_REG_VA_LEVEL.LEVEL = 0;   
+//  
+//  YM_REG_VB_LEVEL.EMPTY = 0; 
+//  YM_REG_VB_LEVEL.MODE = 0;  
+//  YM_REG_VB_LEVEL.LEVEL = 0;  
+// 
+//  YM_REG_VC_LEVEL.EMPTY = 0;
+//  YM_REG_VB_LEVEL.MODE = 0;  
+//  YM_REG_VB_LEVEL.LEVEL = 0;  
 
-  YM2149REG(YM_ADDR_LEVEL_A) = *(char*)&YM_REG_VA_LEVEL;
+  //YM2149REG(YM_ADDR_LEVEL_A) = *(char*)&YM_REG_VA_LEVEL;
   YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER; 
 
-  setNote(1,128,true);   
-  setNote(2,128,true);     
-  setNote(3,128,true);   
+//  setNote(1,128,true);   
+//  setNote(2,128,true);     
+//  setNote(3,128,true);   
 }  

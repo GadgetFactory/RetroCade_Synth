@@ -132,7 +132,7 @@ void setup(){
   pinMode(SDOPIN,INPUT);   
   
    ///Setup the pin modes for the YM2149 and SID
-   ym2149.setVolume(1, 0x7f);
+   ym2149.V1.setVolume(0x7f);
    sid.setVolume(0xf);
 
   sid.V1.setInstrument(0,0,15,0,0,0,0,1,0);  //Calliope
@@ -194,6 +194,15 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
       break;  
     case 3:
       sid.V3.setNote(pitch, 1); 
+      break;   
+     case 4:
+      ym2149.V1.setNote(pitch, 1); 
+      break;  
+     case 5:
+      ym2149.V2.setNote(pitch, 1); 
+      break;  
+     case 6:
+      ym2149.V3.setNote(pitch, 1); 
       break;        
     default:
       break;             
@@ -215,6 +224,15 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
         break;
       case 3:
         sid.V3.setNote(pitch, 0);
+        break;    
+      case 4:
+        ym2149.V1.setNote(pitch, 0);
+        break;   
+      case 5:
+        ym2149.V2.setNote(pitch, 0);
+        break;
+      case 6:
+        ym2149.V3.setNote(pitch, 0);
         break;        
       default:
         return;      

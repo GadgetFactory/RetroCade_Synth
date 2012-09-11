@@ -34,9 +34,7 @@ SID::SID(){
   V1.setBase(SID_ADDR_BASE_V1);
   V2.setBase(SID_ADDR_BASE_V2);
   V3.setBase(SID_ADDR_BASE_V3);
-  V1.reset();
-  V2.reset();
-  V3.reset();
+
   //reset whole sid and initialize values.
   reset();
 }  
@@ -228,6 +226,9 @@ void SID::reset(){
   SID_REG_MODE_VOLUME.LP = 0;
   SID_REG_MODE_VOLUME.VOLUME = 0x0;
   SIDREG(SID_ADDR_FILTER_MODE_VOL) = *(char*)&SID_REG_MODE_VOLUME;
+  V1.reset();
+  V2.reset();
+  V3.reset();  
 }
 
 
