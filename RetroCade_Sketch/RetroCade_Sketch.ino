@@ -73,12 +73,12 @@
 YM2149 ym2149;
 SID sid;
 
-byte nrpn;
-byte transpose_v1;
-byte transpose_v2;
-byte transpose_v3;
-int pitch, playYM, playMOD, playTrack, counter, ymTimeStamp, resetYMFlag;
-int freqV1, freqV2, freqV3, freqV4, freqV5, freqV6;
+//byte nrpn;
+//byte transpose_v1;
+//byte transpose_v2;
+//byte transpose_v3;
+//int pitch, playYM, playMOD, playTrack, counter, ymTimeStamp, resetYMFlag;
+//int freqV1, freqV2, freqV3, freqV4, freqV5, freqV6;
 
 void setup(){
 
@@ -133,13 +133,17 @@ void setup(){
   
    ///Setup the pin modes for the YM2149 and SID
    ym2149.setVolume(1, 0x7f);
-//   reset_sid();
-//   
-//   setupSID();
-   //setupYM2149();
-   //ym2149.reset();
-   sid.setVolume(0,0xf);
-   sid.V1.setInstrument(0,0,15,0,0,0,0,1,0);
+   sid.setVolume(0xf);
+
+  sid.V1.setInstrument(0,0,15,0,0,0,0,1,0);  //Calliope
+//  sid.V1.setInstrument(0,5,5,0,1,0,0,0,0);  //Drum
+//  sid.V1.setInstrument(12,0,12,0,0,0,1,0,0);  //Accordian
+//  sid.V1.setInstrument(0,9,2,1,0,0,1,0,0);  //Guitar
+//  sid.V1.setInstrument(0,9,0,0,0,1,0,0,512);  //Harpsicord
+//  sid.V1.setInstrument(0,9,9,0,0,1,0,0,2048);  //Organ
+//  sid.V1.setInstrument(8,9,4,1,0,1,0,0,512);  //Trumpet
+//  sid.V1.setInstrument(0,9,0,0,0,0,0,1,0);  //Xylophone
+//  sid.V1.setInstrument(9,4,4,0,0,0,0,1,0);  //Flute    
    
   // Initiate MIDI communications, listen to all channels
   MIDI.begin(MIDI_CHANNEL_OMNI);
@@ -177,7 +181,7 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   Serial.print("Channel Received: ");
   Serial.println(channel);  
  #endif 
- sid.V1.setNote(1,pitch);
+ sid.V1.setNote(pitch, 1);
  
 //  switch (channel){
 //    case 1:
@@ -192,6 +196,7 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
    #ifdef DEBUG 
     Serial.println("In NoteOff");
    #endif  
+   sid.V1.setNote(pitch, 0);
 //  switch(channel){
 //      case 1:
 //        ym2149.setNote(1,pitch,false);

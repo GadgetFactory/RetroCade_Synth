@@ -32,8 +32,12 @@ const int SID::MIDI2freq[] = {//MIDI note number
 
 SID::SID(){  
   V1.setBase(SID_ADDR_BASE_V1);
+  V2.setBase(SID_ADDR_BASE_V2);
+  V3.setBase(SID_ADDR_BASE_V3);
   V1.reset();
-  
+  V2.reset();
+  V3.reset();
+  //reset whole sid and initialize values.
   reset();
 }  
 
@@ -44,19 +48,19 @@ void SID::writeData(unsigned char address, unsigned char data)
 
 SIDVoice::SIDVoice()
 {
-  SIDVoice(SID_ADDR_BASE_V1);  //If no base is specified then set to base of voice 1.
+  //SIDVoice(SID_ADDR_BASE_V1);  //If no base is specified then set to base of voice 1.
 }
 
-SIDVoice::SIDVoice(int address)
+SIDVoice::SIDVoice(int address)    //TODO: Remove this or make it work right.
 {
-  baseAddress = address;    //TODO is this necessary?
-  SID_ADDR_FREQ_LOW = baseAddress;
-  SID_ADDR_FREQ_HI = baseAddress + 1;
-  SID_ADDR_PW_LOW = baseAddress + 2; 
-  SID_ADDR_PW_HI = baseAddress + 3;
-  SID_ADDR_CONTROLREG = baseAddress + 4;
-  SID_ADDR_ATTACK_DECAY = baseAddress + 5;
-  SID_ADDR_SUSTAIN_RELEASE = baseAddress + 6;
+//  baseAddress = address;    //TODO is this necessary?
+//  SID_ADDR_FREQ_LOW = baseAddress;
+//  SID_ADDR_FREQ_HI = baseAddress + 1;
+//  SID_ADDR_PW_LOW = baseAddress + 2; 
+//  SID_ADDR_PW_HI = baseAddress + 3;
+//  SID_ADDR_CONTROLREG = baseAddress + 4;
+//  SID_ADDR_ATTACK_DECAY = baseAddress + 5;
+//  SID_ADDR_SUSTAIN_RELEASE = baseAddress + 6;
 }
 
 void SIDVoice::setBase(int address)
@@ -94,81 +98,99 @@ void SIDVoice::reset()
   SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;    
 }
 
-void SIDVoice::setNote(byte voice, int note)
+void SIDVoice::setNote(int note, boolean active)
 {
   SID::writeData(SID_ADDR_FREQ_LOW, SID::MIDI2freq[note]);
   SID::writeData(SID_ADDR_FREQ_HI, (SID::MIDI2freq[note] >> 8)); 
-  SID_REG_CONTROLREG.GATE = 1; 
-  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;  
+  setGate(active); 
 }
 
-void SIDVoice::setPWLo(byte voice, byte dutyCycle) 
+void SIDVoice::setPWLo(byte dutyCycle) 
 {
-  //SIDREG(SID_ADDR_PW_Array[voice]) = (dutyCycle << 1);
+  SIDREG(SID_ADDR_PW_LOW) = (dutyCycle);
 }
 
-void SIDVoice::setPWHi(byte voice, byte dutyCycle)
+void SIDVoice::setPWHi(byte dutyCycle)
 {
-  //SIDREG(SID_ADDR_PW_Array[voice] + 1) = (dutyCycle << 1);
+  SIDREG(SID_ADDR_PW_HI) = (dutyCycle);
 }
 
-void SIDVoice::setGate(byte voice, boolean active)
+void SIDVoice::setGate(boolean active)
 {
-
+  SID_REG_CONTROLREG.GATE = active; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
 }
 
-void SIDVoice::setSync(byte voice, boolean active)
+void SIDVoice::setSync(boolean active)
 {
-  //*SID_REG_CONTROLREG_Array[voice].SYNC = active;
-//  SID_REG_CONTROLREG_V1.SYNC = active;
-  //SIDREG(SID_ADDR_CONTROLREG_V1+((voice-1)*7)) = *(char*)&SID_REG_CONTROLREG_Array[voice];
+  SID_REG_CONTROLREG.SYNC = active;
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
 }
 
-void SIDVoice::setRingMod(byte voice, boolean active)
+void SIDVoice::setRingMod(boolean active)
 {
-
+  SID_REG_CONTROLREG.RING_MOD = active; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
 }
 
-void SIDVoice::setTest(byte voice, boolean active)
+void SIDVoice::setTest(boolean active)
 {
-
+  SID_REG_CONTROLREG.TEST = active; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
 }
 
-void SIDVoice::setTriangle(byte voice, boolean active)
+void SIDVoice::setTriangle(boolean active)
 {
-
+  SID_REG_CONTROLREG.TRIANGLE_WAVE = active; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
 }
 
-void SIDVoice::setSawtooth(byte voice, boolean active)
+void SIDVoice::setSawtooth(boolean active)
 {
-
+  SID_REG_CONTROLREG.SAWTOOTH_WAVE = active; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
 }
 
-void SIDVoice::setPulse(byte voice, boolean active)
+void SIDVoice::setSquare(boolean active)
 {
-
+  SID_REG_CONTROLREG.SQUARE_WAVE = active; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
 }
 
-void SIDVoice::setNoise(byte voice, boolean active)
+void SIDVoice::setSquare(boolean active, int pwm)
 {
+  SID_REG_CONTROLREG.SQUARE_WAVE = active; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
+  setPWLo(pwm);
+  setPWHi(pwm >> 8);  
+}
+ 
 
+void SIDVoice::setNoise(boolean active)
+{
+  SID_REG_CONTROLREG.NOISE_WAVE = active; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
 }
 
-void SIDVoice::setEnvelopeAttack(byte voice, byte rate)
+void SIDVoice::setEnvelopeAttack(byte rate)
 {
-
+  SID_REG_ATTACK_DECAY.ATTACK = rate;
+  SIDREG(SID_ADDR_ATTACK_DECAY) = *(char*)&SID_REG_ATTACK_DECAY;
 }
-void SIDVoice::setEnvelopeDecay(byte voice, byte rate)
+void SIDVoice::setEnvelopeDecay(byte rate)
 {
-
+  SID_REG_ATTACK_DECAY.DECAY = rate;
+  SIDREG(SID_ADDR_ATTACK_DECAY) = *(char*)&SID_REG_ATTACK_DECAY;
 }
-void SIDVoice::setEnvelopeSustain(byte voice, byte level)
+void SIDVoice::setEnvelopeSustain(byte level)
 {
-
+  SID_REG_SUSTAIN_RELEASE.SUSTAIN = level;
+  SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE;
 }
-void SIDVoice::setEnvelopeRelease(byte voice, byte rate)
+void SIDVoice::setEnvelopeRelease(byte rate)
 {
-
+  SID_REG_SUSTAIN_RELEASE.RELEASE = rate;
+  SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE;
 }
 
 void SIDVoice::setInstrument(byte attack, byte decay, byte sustain, byte rel, bool noise, bool square, bool sawtooth, bool triangle, int pwm)
@@ -181,13 +203,15 @@ void SIDVoice::setInstrument(byte attack, byte decay, byte sustain, byte rel, bo
   SID_REG_CONTROLREG.SQUARE_WAVE = square;
   SID_REG_CONTROLREG.SAWTOOTH_WAVE = sawtooth;
   SID_REG_CONTROLREG.TRIANGLE_WAVE = triangle;
-  //TODO: add PWM
+  setPWLo(pwm);
+  setPWHi(pwm >> 8);  
+
   SIDREG(SID_ADDR_ATTACK_DECAY) = *(char*)&SID_REG_ATTACK_DECAY;        //TODO: Make this a static function to save space.
   SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE; 
   SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;  
 }
 
-void SID::setVolume(byte voice, byte volume)  //TODO: get rid of voice
+void SID::setVolume(byte volume)  //TODO: get rid of voice
 {
   SID_REG_MODE_VOLUME.VOLUME = volume;
   SIDREG(SID_ADDR_FILTER_MODE_VOL) = *(char*)&SID_REG_MODE_VOLUME;
@@ -204,7 +228,6 @@ void SID::reset(){
   SID_REG_MODE_VOLUME.LP = 0;
   SID_REG_MODE_VOLUME.VOLUME = 0x0;
   SIDREG(SID_ADDR_FILTER_MODE_VOL) = *(char*)&SID_REG_MODE_VOLUME;
-  //SIDREG(SID_ADDR_FILTER_MODE_VOL) = 0xF; //TODO: Set this to zero
 }
 
 

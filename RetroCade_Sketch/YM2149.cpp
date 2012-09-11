@@ -8,10 +8,6 @@
  *  License		GPL
  */
 #include "YM2149.h"
-//#include "WProgram.h"
-//#include <inttypes.h> 
-//#include <zpuino.h>
-//#include <zpuino-types.h>
  
 const int YM2149::MIDI2freq[129] = {//MIDI note number
   15289, 14431, 13621, 12856, 12135, 11454, 10811, 10204,//0-7
@@ -40,7 +36,6 @@ const byte YM2149::YM_ADDR_FREQ_Array[4] = {
    YM_ADDR_FREQ_C
 };
 
-//makes the setup for the Yamaha YMZ294 component
 YM2149::YM2149(){  
   //no noise 
   writeData(YM_ADDR_NOISE, 0x00);
@@ -78,7 +73,6 @@ void YM2149::setNote(byte voice, int MIDINote, boolean active)
 
 void YM2149::setNoise(byte voice, byte freq, boolean active)
 {
-  //int address;
   switch (voice) {
     case 1:
       YM_REG_MIXER.NOISEA = active;
