@@ -127,6 +127,8 @@ void setup(){
   
    ///Setup the pin modes for the YM2149 and SID
    ym2149.V1.setVolume(0x7f);
+   ym2149.V2.setVolume(0x7f);
+   ym2149.V3.setVolume(0x7f);   
    sid.setVolume(0xf);
 
   sid.V1.setInstrument(0,0,15,0,0,0,0,1,0); //Calliope
@@ -220,13 +222,13 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
         sid.V3.setNote(pitch, 0);
         break;
       case 4:
-        ym2149.V1.setNote(pitch, 0);
+        ym2149.V1.setNote(128, 1);
         break;
       case 5:
-        ym2149.V2.setNote(pitch, 0);
+        ym2149.V2.setNote(128, 1);
         break;
       case 6:
-        ym2149.V3.setNote(pitch, 0);
+        ym2149.V3.setNote(128, 1);
         break;
       default:
         return;

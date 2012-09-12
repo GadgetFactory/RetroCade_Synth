@@ -39,9 +39,10 @@ class YMVoice
     void setVolume(byte volume);
     void setEnvelope(boolean active);
     void setTone(boolean active);
-    void setNoise(boolean active);    
+    void setNoise(boolean active);
+    void reset();    
   private:
-    //int baseAddress;
+    int baseAddress;
     int YM_ADDR_FREQ;
     int YM_ADDR_LEVEL;
     struct YM_REG_LEVEL_STRUCT{

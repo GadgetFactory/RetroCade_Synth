@@ -29,25 +29,17 @@ const int YM2149::MIDI2freq[129] = {//MIDI note number
   0//off
 }; 
 
-    //TODO: This is not the right place for this
-    struct YM_REG_MIXER_STRUCT{
-        unsigned int EMPTY : 2;
-        unsigned int NOISEC : 1; 
-        unsigned int NOISEB : 1;
-        unsigned int NOISEA : 1;
-        unsigned int TONEC : 1; 
-        unsigned int TONEB : 1;
-        unsigned int TONEA : 1;
-    } ;    
-    YM_REG_MIXER_STRUCT YM_REG_MIXER;
-
-//const byte YM2149::YM_ADDR_FREQ_Array[4] = {
-//   YM_ADDR_FREQ_A,
-//   YM_ADDR_FREQ_A,
-//   YM_ADDR_FREQ_B,
-//   YM_ADDR_FREQ_C
-//};
-
+//TODO: This is not the right place for this
+struct YM_REG_MIXER_STRUCT{
+    unsigned int EMPTY : 2;
+    unsigned int NOISEC : 1; 
+    unsigned int NOISEB : 1;
+    unsigned int NOISEA : 1;
+    unsigned int TONEC : 1; 
+    unsigned int TONEB : 1;
+    unsigned int TONEA : 1;
+} ;    
+YM_REG_MIXER_STRUCT YM_REG_MIXER;  
 
 void YMVoice::setBase(int freqAddress, int volumeAddress)
 {
@@ -147,11 +139,21 @@ void YMVoice::setVolume(byte volume)
 //  }    
 }
 
+void YMVoice::reset()
+{
+  //set frequency to no freq
+  setNote(128,true);   
+
+  //set volume to zero
+  YM_REG_LEVEL.EMPTY = 0;  
+  YM_REG_LEVEL.MODE = 0;  
+  YM_REG_LEVEL.LEVEL = 0;   
+  YM2149REG(YM_ADDR_LEVEL) = *(char*)&YM_REG_LEVEL;
+}
+
 YM2149::YM2149(){  
-  //no noise 
-  writeData(YM_ADDR_NOISE, 0x00);
   //mixer
-  writeData(YM_ADDR_MIXER, 0x38);
+  //writeData(YM_ADDR_MIXER, 0x38);
   V1.setBase(YM_ADDR_FREQ_A, YM_ADDR_LEVEL_A);
   V2.setBase(YM_ADDR_FREQ_B, YM_ADDR_LEVEL_B);
   V3.setBase(YM_ADDR_FREQ_C, YM_ADDR_LEVEL_C);  
@@ -195,38 +197,32 @@ void YM2149::setEnvelopeHOLD(boolean active)
 }
 
 void YM2149::reset(){
+  //no noise 
+  writeData(YM_ADDR_NOISE, 0x00);
+  
+  //turn off noise and audio channels
+  YM_REG_MIXER.EMPTY = 0;
+  YM_REG_MIXER.NOISEC = 1;
+  YM_REG_MIXER.NOISEB = 1;
+  YM_REG_MIXER.NOISEA = 1;
+  YM_REG_MIXER.TONEC = 1;
+  YM_REG_MIXER.TONEB = 1;
+  YM_REG_MIXER.TONEA = 1;    
+  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;   
+  
+  //set freq of envelope to zero
+  setEnvelopeFrequency(0);
+  
+  //set shape of envelope to defaults
   YM_REG_ENVSHAPE.EMPTY = 0;
   YM_REG_ENVSHAPE.CONT = 1;
   YM_REG_ENVSHAPE.ATT = 1;
   YM_REG_ENVSHAPE.ALT = 1;
   YM_REG_ENVSHAPE.HOLD = 1;  
-  
-  YM_REG_MIXER.EMPTY = 0;
-  YM_REG_MIXER.NOISEC = 1;
-  YM_REG_MIXER.NOISEB = 1;
-  YM_REG_MIXER.NOISEA = 1;
-  YM_REG_MIXER.TONEC = 0;
-  YM_REG_MIXER.TONEB = 0;
-  YM_REG_MIXER.TONEA = 0;  
-  
-  //TODO: move these to voice reset
-//  YM_REG_VA_LEVEL.EMPTY = 0;  
-//  YM_REG_VA_LEVEL.MODE = 0;  
-//  YM_REG_VA_LEVEL.LEVEL = 0;   
-//  
-//  YM_REG_VB_LEVEL.EMPTY = 0; 
-//  YM_REG_VB_LEVEL.MODE = 0;  
-//  YM_REG_VB_LEVEL.LEVEL = 0;  
-// 
-//  YM_REG_VC_LEVEL.EMPTY = 0;
-//  YM_REG_VB_LEVEL.MODE = 0;  
-//  YM_REG_VB_LEVEL.LEVEL = 0;  
-
-  //YM2149REG(YM_ADDR_LEVEL_A) = *(char*)&YM_REG_VA_LEVEL;
   YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
-  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER; 
-
-//  setNote(1,128,true);   
-//  setNote(2,128,true);     
-//  setNote(3,128,true);   
+  
+  //reset voices
+  V1.reset();
+  V2.reset();
+  V3.reset();
 }  
