@@ -5,15 +5,17 @@
  *	Version		1.0
  *  @author		Jack Gassett 
  *	@date		4/10/12
- *  License		Creative Commons Atribution
+ *  License		GPL
  */
 
 #ifndef LIB_YM2149_H_
 #define LIB_YM2149_H_
 
 #include <inttypes.h> 
-#include <zpuino.h>
 #include <zpuino-types.h>
+#include <zpuino.h>
+#include "Arduino.h"
+
 
 #define YM_ADDR_FREQ_A 0x00
 #define YM_ADDR_FREQ_B 0x02
@@ -27,42 +29,62 @@
 #define YM_ADDR_SHAPE_E 0x0D
 
 #define YM2149BASE IO_SLOT(13)
-#define YM2149REG(x) REGISTER(YM2149BASE,x)
+#define YM2149REG(x) REGISTER(YM2149BASE,x)  
 
-struct YM_REG_MIXER_STRUCT{
-    unsigned int EMPTY : 2;
-    unsigned int NOISEC : 1; 
-    unsigned int NOISEB : 1;
-    unsigned int NOISEA : 1;
-    unsigned int TONEC : 1; 
-    unsigned int TONEB : 1;
-    unsigned int TONEA : 1;
-} ;
-
-
-struct YM_REG_ENVSHAPE_STRUCT{
-    unsigned int EMPTY : 4;
-    unsigned int CONT : 1; 
-    unsigned int ATT : 1;
-    unsigned int ALT : 1;
-    unsigned int HOLD : 1;      
-} ;
-
-
-struct YM_REG_LEVEL_STRUCT{
-    unsigned int EMPTY : 3;
-    unsigned int MODE : 1; 
-    unsigned int LEVEL : 4;
-} ;
-
-struct ymframe {
-	unsigned char regval[14];
+class YMVoice
+{ 
+  public:
+    void setBase(int freqAddress, int volumeAddress);
+    void setNote(int note, boolean active);
+    void setVolume(byte volume);
+    void setEnvelope(boolean active);
+    void setTone(boolean active);
+    void setNoise(boolean active);    
+  private:
+    //int baseAddress;
+    int YM_ADDR_FREQ;
+    int YM_ADDR_LEVEL;
+    struct YM_REG_LEVEL_STRUCT{
+        unsigned int EMPTY : 3;
+        unsigned int MODE : 1; 
+        unsigned int LEVEL : 4;
+    } ;  
+    YM_REG_LEVEL_STRUCT YM_REG_LEVEL;     
 };
 
-void ym_write_data(unsigned char address, unsigned char data);
-void ym_set_freq(unsigned char address, int freq);
-//void set_ch(unsigned char address, int i);
-void setVolumeYM2149(byte pVolume);
-void setupYM2149();
+class YM2149
+{
+  public:
+    YMVoice V1;
+    YMVoice V2;
+    YMVoice V3;    
+    YM2149();
+    static void writeData(unsigned char address, unsigned char data);
+    void setNoiseFrequency(byte freq);    
+    void setEnvelopeFrequency(int freq);
+    void setEnvelopeCONT(boolean active);
+    void setEnvelopeATT(boolean active);
+    void setEnvelopeALT(boolean active);
+    void setEnvelopeHOLD(boolean active);       
+    void reset();    
+    static const int MIDI2freq[129];    
+  private:
 
+    struct YM_REG_ENVSHAPE_STRUCT{
+        unsigned int EMPTY : 4;
+        unsigned int CONT : 1; 
+        unsigned int ATT : 1;
+        unsigned int ALT : 1;
+        unsigned int HOLD : 1;      
+    } ;
+    struct ymframe {
+    	unsigned char regval[14];
+    };  
+    //static const byte YM_ADDR_FREQ_Array[4];     
+    
+    YM_REG_ENVSHAPE_STRUCT YM_REG_ENVSHAPE;
+//    YM_REG_LEVEL_STRUCT YM_REG_VA_LEVEL;
+//    YM_REG_LEVEL_STRUCT YM_REG_VB_LEVEL;
+//    YM_REG_LEVEL_STRUCT YM_REG_VC_LEVEL;  
+};
 #endif // LIB_YM2149_H_
