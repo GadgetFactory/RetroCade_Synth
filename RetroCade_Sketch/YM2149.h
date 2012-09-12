@@ -40,7 +40,8 @@ class YMVoice
     void setEnvelope(boolean active);
     void setTone(boolean active);
     void setNoise(boolean active);
-    void reset();    
+    void reset(); 
+    void handleCC(byte number, byte value);    
   private:
     int baseAddress;
     int YM_ADDR_FREQ;
@@ -61,31 +62,17 @@ class YM2149
     YMVoice V3;    
     YM2149();
     static void writeData(unsigned char address, unsigned char data);
-    void setNoiseFrequency(byte freq);    
-    void setEnvelopeFrequency(int freq);
-    void setEnvelopeCONT(boolean active);
-    void setEnvelopeATT(boolean active);
-    void setEnvelopeALT(boolean active);
-    void setEnvelopeHOLD(boolean active);       
+    static void setNoiseFrequency(byte freq);    
+    static void setEnvelopeFrequency(int freq);
+    static void setEnvelopeFrequencyLo(byte freq);
+    static void setEnvelopeFrequencyHi(byte freq);    
+    static void setEnvelopeCONT(boolean active);
+    static void setEnvelopeATT(boolean active);
+    static void setEnvelopeALT(boolean active);
+    static void setEnvelopeHOLD(boolean active);       
     void reset();    
-    static const int MIDI2freq[129];    
+    static const int MIDI2freq[129];  
   private:
 
-    struct YM_REG_ENVSHAPE_STRUCT{
-        unsigned int EMPTY : 4;
-        unsigned int CONT : 1; 
-        unsigned int ATT : 1;
-        unsigned int ALT : 1;
-        unsigned int HOLD : 1;      
-    } ;
-    struct ymframe {
-    	unsigned char regval[14];
-    };  
-    //static const byte YM_ADDR_FREQ_Array[4];     
-    
-    YM_REG_ENVSHAPE_STRUCT YM_REG_ENVSHAPE;
-//    YM_REG_LEVEL_STRUCT YM_REG_VA_LEVEL;
-//    YM_REG_LEVEL_STRUCT YM_REG_VB_LEVEL;
-//    YM_REG_LEVEL_STRUCT YM_REG_VC_LEVEL;  
 };
 #endif // LIB_YM2149_H_

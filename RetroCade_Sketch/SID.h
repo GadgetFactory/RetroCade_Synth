@@ -53,6 +53,7 @@ class SIDVoice
     void setEnvelopeSustain(byte level);
     void setEnvelopeRelease(byte rate); 
     void setInstrument(byte attack, byte decay, byte sustain, byte release, bool noise, bool square, bool sawtooth, bool triangle, int pwm);
+    void handleCC(byte number, byte value);
     void reset(); 
   private:
     void writeData(unsigned char address, unsigned char data);

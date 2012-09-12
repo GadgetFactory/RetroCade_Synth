@@ -19,7 +19,7 @@ http://www.gadgetfactory.net
 This example code is Creative Commons Attribution.
 */
 
-
+#include "RetroCade.h"
 #include "SID.h"
 #include "YM2149.h"
 #include "MIDI.h" //Be sure to change MIDI.h to user Serial1 instead of Serial
@@ -28,108 +28,28 @@ This example code is Creative Commons Attribution.
 //#include "cbuffer.h"
 
 #undef DO_CHECKS
-#define DEBUG
+#undef DEBUG
 
-#define AUDIO_J1_L WING_B_1
-#define AUDIO_J1_R WING_B_0
-
-#define AUDIO_J2_L WING_B_3
-#define AUDIO_J2_R WING_B_2
-
-#define SERIAL1RXPIN WING_C_1
-#define SERIAL1TXPIN WING_C_0
-
-//Joystick
-#define JSELECT WING_B_15
-#define JDOWN WING_B_14
-#define JUP WING_B_13
-#define JRIGHT WING_B_12
-#define JLEFT WING_B_11
-
-//For SPI ADC1
-#define SELPIN WING_C_9 //Selection Pin
-#define DATAOUT WING_C_8 //MOSI
-#define DATAIN WING_C_7 //MISO
-#define SPICLOCK WING_C_6 //Clock
-
-//For SPI ADC2
-#define SELPIN2 WING_C_5 //Selection Pin
-#define DATAOUT2 WING_C_4 //MOSI
-#define DATAIN2 WING_C_3 //MISO
-#define SPICLOCK2 WING_C_2 //Clock
-
-//SD Card
-#define CSPIN WING_C_13
-#define SDIPIN WING_C_12
-#define SCKPIN WING_C_11
-#define SDOPIN WING_C_10
-
+//Instantiate the objects we will be using.
+RETROCADE retrocade;
 YM2149 ym2149;
 SID sid;
 
-//byte nrpn;
-//byte transpose_v1;
-//byte transpose_v2;
-//byte transpose_v3;
-//int pitch, playYM, playMOD, playTrack, counter, ymTimeStamp, resetYMFlag;
-//int freqV1, freqV2, freqV3, freqV4, freqV5, freqV6;
+//typedef void (F) ();
 
 void setup(){
+  #ifdef DEBUG
+    Serial.begin(9600);
+  #endif
 
+  //Setup pins for RetroCade MegaWing
+  retrocade.setupMegaWing();
   
-#ifdef DEBUG
-  Serial.begin(9600);
-#endif
-
-  //Move the audio output to the appropriate pins on the Papilio Hardware
-  pinMode(AUDIO_J1_L,OUTPUT);
-  digitalWrite(AUDIO_J1_L,HIGH);
-  outputPinForFunction(AUDIO_J1_L, 8);
-  pinModePPS(AUDIO_J1_L, HIGH);
-
-  pinMode(AUDIO_J1_R,OUTPUT);
-  digitalWrite(AUDIO_J1_R,HIGH);
-  outputPinForFunction(AUDIO_J1_R, 8);
-  pinModePPS(AUDIO_J1_R, HIGH);
-  
-  pinMode(AUDIO_J2_L,OUTPUT);
-  digitalWrite(AUDIO_J2_L,HIGH);
-  outputPinForFunction(AUDIO_J2_L, 8);
-  pinModePPS(AUDIO_J2_L, HIGH);
-
-  pinMode(AUDIO_J2_R,OUTPUT);
-  digitalWrite(AUDIO_J2_R,HIGH);
-  outputPinForFunction(AUDIO_J2_R, 8);
-  pinModePPS(AUDIO_J2_R, HIGH);
-  
-  //Move the second serial port pin to where we need it, this is for MIDI input.
-  pinMode(SERIAL1RXPIN,INPUT);
-  inputPinForFunction(SERIAL1RXPIN, 1);
-  pinMode(SERIAL1TXPIN,OUTPUT);
-  //digitalWrite(SERIAL1TXPIN,HIGH);
-  outputPinForFunction(SERIAL1TXPIN, 6);
-  pinModePPS(SERIAL1TXPIN, HIGH);
- 
-  //Setup SD Card
-  outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
-  pinModePPS(SDIPIN,HIGH);
-  pinMode(SDIPIN,OUTPUT);
-
-  outputPinForFunction( SCKPIN, IOPIN_USPI_SCK);
-  pinModePPS(SCKPIN,HIGH);
-  pinMode(SCKPIN,OUTPUT);
-
-  pinModePPS(CSPIN,LOW);
-  pinMode(CSPIN,OUTPUT);
-
-  inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
-  pinMode(SDOPIN,INPUT);
-  
-   ///Setup the pin modes for the YM2149 and SID
-   ym2149.V1.setVolume(0x7f);
-   ym2149.V2.setVolume(0x7f);
-   ym2149.V3.setVolume(0x7f);   
-   sid.setVolume(0xf);
+  ///Setup volume to max levels
+  ym2149.V1.setVolume(15);
+  ym2149.V2.setVolume(15);
+  ym2149.V3.setVolume(15);   
+  sid.setVolume(15);
 
   sid.V1.setInstrument(0,0,15,0,0,0,0,1,0); //Calliope
 // sid.V1.setInstrument(0,5,5,0,1,0,0,0,0); //Drum
@@ -168,6 +88,91 @@ void HandleControlChange(byte channel, byte number, byte value) {
   Serial.print("Change Control Value: ");
   Serial.println(value);
  #endif
+ //SIDVoice *sidVoicePTR;
+  
+  //Setup the voice for each channel
+  switch (channel) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+    case 1:
+      sid.V1.handleCC(number, value);
+      break;
+    case 2:
+      sid.V2.handleCC(number, value);
+      break;
+    case 3:
+      sid.V3.handleCC(number, value);
+      break;
+    case 4:
+      ym2149.V1.handleCC(number, value);
+      break;
+    case 5:
+      ym2149.V2.handleCC(number, value);
+      break;
+    case 6:
+      ym2149.V3.handleCC(number, value);
+      break;      
+    default:
+      return;
+      break;       
+  }   
+  
+//  //Setup the voice for each channel
+//  switch (channel) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+//    case 1:
+//      sidVoicePTR = &sid.V1;
+//      break;
+//    case 2:
+//      sidVoicePTR = &sid.V2;
+//      break;
+//    case 3:
+//      sidVoicePTR = &sid.V3;
+//      break;
+//    default:
+//      return;
+//      break;       
+//  } 
+  
+//  //Handle the Control Changes for SID
+//  switch (number) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+//    case 2:
+//        sidVoicePTR->setTriangle(value);
+//      break;
+//    case 3:
+//      sidVoicePTR->setSawtooth(value);
+//      break;
+//    case 4:
+//      sidVoicePTR->setSquare(value);
+//      break;
+//    case 5:
+//      sidVoicePTR->setNoise(value);
+//      break;    
+//    case 6:
+//      sidVoicePTR->setRingMod(value);
+//      break; 
+//    case 7:
+//      sidVoicePTR->setSync(value);
+//      break;    
+//    case 71:
+//      sidVoicePTR->setEnvelopeDecay(value/8);
+//      break;    
+//    case 74:
+//      sidVoicePTR->setEnvelopeAttack(value/8);
+//      break;        
+//    case 75:
+//      sidVoicePTR->setPWLo(value << 1);
+//      break;    
+//    case 76:
+//      sidVoicePTR->setPWHi(value);
+//      break;    
+//    case 91:
+//      sidVoicePTR->setEnvelopeSustain(value/8);
+//      break;    
+//    case 93:
+//      sidVoicePTR->setEnvelopeRelease(value/8);
+//      break;               
+//    default:
+//      return;
+//      break;       
+//  }     
 }
 
 void HandleNoteOn(byte channel, byte pitch, byte velocity) {

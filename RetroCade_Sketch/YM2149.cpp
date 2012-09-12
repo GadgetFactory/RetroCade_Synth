@@ -41,6 +41,15 @@ struct YM_REG_MIXER_STRUCT{
 } ;    
 YM_REG_MIXER_STRUCT YM_REG_MIXER;  
 
+struct YM_REG_ENVSHAPE_STRUCT{
+    unsigned int EMPTY : 4;
+    unsigned int CONT : 1; 
+    unsigned int ATT : 1;
+    unsigned int ALT : 1;
+    unsigned int HOLD : 1;      
+} ;
+YM_REG_ENVSHAPE_STRUCT YM_REG_ENVSHAPE;   
+
 void YMVoice::setBase(int freqAddress, int volumeAddress)
 {
   YM_ADDR_FREQ = freqAddress;
@@ -49,42 +58,9 @@ void YMVoice::setBase(int freqAddress, int volumeAddress)
 
 void YMVoice::setNote(int note, boolean active)
 {
-  switch (YM_ADDR_FREQ) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-    case 0:
-      YM_REG_MIXER.TONEA = !active;
-      break;
-    case 2:
-      YM_REG_MIXER.TONEB = !active;
-      break;
-    case 4:
-      YM_REG_MIXER.TONEC = !active;
-      break;
-    default:
-      return;
-      break;       
-  }
-  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;  
+  //setTone(active);
   YM2149::writeData(YM_ADDR_FREQ, YM2149::MIDI2freq[note]);
   YM2149::writeData(YM_ADDR_FREQ+1, (YM2149::MIDI2freq[note] >> 8));  
-  
-//  switch (voice) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-//    case 1:
-//      YM_REG_MIXER.TONEA = !active;
-//      break;
-//    case 2:
-//      YM_REG_MIXER.TONEB = !active;
-//      break;
-//    case 3:
-//      YM_REG_MIXER.TONEC = !active;
-//      break;
-//    default:
-//      return;
-//      break;       
-//  }
-//  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
-//
-//  writeData(YM_ADDR_FREQ_Array[voice], MIDI2freq[MIDINote]);
-//  writeData(YM_ADDR_FREQ_Array[voice]+1, (MIDI2freq[MIDINote] >> 8));
 }
 
 void YMVoice::setNoise(boolean active)
@@ -101,42 +77,38 @@ void YMVoice::setNoise(boolean active)
       break;
   }  
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
-//  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
-//  YM2149REG(YM_ADDR_NOISE) = freq;    //TODO There should be a way to just keep previous value. Make it an optional parameter?
 }
 
 void YMVoice::setEnvelope(boolean active)
 {
-//  switch (YM_ADDR_FREQ) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-//    case 0:
-//      YM_REG_VA_LEVEL.MODE = active;
-//      YM2149REG(YM_ADDR_LEVEL_A) = *(char*)&YM_REG_VA_LEVEL;
-//      break;
-//    case 2:
-//      YM_REG_VB_LEVEL.MODE = active;
-//      YM2149REG(YM_ADDR_LEVEL_B) = *(char*)&YM_REG_VB_LEVEL;
-//      break;
-//    case 4:
-//      YM_REG_VC_LEVEL.MODE = active;
-//      YM2149REG(YM_ADDR_LEVEL_C) = *(char*)&YM_REG_VC_LEVEL;
-//      break;
-//  }  
+      YM_REG_LEVEL.MODE = active;
+      YM2149REG(YM_ADDR_LEVEL) = *(char*)&YM_REG_LEVEL;  
+}
+
+void YMVoice::setTone(boolean active)
+{
+  switch (YM_ADDR_FREQ) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+    case 0:
+      YM_REG_MIXER.TONEA = !active;
+      break;
+    case 2:
+      YM_REG_MIXER.TONEB = !active;
+      break;
+    case 4:
+      YM_REG_MIXER.TONEC = !active;
+      break;
+    default:
+      return;
+      break;       
+  }
+  YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER; 
 }
 
 void YMVoice::setVolume(byte volume)
 {
-  YM2149::writeData(YM_ADDR_LEVEL, volume & 0x0f);
-//  switch (voice) {
-//    case 1:
-//      writeData(YM_ADDR_LEVEL_A, volume & 0x0f);
-//      break;
-//    case 2:
-//      writeData(YM_ADDR_LEVEL_B, volume & 0x0f);
-//      break;
-//    case 3:
-//      writeData(YM_ADDR_LEVEL_C, volume & 0x0f);
-//      break;
-//  }    
+  YM_REG_LEVEL.LEVEL = volume;   
+  YM2149REG(YM_ADDR_LEVEL) = *(char*)&YM_REG_LEVEL;  
+  //YM2149::writeData(YM_ADDR_LEVEL, volume & 0x0f);
 }
 
 void YMVoice::reset()
@@ -144,16 +116,57 @@ void YMVoice::reset()
   //set frequency to no freq
   setNote(128,true);   
 
-  //set volume to zero
+  //set volume to zero and envelope mode off
   YM_REG_LEVEL.EMPTY = 0;  
   YM_REG_LEVEL.MODE = 0;  
   YM_REG_LEVEL.LEVEL = 0;   
   YM2149REG(YM_ADDR_LEVEL) = *(char*)&YM_REG_LEVEL;
 }
 
+void YMVoice::handleCC(byte number, byte value)
+{
+  //Handle the Control Changes for SID
+  switch (number) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+    case 2:
+      YM2149::setEnvelopeCONT(value);
+      break;
+    case 3:
+      YM2149::setEnvelopeATT(value);
+      break;
+    case 4:
+      YM2149::setEnvelopeALT(value);
+      break;
+    case 5:
+      YM2149::setEnvelopeHOLD(value);
+      break;    
+    case 6:
+      setNoise(value);
+      break; 
+    case 7:
+      setTone(value);
+      break;    
+    case 8:
+      setEnvelope(value);
+      break; 
+    case 71:
+      setVolume(value/8);
+      break;       
+    case 74:
+      //YM2149::setNoiseFrequency(value);
+      break;        
+    case 75:
+      YM2149::setEnvelopeFrequencyLo(value << 1);
+      break;    
+    case 76:
+      YM2149::setEnvelopeFrequencyHi(value << 1);
+      break;                 
+    default:
+      return;
+      break;       
+  }     
+}
+
 YM2149::YM2149(){  
-  //mixer
-  //writeData(YM_ADDR_MIXER, 0x38);
   V1.setBase(YM_ADDR_FREQ_A, YM_ADDR_LEVEL_A);
   V2.setBase(YM_ADDR_FREQ_B, YM_ADDR_LEVEL_B);
   V3.setBase(YM_ADDR_FREQ_C, YM_ADDR_LEVEL_C);  
@@ -169,6 +182,16 @@ void YM2149::writeData(unsigned char address, unsigned char data)
 void YM2149::setEnvelopeFrequency(int freq)
 {    
   writeData(YM_ADDR_FREQ_E, freq);
+  writeData(YM_ADDR_FREQ_E+1, (freq >> 8));
+}
+
+void YM2149::setEnvelopeFrequencyLo(byte freq)
+{    
+  writeData(YM_ADDR_FREQ_E, freq);
+}
+
+void YM2149::setEnvelopeFrequencyHi(byte freq)
+{    
   writeData(YM_ADDR_FREQ_E+1, (freq >> 8));
 }
 

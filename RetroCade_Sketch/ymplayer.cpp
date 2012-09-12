@@ -1,3 +1,7 @@
+//    struct ymframe {                //TODO: This should go in ymplayer.h
+//    	unsigned char regval[14];
+//    };  
+
 //CircularBuffer<ymframe,2> YMaudioBuffer;
 //
 //SmallFSFile ymaudiofile;

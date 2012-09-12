@@ -839,3 +839,29 @@
 //  SIDREG(SID_ADDR_V3_ATTACK_DECAY) = *(char*)&SID_REG_V3_ATTACK_DECAY;
 //  SIDREG(SID_ADDR_V3_SUSTAIN_RELEASE) = *(char*)&SID_REG_V3_SUSTAIN_RELEASE; 
 //  SIDREG(SID_ADDR_V3_CONTROLREG) = *(char*)&SID_REG_V3_CONTROLREG;      
+
+//Test of using a pointer to a function
+////typedef void (*ControlChangePointers)();
+////typedef void (*F) ();
+//
+////F &SID::setVolume;
+////F resetPTR;
+//
+////F *af[1];
+//
+////F af[10];
+//
+////af[0] = &SID::setVolume;
+//
+////ControlChangePointers CCs[];
+//
+//void (*pt2Volume)(byte) = NULL;
+////pt2Volume = &SID::setVolume;
+////(sid.*pt2Volume)(15);
+//
+//void (*af[1]) (void) = 
+//
+//af[0] = &SID::setVolume;
+//
+////CCs[0]=pt2Volume;
+////CCs[0](15);

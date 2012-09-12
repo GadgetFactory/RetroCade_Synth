@@ -191,6 +191,52 @@ void SIDVoice::setEnvelopeRelease(byte rate)
   SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE;
 }
 
+void SIDVoice::handleCC(byte number, byte value)
+{
+  //Handle the Control Changes for SID
+  switch (number) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+    case 2:
+      setTriangle(value);
+      break;
+    case 3:
+      setSawtooth(value);
+      break;
+    case 4:
+      setSquare(value);
+      break;
+    case 5:
+      setNoise(value);
+      break;    
+    case 6:
+      setRingMod(value);
+      break; 
+    case 7:
+      setSync(value);
+      break;    
+    case 71:
+      setEnvelopeDecay(value/8);
+      break;    
+    case 74:
+      setEnvelopeAttack(value/8);
+      break;        
+    case 75:
+      setPWLo(value << 1);
+      break;    
+    case 76:
+      setPWHi(value);
+      break;    
+    case 91:
+      setEnvelopeSustain(value/8);
+      break;    
+    case 93:
+      setEnvelopeRelease(value/8);
+      break;               
+    default:
+      return;
+      break;       
+  }     
+}
+
 void SIDVoice::setInstrument(byte attack, byte decay, byte sustain, byte rel, bool noise, bool square, bool sawtooth, bool triangle, int pwm)
 {
   SID_REG_ATTACK_DECAY.ATTACK = attack;
