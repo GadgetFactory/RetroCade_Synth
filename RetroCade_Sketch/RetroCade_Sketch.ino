@@ -28,7 +28,7 @@ This example code is Creative Commons Attribution.
 //#include "cbuffer.h"
 
 #undef DO_CHECKS
-#define DEBUG
+#undef DEBUG
 
 //Instantiate the objects we will be using.
 RETROCADE retrocade;
@@ -78,36 +78,7 @@ void loop(){
 
 void _zpu_interrupt()
 {
-//  counter++;
-//  if ( counter == 340 ) {
-//        counter = 1;
-//        ymTimeStamp++;
-//	// Play YM file
-//	if (YMaudioBuffer.hasData()) {
-//		int i;
-//		ymframe f = YMaudioBuffer.pop();
-//		for (i=0;i<14; i++) {
-//			YM2149REG(i) = f.regval[i];
-//		}
-//	}
-//        else{ 
-//          if (resetYMFlag == 1){
-//            //reset_ym2149();
-//            resetYMFlag = 0;
-//            ymTimeStamp = 1;
-//          }
-//        }
-//  }
-//	// Play mod file
-//	if (modplayer.audioBuffer.hasData()) {
-//		unsigned v = modplayer.audioBuffer.pop();
-//		SIGMADELTADATA = v;
-//	} else {
-//          //SIGMADELTADATA=0x80008000;
-//          modplayer.underruns++;
-//	}
-//	TMR0CTL &= ~(BIT(TCTLIF));
-modplayer._zpu_interrupt();
+  modplayer._zpu_interrupt();
 }
 
 void HandleControlChange(byte channel, byte number, byte value) {
@@ -132,9 +103,31 @@ void HandleControlChange(byte channel, byte number, byte value) {
       ym2149.V3.handleCC(number, value);
       break;      
     default:
-      return;
+      //return;
       break;       
   }  
+ 
+  switch (number) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+    case 117:
+      modplayer.play(!value);
+      break;
+    case 9:
+      modplayer.loadFile("track1.mod");
+      break;
+    case 11:
+      modplayer.loadFile("track2.mod");
+      break;
+    case 13:
+      modplayer.loadFile("track3.mod");
+      break;   
+    case 84:
+      modplayer.volume(value <<1);
+      break;        
+    default:
+      return;
+      break;       
+  }    
+  
  #ifdef DEBUG
   Serial.print("Change Control Channel: ");
   Serial.println(channel);

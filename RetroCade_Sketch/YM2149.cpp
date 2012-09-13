@@ -75,6 +75,9 @@ void YMVoice::setNoise(boolean active)
     case 4:
       YM_REG_MIXER.NOISEC = !active;
       break;
+    default:
+      return;
+      break;        
   }  
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
 }

@@ -6,7 +6,7 @@ MODPLAYER::MODPLAYER(){
  
 void MODPLAYER::setup(){    
   underruns = 0;
-  playing = true;
+  playing = false;
 //  Serial.println("Press Key to start");
 //    while (!Serial.available());
 //  Serial.flush();
@@ -28,6 +28,22 @@ void MODPLAYER::setup(){
 	INTRMASK = BIT(INTRLINE_TIMER0); // Enable Timer0 interrupt
 
 	INTRCTL=1;   
+}
+
+void MODPLAYER::loadFile(const char* name)
+{
+  modfile = SmallFS.open(name);
+  mod = pt_init_smallfs(modfile);  
+}
+
+void MODPLAYER::play(boolean play)
+{
+  playing = play;
+}
+
+void MODPLAYER::volume(int volume)
+{
+  mod->mastervolume = volume;
 }
 
 void MODPLAYER::audiofill()
@@ -92,13 +108,13 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(SmallFSFile &file)
 	unsigned char buf[256]; // Some buffer. Let's hope this fits on stack.
 	unsigned char *bp=&buf[0];
 
-	int i, j, k,l;
+	int i, j, k;
 	//double tempf;
 	pt_mod_s *mod;
 	pt_sample_s *s;
-	pt_pattern_s *pat;
-	int i2, i3;
-	pt_patterndata_s *p;
+	//pt_pattern_s *pat;
+	//int i2, i3;
+	//pt_patterndata_s *p;
 
 	/* M.K. signature */
 

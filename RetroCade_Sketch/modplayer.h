@@ -24,16 +24,15 @@ class MODPLAYER
   public: 
     MODPLAYER();
     void setup();
-    //void loadFile(String name);
-    void play();    
-    void stop(); 
+    void loadFile(const char* name);
+    void play(boolean play);    
     boolean getPlaying();
     void audiofill();  
-    CircularBuffer<unsigned,7> audioBuffer;  //TODO: make this private  
-    unsigned underruns;    //TODO: make private
-    void _zpu_interrupt();    
+    void _zpu_interrupt(); 
+    void volume(int volume);   
   private:
-
+    CircularBuffer<unsigned,7> audioBuffer;   
+    unsigned underruns;
     pt_mod_s *pt_init_smallfs(SmallFSFile &file);
     SmallFSFile modfile;
     char buf[128];

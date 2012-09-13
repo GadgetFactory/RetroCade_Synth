@@ -1,6 +1,6 @@
 /*
 **	protracker 2.3a player
-**	(C) 2001, 2003 Ronald Hof, Timm S. Müller & Per Johansson ;)
+**	(C) 2001, 2003 Ronald Hof, Timm S. Mï¿½ller & Per Johansson ;)
 **
 **	TODO: check exact clipping behavior at places
 **	where finetuning is involved
@@ -20,7 +20,7 @@
 
 
  The "Certified 100%" means that the effect works 100% when used in a single use mode. However
- it´s not 100% sure it works in all conditions with combined effects.
+ itï¿½s not 100% sure it works in all conditions with combined effects.
 
 
  \Per Johansson
@@ -379,7 +379,7 @@ static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
 	int i, j, k;
 	char UsePreviousVolume;
 #ifdef EMBEDDED
-	pt_pattern_s p;
+	//pt_pattern_s p;
 	pt_patterndata_s ptd;
 	unsigned char buf[4];
 #else
@@ -389,9 +389,9 @@ static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
 	pt_channel_s *c;
 	pt_sample_s *s;
 	int newsp;
-	int repeat;
-	int replen;
-    static int debugpos=0;
+	//int repeat;
+	//int replen;
+    //static int debugpos=0;
 
 
 	if (mod->patdelay)
