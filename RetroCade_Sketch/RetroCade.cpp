@@ -11,10 +11,12 @@
 
 void RETROCADE::setupMegaWing()
 {
+  SIGMADELTACTL=0x3;
   //Move the audio output to the appropriate pins on the Papilio Hardware
   pinMode(AUDIO_J1_L,OUTPUT);
   digitalWrite(AUDIO_J1_L,HIGH);
-  outputPinForFunction(AUDIO_J1_L, 8);
+  outputPinForFunction(AUDIO_J1_L, IOPIN_SIGMADELTA1);
+  //outputPinForFunction(AUDIO_J1_L, 8);
   pinModePPS(AUDIO_J1_L, HIGH);
 
   pinMode(AUDIO_J1_R,OUTPUT);

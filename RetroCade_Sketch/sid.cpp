@@ -157,13 +157,12 @@ void SIDVoice::setSquare(boolean active)
 
 void SIDVoice::setSquare(boolean active, int pwm)
 {
-  SID_REG_CONTROLREG.SQUARE_WAVE = active; 
+  SID_REG_CONTROLREG.SQUARE_WAVE = active;
   SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;
   setPWLo(pwm);
   setPWHi(pwm >> 8);  
 }
  
-
 void SIDVoice::setNoise(boolean active)
 {
   SID_REG_CONTROLREG.NOISE_WAVE = active; 
