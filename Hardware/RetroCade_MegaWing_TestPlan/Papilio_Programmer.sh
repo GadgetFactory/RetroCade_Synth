@@ -2,7 +2,7 @@
 # Creative Commons Attribution license
 # Made for the Papilio FPGA boards
 
-COM_PORT=COM12
+COM_PORT=COM9
 	
 
 		echo "Programming Arcade MegaWing Verification to Papilio"
@@ -17,7 +17,7 @@ COM_PORT=COM12
 				;;	
 			XC3S500E)
 				echo "Programming a Papilio One 500K"
-				bitfile=zpuino-1.0-papilioone-500-apollo.bit
+				bitfile=RetroCade-MegaWing-TestPlan-1.0-zpuino-1.0-PapilioOne-S3E500-RetroCade-1.0.bit
 				bscan_bitfile=bscan_spi_xc3s500e.bit
 				;;
 			XC6SLX9)
@@ -32,7 +32,7 @@ COM_PORT=COM12
 		./papilio-prog.exe -v -f $bitfile -b $bscan_bitfile -sa -r
 		#Cause the Papilio to restart
 		./papilio-prog.exe -c
-		./zpuinoprogrammer.exe -s 1000000 -d\\.\\$COM_PORT -bRetroCade_MegaWing_TestPlan.bin -R -esmallfs.dat
+		# ./zpuinoprogrammer.exe -s 1000000 -d\\.\\$COM_PORT -bRetroCade_MegaWing_TestPlan.bin -R -esmallfs.dat
 		return_value=$?
 
 		
