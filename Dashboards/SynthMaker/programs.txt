@@ -2,7 +2,7 @@ Preset Table Format
 Number of programs = 15
 Number of parameters = 95
 
-Parameter	Type	User	Calliope	Drum	Accordian	Guitar	Harpsicord	Organ	Trumpet	Xylophone	Flute	Hoppa 1	Hoppa 2	Hoppa 3	Hoppa 4	Hoppa 5	
+Parameter	Type	User	Calliope	Drum	Accordian	Guitar	Harpsicord	Organ	Trumpet	Xylophone	Flute	User 1	User 2	User 3	User 4	User 5	
 V1 Fine	Float	0.417323	0.000000	0.385827	0.000000	0.000000	0.000000	0.000000	0.000000	0.000000	0.000000	0.417323	0.000000	0.000000	0.000000	0.000000
 V1 Coarse	Float	0.236220	0.000000	0.511811	0.866142	0.000000	0.007874	0.070866	0.007874	0.000000	0.000000	0.236220	0.000000	0.000000	0.000000	0.000000
 V1 Ring Fine	Float	0.944882	0.456693	0.472441	1.000000	0.000000	0.000000	0.000000	0.000000	0.000000	0.000000	0.944882	0.000000	0.000000	0.000000	0.000000
