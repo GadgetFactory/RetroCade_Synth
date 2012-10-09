@@ -15,6 +15,7 @@
 #include <zpuino-types.h>
 #include <zpuino.h>
 #include "Arduino.h"
+#include "LiquidCrystal.h"
 
 #define AUDIO_J1_L WING_B_1
 #define AUDIO_J1_R WING_B_0
@@ -33,19 +34,19 @@
 #define JLEFT WING_B_11
 
 //For SPI ADC1
-#define SELPIN WING_C_9 //Selection Pin
-#define DATAOUT WING_C_8 //MOSI
-#define DATAIN WING_C_7 //MISO
-#define SPICLOCK WING_C_6 //Clock
+#define SELPIN WING_C_9    //Selection Pin
+#define DATAOUT WING_C_8   //MOSI
+#define DATAIN  WING_C_7   //MISO
+#define SPICLOCK WING_C_6  //Clock
 
 //For SPI ADC2
-#define SELPIN2 WING_C_5 //Selection Pin
-#define DATAOUT2 WING_C_4 //MOSI
-#define DATAIN2 WING_C_3 //MISO
-#define SPICLOCK2 WING_C_2 //Clock
+#define SELPIN2 WING_C_5    //Selection Pin
+#define DATAOUT2 WING_C_4   //MOSI
+#define DATAIN2  WING_C_3   //MISO
+#define SPICLOCK2 WING_C_2  //Clock
 
 //SD Card
-#define CSPIN WING_C_13
+#define CSPIN  WING_C_13
 #define SDIPIN WING_C_12
 #define SCKPIN WING_C_11
 #define SDOPIN WING_C_10
@@ -54,6 +55,13 @@ class RETROCADE
 { 
   public:
    void setupMegaWing(); 
+   void handleJoystick();
+   void setTimeout();
+   byte getActiveChannel();
+  private:
+   byte activeChannel;
+   int activeInstrument;
+   int timeout;
 };
 
 #endif // LIB_RetroCade_H_

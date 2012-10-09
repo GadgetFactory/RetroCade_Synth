@@ -24,17 +24,20 @@ This example code is Creative Commons Attribution.
 #include "YM2149.h"
 #include "MIDI.h" //Be sure to change MIDI.h to user Serial1 instead of Serial
 #include "modplayer.h"
+#include "ymplayer.h"
 #include "SmallFS.h"
+#include <LiquidCrystal.h>
 //#include "cbuffer.h"
 
 #undef DO_CHECKS
-#undef DEBUG
+//#define DEBUG
 
 //Instantiate the objects we will be using.
 RETROCADE retrocade;
 YM2149 ym2149;
 SID sid;
 MODPLAYER modplayer;
+YMPLAYER ymplayer;
 
 void setup(){
   #ifdef DEBUG
@@ -42,6 +45,7 @@ void setup(){
   #endif
 
   modplayer.setup();
+  ymplayer.setup(&ym2149);
 
   //Setup pins for RetroCade MegaWing
   retrocade.setupMegaWing();
@@ -74,14 +78,29 @@ void loop(){
   MIDI.read();
   if (modplayer.getPlaying() == 1)
     modplayer.audiofill();
+  if (ymplayer.getPlaying() == 1)
+    ymplayer.audiofill(); 
+  retrocade.handleJoystick();     
 }
 
 void _zpu_interrupt()
 {
   modplayer._zpu_interrupt();
+  ymplayer._zpu_interrupt(); 
+  retrocade.setTimeout();
 }
 
 void HandleControlChange(byte channel, byte number, byte value) {
+  
+ #ifdef DEBUG
+  Serial.print("Change Control Channel: ");
+  Serial.println(channel);
+  Serial.print("Change Control Number: ");
+  Serial.println(number);
+  Serial.print("Change Control Value: ");
+  Serial.println(value);
+ #endif    
+  
   //Define which voice responds to each channel
   switch (channel) {  //TODO figure more efficient way to do this. Want to avoid case statements.
     case 1:
@@ -110,15 +129,23 @@ void HandleControlChange(byte channel, byte number, byte value) {
   switch (number) {  //TODO figure more efficient way to do this. Want to avoid case statements.
     case 117:
       modplayer.play(!value);
+      ymplayer.play(!value);
       break;
     case 9:
       modplayer.loadFile("track1.mod");
+      modplayer.play(value);
       break;
+    case 10:
+      ymplayer.loadFile("track1.ymdat");
+      ymplayer.play(value);
+      break;      
     case 11:
       modplayer.loadFile("track2.mod");
+      modplayer.play(value);
       break;
     case 13:
       modplayer.loadFile("track3.mod");
+      modplayer.play(value);
       break;   
     case 84:
       modplayer.volume(value <<1);
@@ -127,18 +154,13 @@ void HandleControlChange(byte channel, byte number, byte value) {
       return;
       break;       
   }    
-  
- #ifdef DEBUG
-  Serial.print("Change Control Channel: ");
-  Serial.println(channel);
-  Serial.print("Change Control Number: ");
-  Serial.println(number);
-  Serial.print("Change Control Value: ");
-  Serial.println(value);
- #endif  
+
 }
 
 void HandleNoteOn(byte channel, byte pitch, byte velocity) {
+  byte activeChannel = retrocade.getActiveChannel();
+  if ( activeChannel != 0 )
+    channel = activeChannel;
   switch (channel){
     case 1:
       sid.V1.setNote(pitch, 1);
@@ -170,6 +192,9 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
 }
 
 void HandleNoteOff(byte channel, byte pitch, byte velocity) {
+  byte activeChannel = retrocade.getActiveChannel();
+  if ( activeChannel != 0 )
+    channel = activeChannel;  
   switch(channel){
       case 1:
         sid.V1.setNote(pitch, 0);

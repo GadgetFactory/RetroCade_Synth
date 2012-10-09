@@ -90,21 +90,27 @@ void YMVoice::setEnvelope(boolean active)
 
 void YMVoice::setTone(boolean active)
 {
-  switch (YM_ADDR_FREQ) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-    case 0:
-      YM_REG_MIXER.TONEA = !active;
+  int tmp;
+  if (active == true) 
+    tmp = 0;
+  else
+    tmp = 1;
+  switch (YM_ADDR_LEVEL) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+    case 0x08:
+      YM_REG_MIXER.TONEA = tmp;
       break;
-    case 2:
-      YM_REG_MIXER.TONEB = !active;
+    case 0x09:
+      YM_REG_MIXER.TONEB = tmp;
       break;
-    case 4:
-      YM_REG_MIXER.TONEC = !active;
+    case 0x0A:
+      YM_REG_MIXER.TONEC = tmp;
       break;
     default:
       return;
       break;       
   }
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER; 
+  //Serial.println(*(char*)&YM_REG_MIXER, BIN);
 }
 
 void YMVoice::setVolume(byte volume)
@@ -231,9 +237,9 @@ void YM2149::reset(){
   YM_REG_MIXER.NOISEC = 1;
   YM_REG_MIXER.NOISEB = 1;
   YM_REG_MIXER.NOISEA = 1;
-  YM_REG_MIXER.TONEC = 1;
-  YM_REG_MIXER.TONEB = 1;
-  YM_REG_MIXER.TONEA = 1;    
+  YM_REG_MIXER.TONEC = 0;
+  YM_REG_MIXER.TONEB = 0;
+  YM_REG_MIXER.TONEA = 0;    
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;   
   
   //set freq of envelope to zero
