@@ -19,6 +19,8 @@ http://www.gadgetfactory.net
 This example code is Creative Commons Attribution.
 */
 
+  HardwareSerial Serial1(11);   //This is to define Serial1 for the ZPUino.
+
 #include "RetroCade.h"
 #include "SID.h"
 #include "YM2149.h"
@@ -43,6 +45,7 @@ void setup(){
   #ifdef DEBUG
     Serial.begin(9600);
   #endif
+  Serial.begin(31250);
 
   modplayer.setup();
   ymplayer.setup(&ym2149);
@@ -71,16 +74,6 @@ void setup(){
 // MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
 // MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
-}
-
-void loop(){
-  // Call MIDI.read the fastest you can for real-time performance.
-  MIDI.read();
-  if (modplayer.getPlaying() == 1)
-    modplayer.audiofill();
-  if (ymplayer.getPlaying() == 1)
-    ymplayer.audiofill(); 
-  retrocade.handleJoystick();     
 }
 
 void _zpu_interrupt()
@@ -220,4 +213,15 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
    #ifdef DEBUG
     Serial.println("In NoteOff");
    #endif  
+}
+
+void loop(){
+  // Call MIDI.read the fastest you can for real-time performance.
+  MIDI.read();
+  MIDI.read(&Serial1);  
+  if (modplayer.getPlaying() == 1)
+    modplayer.audiofill();
+  if (ymplayer.getPlaying() == 1)
+    ymplayer.audiofill(); 
+  retrocade.handleJoystick();     
 }

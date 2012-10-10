@@ -12,6 +12,7 @@
 #define LIB_MIDI_H_
 
 #include <inttypes.h> 
+#include "HardwareSerial.h"
 
 
 /*  
@@ -30,15 +31,15 @@
 
 #define COMPILE_MIDI_IN         1           // Set this setting to 1 to use the MIDI input.
 #define COMPILE_MIDI_OUT        1           // Set this setting to 1 to use the MIDI output. 
-#define COMPILE_MIDI_THRU       1           // Set this setting to 1 to use the MIDI Soft Thru feature
+#define COMPILE_MIDI_THRU       0           // Set this setting to 1 to use the MIDI Soft Thru feature
                                             // Please note that the Thru will work only when both COMPILE_MIDI_IN and COMPILE_MIDI_OUT set to 1.
 
 
-#define USE_SERIAL_PORT         Serial1     // Change the number (to Serial1 for example) if you want
+#define USE_SERIAL_PORT_NAME         Serial     // Change the number (to Serial1 for example) if you want
                                             // to use a different serial port for MIDI I/O.
 
 
-#define USE_RUNNING_STATUS		1			// Running status enables short messages when sending multiple values
+#define USE_RUNNING_STATUS		0			// Running status enables short messages when sending multiple values
                                             // of the same type and channel.
                                             // Set to 0 if you have troubles with controlling you hardware.
 
@@ -177,6 +178,7 @@ private:
 public:
 	
 	bool read();
+        bool read(HardwareSerial* sPort);
 	bool read(const byte Channel);
 	
 	// Getters
@@ -243,6 +245,7 @@ private:
 	bool input_filter(byte inChannel);
 	bool parse(byte inChannel);
 	void reset_input_attributes();
+        HardwareSerial* USE_SERIAL_PORT;
 	
 	// Attributes
 	byte			mRunningStatus_RX;
