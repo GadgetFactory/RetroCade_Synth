@@ -18,6 +18,8 @@
 #include "SmallFS.h"
 #include "cbuffer.h"
 #include "YM2149.h"
+#include <SD.h>
+#include "RetroCade.h"
 
 class YMPLAYER
 {
@@ -43,6 +45,7 @@ class YMPLAYER
     //unsigned underruns;
     //pt_mod_s *pt_init_smallfs(SmallFSFile &file);
     SmallFSFile ymaudiofile;
+    File ymSDfile;
     //char buf[128];
     //pt_mod_s * mod;
     boolean playing;    

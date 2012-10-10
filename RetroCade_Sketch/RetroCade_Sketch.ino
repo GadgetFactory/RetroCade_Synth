@@ -52,11 +52,11 @@ void setup(){
   #endif
   Serial1.begin(31250);
 
-  modplayer.setup();
-  ymplayer.setup(&ym2149);
-
   //Setup pins for RetroCade MegaWing
   retrocade.setupMegaWing();
+  
+  modplayer.setup();
+  ymplayer.setup(&ym2149);  
   
   ///Set volume to max levels
   ym2149.V1.setVolume(15);
@@ -70,7 +70,7 @@ void setup(){
   sid.V3.setInstrument(0,9,0,0,0,1,0,0,512); //Harpsicord
    
   // Initiate MIDI communications, listen to all channels
-  //MIDI.begin(MIDI_CHANNEL_OMNI);
+  MIDI.begin(MIDI_CHANNEL_OMNI);
  
   // Connect the HandleNoteOn function to the library, so it is called upon reception of a NoteOn.
   MIDI.setHandleNoteOn(HandleNoteOn); // Put only the name of the function
@@ -160,7 +160,7 @@ void HandleControlChange(byte channel, byte number, byte value) {
       modplayer.play(value);
       break;
     case 10:
-      ymplayer.loadFile("track1.ymdat");
+      ymplayer.loadFile("TRACK1~1.YMD");
       ymplayer.play(value);
       break;      
     case 11:
@@ -248,13 +248,13 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
 
 void loop(){
   // Call MIDI.read the fastest you can for real-time performance.
-//  MIDI.read(&Serial);
-//  MIDI.read(&Serial1);  
-//  if (modplayer.getPlaying() == 1)
-//    modplayer.audiofill();
-//  if (ymplayer.getPlaying() == 1)
-//    ymplayer.audiofill(); 
-//  retrocade.handleJoystick();     
+  MIDI.read(&Serial);
+  MIDI.read(&Serial1);  
+  if (modplayer.getPlaying() == 1)
+    modplayer.audiofill();
+  if (ymplayer.getPlaying() == 1)
+    ymplayer.audiofill(); 
+  retrocade.handleJoystick();     
 }
 
 

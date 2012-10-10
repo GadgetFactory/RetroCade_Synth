@@ -54,7 +54,7 @@
 // (do not modify anything under this line unless you know what you are doing)
 
 
-#define MIDI_BAUDRATE			31250
+#define MIDI_BAUDRATE			115200
 
 #define MIDI_CHANNEL_OMNI		0
 #define MIDI_CHANNEL_OFF		17			// and over
