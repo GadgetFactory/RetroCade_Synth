@@ -29,10 +29,14 @@ This example code is Creative Commons Attribution.
 #include "ymplayer.h"
 #include "SmallFS.h"
 #include <LiquidCrystal.h>
+#include <SD.h>
+
+File root;
+
 //#include "cbuffer.h"
 
 #undef DO_CHECKS
-//#define DEBUG
+#define DEBUG
 
 //Instantiate the objects we will be using.
 RETROCADE retrocade;
@@ -41,9 +45,10 @@ SID sid;
 MODPLAYER modplayer;
 YMPLAYER ymplayer;
 
+
 void setup(){
   #ifdef DEBUG
-    Serial.begin(9600);
+    Serial.begin(115200);
   #endif
   Serial1.begin(31250);
 
@@ -65,7 +70,7 @@ void setup(){
   sid.V3.setInstrument(0,9,0,0,0,1,0,0,512); //Harpsicord
    
   // Initiate MIDI communications, listen to all channels
-  MIDI.begin(MIDI_CHANNEL_OMNI);
+  //MIDI.begin(MIDI_CHANNEL_OMNI);
  
   // Connect the HandleNoteOn function to the library, so it is called upon reception of a NoteOn.
   MIDI.setHandleNoteOn(HandleNoteOn); // Put only the name of the function
@@ -74,7 +79,33 @@ void setup(){
 // MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
 // MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
+  
+USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
+	int i;
+	Serial.println("Starting SD Card");
+
+	digitalWrite(CSPIN,LOW);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	digitalWrite(CSPIN,HIGH);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	if (!SD.begin(CSPIN)) {
+		Serial.println("init failed!");
+		Serial.println(SD.errorCode());
+	} else {
+		Serial.println("done.");
+		SD.ls();  
+        }
+    root = SD.open("/");
+  
+  retrocade.printDirectory(root, 0);
 }
+
 
 void _zpu_interrupt()
 {
@@ -217,11 +248,13 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
 
 void loop(){
   // Call MIDI.read the fastest you can for real-time performance.
-  MIDI.read(&Serial);
-  MIDI.read(&Serial1);  
-  if (modplayer.getPlaying() == 1)
-    modplayer.audiofill();
-  if (ymplayer.getPlaying() == 1)
-    ymplayer.audiofill(); 
-  retrocade.handleJoystick();     
+//  MIDI.read(&Serial);
+//  MIDI.read(&Serial1);  
+//  if (modplayer.getPlaying() == 1)
+//    modplayer.audiofill();
+//  if (ymplayer.getPlaying() == 1)
+//    ymplayer.audiofill(); 
+//  retrocade.handleJoystick();     
 }
+
+
