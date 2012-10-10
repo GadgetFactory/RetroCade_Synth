@@ -35,7 +35,7 @@
                                             // Please note that the Thru will work only when both COMPILE_MIDI_IN and COMPILE_MIDI_OUT set to 1.
 
 
-#define USE_SERIAL_PORT_NAME         Serial     // Change the number (to Serial1 for example) if you want
+#define USE_SERIAL_PORT         Serial     // Change the number (to Serial1 for example) if you want
                                             // to use a different serial port for MIDI I/O.
 
 
@@ -245,7 +245,7 @@ private:
 	bool input_filter(byte inChannel);
 	bool parse(byte inChannel);
 	void reset_input_attributes();
-        HardwareSerial* USE_SERIAL_PORT;
+        HardwareSerial* serPortPTR;
 	
 	// Attributes
 	byte			mRunningStatus_RX;

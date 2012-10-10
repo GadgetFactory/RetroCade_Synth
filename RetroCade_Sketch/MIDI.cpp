@@ -68,9 +68,9 @@ MIDI_Class::~MIDI_Class()
  */
 void MIDI_Class::begin(const byte inChannel)
 {
-	USE_SERIAL_PORT = &USE_SERIAL_PORT_NAME;
+	serPortPTR = &USE_SERIAL_PORT;
 	// Initialise the Serial port
-	USE_SERIAL_PORT->begin(MIDI_BAUDRATE);
+	serPortPTR->begin(MIDI_BAUDRATE);
 	
 	
 #if COMPILE_MIDI_OUT
@@ -160,17 +160,17 @@ void MIDI_Class::send(kMIDIType type,
 		if (mRunningStatus_TX != statusbyte) {
 			// New message, memorise and send header
 			mRunningStatus_TX = statusbyte;
-			USE_SERIAL_PORT->write(mRunningStatus_TX);
+			serPortPTR->write(mRunningStatus_TX);
 		}
 #else
 		// Don't care about running status, send the Control byte.
-		USE_SERIAL_PORT->write(statusbyte);
+		serPortPTR->write(statusbyte);
 #endif
 		
 		// Then send data
-		USE_SERIAL_PORT->write(data1);
+		serPortPTR->write(data1);
 		if (type != ProgramChange && type != AfterTouchChannel) {
-			USE_SERIAL_PORT->write(data2);
+			serPortPTR->write(data2);
 		}
 		return;
 	}
@@ -323,22 +323,22 @@ void MIDI_Class::sendSysEx(int length,
 	
 	if (ArrayContainsBoundaries == false) {
 		
-		USE_SERIAL_PORT->write(0xF0);
+		serPortPTR->write(0xF0);
 		
 		for (int i=0;i<length;++i) {
 			
-			USE_SERIAL_PORT->write(array[i]);
+			serPortPTR->write(array[i]);
 			
 		}
 		
-		USE_SERIAL_PORT->write(0xF7);
+		serPortPTR->write(0xF7);
 		
 	}
 	else {
 		
 		for (int i=0;i<length;++i) {
 			
-			USE_SERIAL_PORT->write(array[i]);
+			serPortPTR->write(array[i]);
 			
 		}
 		
@@ -386,8 +386,8 @@ void MIDI_Class::sendTimeCodeQuarterFrame(byte TypeNibble, byte ValuesNibble)
 void MIDI_Class::sendTimeCodeQuarterFrame(byte data)
 {
 	
-	USE_SERIAL_PORT->write((byte)TimeCodeQuarterFrame);
-	USE_SERIAL_PORT->write(data);
+	serPortPTR->write((byte)TimeCodeQuarterFrame);
+	serPortPTR->write(data);
 
 #if USE_RUNNING_STATUS
 	mRunningStatus_TX = InvalidType;
@@ -402,9 +402,9 @@ void MIDI_Class::sendTimeCodeQuarterFrame(byte data)
 void MIDI_Class::sendSongPosition(unsigned int Beats)
 {
 	
-	USE_SERIAL_PORT->write((byte)SongPosition);
-	USE_SERIAL_PORT->write(Beats & 0x7F);
-	USE_SERIAL_PORT->write((Beats >> 7) & 0x7F);
+	serPortPTR->write((byte)SongPosition);
+	serPortPTR->write(Beats & 0x7F);
+	serPortPTR->write((Beats >> 7) & 0x7F);
 
 #if USE_RUNNING_STATUS
 	mRunningStatus_TX = InvalidType;
@@ -417,8 +417,8 @@ void MIDI_Class::sendSongPosition(unsigned int Beats)
 void MIDI_Class::sendSongSelect(byte SongNumber)
 {
 	
-	USE_SERIAL_PORT->write((byte)SongSelect);
-	USE_SERIAL_PORT->write(SongNumber & 0x7F);
+	serPortPTR->write((byte)SongSelect);
+	serPortPTR->write(SongNumber & 0x7F);
 
 #if USE_RUNNING_STATUS
 	mRunningStatus_TX = InvalidType;
@@ -443,7 +443,7 @@ void MIDI_Class::sendRealTime(kMIDIType Type)
 		case Continue:
 		case ActiveSensing:
 		case SystemReset:
-			USE_SERIAL_PORT->write((byte)Type);
+			serPortPTR->write((byte)Type);
 			break;
 		default:
 			// Invalid Real Time marker
@@ -472,7 +472,7 @@ void MIDI_Class::sendRealTime(kMIDIType Type)
  */
 bool MIDI_Class::read()
 {
-	USE_SERIAL_PORT = &USE_SERIAL_PORT_NAME;
+	serPortPTR = &USE_SERIAL_PORT;
 	return read(mInputChannel);
 	
 }
@@ -485,7 +485,7 @@ bool MIDI_Class::read()
  */
 bool MIDI_Class::read(HardwareSerial* sPort)
 {
-	USE_SERIAL_PORT = sPort;
+	serPortPTR = sPort;
 	return read(mInputChannel);
 	
 }
@@ -523,7 +523,7 @@ bool MIDI_Class::read(const byte inChannel)
 bool MIDI_Class::parse(byte inChannel)
 { 
 	
-	const int bytes_available = USE_SERIAL_PORT->available();
+	const int bytes_available = serPortPTR->available();
 	
 	if (bytes_available <= 0) {
 		// No data available.
@@ -532,7 +532,7 @@ bool MIDI_Class::parse(byte inChannel)
 	
 	// If the buffer is full -> Don't Panic! Call the Vogons to destroy it.
 	if (bytes_available == 128) {
-		USE_SERIAL_PORT->flush();
+		serPortPTR->flush();
 	}	
 	else {
 		
@@ -545,7 +545,7 @@ bool MIDI_Class::parse(byte inChannel)
 		 */
 		
 		
-		const byte extracted = USE_SERIAL_PORT->read();
+		const byte extracted = serPortPTR->read();
 		
 		if (mPendingMessageIndex == 0) { // Start a new pending message
 			mPendingMessage[0] = extracted;

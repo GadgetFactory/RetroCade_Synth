@@ -45,7 +45,7 @@ void setup(){
   #ifdef DEBUG
     Serial.begin(9600);
   #endif
-  Serial.begin(31250);
+  Serial1.begin(31250);
 
   modplayer.setup();
   ymplayer.setup(&ym2149);
@@ -217,7 +217,7 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
 
 void loop(){
   // Call MIDI.read the fastest you can for real-time performance.
-  MIDI.read();
+  MIDI.read(&Serial);
   MIDI.read(&Serial1);  
   if (modplayer.getPlaying() == 1)
     modplayer.audiofill();
