@@ -18,6 +18,8 @@
 #include "SmallFS.h"
 #include "cbuffer.h"
 #include "ptplay.h"
+#include <SD.h>
+#include "RetroCade.h"
 
 class MODPLAYER
 {
@@ -33,8 +35,9 @@ class MODPLAYER
   private:
     CircularBuffer<unsigned,7> audioBuffer;   
     unsigned underruns;
-    pt_mod_s *pt_init_smallfs(SmallFSFile &file);
+    pt_mod_s *pt_init_smallfs(File &file);
     SmallFSFile modfile;
+    File modSDfile;
     char buf[128];
     pt_mod_s * mod;
     boolean playing;    

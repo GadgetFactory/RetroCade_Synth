@@ -1,4 +1,5 @@
 #include "modplayer.h"
+#include <SD.h>
 
 MODPLAYER::MODPLAYER(){
   
@@ -12,12 +13,37 @@ void MODPLAYER::setup(){
 //  Serial.flush();
 //  Serial.println("Starting");
   
+//USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
+//	int i;
+//	Serial.println("Starting SD Card");
+//
+//	digitalWrite(CSPIN,LOW);
+//
+//	for (i=0;i<51200;i++)
+//		USPIDATA=0xff;
+//
+//	digitalWrite(CSPIN,HIGH);
+//
+//	for (i=0;i<51200;i++)
+//		USPIDATA=0xff;
+//
+//	if (!SD.begin(CSPIN)) {
+//		Serial.println("init failed!");
+//		Serial.println(SD.errorCode());
+//	} else {
+//		Serial.println("done.");
+//		//SD.ls();  
+//        }  
+  
  	if (SmallFS.begin()<0) {
 		Serial.println("No SmalLFS found.");
 		//while(1);
 	}
 	modfile = SmallFS.open("track1.mod");
-        mod = pt_init_smallfs(modfile);
+        modSDfile = SD.open("track1.mod");
+        mod = pt_init_smallfs(modSDfile);
+
+        //mod = pt_init_smallfs(modfile);
         
 	TMR0CTL = 0;
 	TMR0CNT = 0;
@@ -32,8 +58,10 @@ void MODPLAYER::setup(){
 
 void MODPLAYER::loadFile(const char* name)
 {
-  modfile = SmallFS.open(name);
-  mod = pt_init_smallfs(modfile);  
+  //modfile = SmallFS.open(name);
+  modSDfile =SD.open(name);
+  mod = pt_init_smallfs(modSDfile);
+  //mod = pt_init_smallfs(modfile);  
 }
 
 void MODPLAYER::play(boolean play)
@@ -49,7 +77,7 @@ void MODPLAYER::volume(int volume)
 void MODPLAYER::audiofill()
 {
     int i;
-    pt_render(modfile, mod, buf, NULL, 2, 16 /* Samples */, 1, 16, 1);
+    pt_render(&modSDfile, mod, buf, NULL, 2, 16 /* Samples */, 1, 16, 1);
 	for (i=0;i<32;i+=2) {
 	  unsigned v = buf[i];
 	  v += buf[i+1]<<8;
@@ -68,26 +96,6 @@ boolean MODPLAYER::getPlaying()
 
 void MODPLAYER::_zpu_interrupt()
 {
-//  counter++;
-//  if ( counter == 340 ) {
-//        counter = 1;
-//        ymTimeStamp++;
-//	// Play YM file
-//	if (YMaudioBuffer.hasData()) {
-//		int i;
-//		ymframe f = YMaudioBuffer.pop();
-//		for (i=0;i<14; i++) {
-//			YM2149REG(i) = f.regval[i];
-//		}
-//	}
-//        else{ 
-//          if (resetYMFlag == 1){
-//            //reset_ym2149();
-//            resetYMFlag = 0;
-//            ymTimeStamp = 1;
-//          }
-//        }
-//  }
 	// Play mod file
 	if (audioBuffer.hasData()) {
 		unsigned v = audioBuffer.pop();
@@ -102,7 +110,7 @@ void MODPLAYER::_zpu_interrupt()
 
 
 extern unsigned char __end__;  
-pt_mod_s *MODPLAYER::pt_init_smallfs(SmallFSFile &file)
+pt_mod_s *MODPLAYER::pt_init_smallfs(File &file)
 {
 
 	unsigned char buf[256]; // Some buffer. Let's hope this fits on stack.
@@ -119,11 +127,21 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(SmallFSFile &file)
 	/* M.K. signature */
 
 	// smallfs bp = buf + 0x438;
-    file.seek(0x438, SEEK_SET);
+    modSDfile.seek(0x438);
 
 
 //#ifdef DO_CHECKS
-	file.read(&bp[0], 4);
+	modSDfile.read(&bp[0], 4);
+        Serial.print(bp[0], HEX);
+        Serial.print(" ");
+        Serial.print(bp[1], HEX);
+        Serial.print(" ");
+        Serial.print(bp[2], HEX);
+        Serial.print(" ");
+        Serial.print(bp[3], HEX);
+        Serial.print(" ");        
+        Serial.println(" ");        
+      
 	if (!(bp[0] == 'M' && bp[1] == '.' && bp[2] == 'K' && bp[3] == '.')) {
 		Serial.println("Invalid file");
 		return NULL;
@@ -134,8 +152,8 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(SmallFSFile &file)
 
 	k = 0;
 	// smallfs bp = buf + 952;
-	file.seek(952, SEEK_SET);
-	file.read(&buf,128);
+	modSDfile.seek(952);
+	modSDfile.read(&buf,128);
 
 	for (i = 0; i < 128; ++i)
 	{
@@ -206,12 +224,12 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(SmallFSFile &file)
 	/* samples */
 
 	// smallfs bp = buf + 20;
-	file.seek(20,SEEK_SET);
+	modSDfile.seek(20);
 
 	for (i = 1; i < 32; ++i)
 	{
 		s = &mod->sample[i];
-		file.read(buf,30);
+		modSDfile.read(buf,30);
 #ifdef DEBUG
 //		Serial.print("Name: ");
 //		for(l = 0; l < 22, buf[l]; ++l) {
@@ -250,15 +268,15 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(SmallFSFile &file)
 	/* mod length */
 
 
-	file.seek(950,SEEK_SET);
-    file.read(buf,1);
+	modSDfile.seek(950);
+    modSDfile.read(buf,1);
 	//j = buf[950];
 	mod->length = buf[0];//j;
 
 	/* positions */
 
-	file.seek(952,SEEK_SET);
-	file.read(buf,128);
+	modSDfile.seek(952);
+	modSDfile.read(buf,128);
 
 	// bp = buf + 952;
     bp=&buf[0];
@@ -271,7 +289,7 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(SmallFSFile &file)
 	/* patterns */
 
     /*
-	file.seek(1084,SEEK_SET);
+	file.seek(1084);
 
 	file.read(buf,256); // 64 * 4
 	Serial.print("Loading patterns:");

@@ -7,6 +7,8 @@
 **	(C) 2001, 2003 Ronald Hof and Timm S. Mueller
 */
 
+#include <SD.h>
+
 class SmallFSFile;
 
 #define CONSTANT_FREQ
@@ -121,7 +123,7 @@ extern "C" {
 #endif
 
 //LIBAPI unsigned int pt_init( pt_mod_s *pmod, unsigned char *buf, int bufsize, int freq);
-LIBAPI void pt_render(SmallFSFile&,pt_mod_s *pmod, char *buf, char *buf2, int bufmodulo, int numsmp, int scale, int depth, int channels);
+LIBAPI void pt_render( File *file,pt_mod_s *pmod, char *buf, char *buf2, int bufmodulo, int numsmp, int scale, int depth, int channels);
 pt_mod_s * pt_load(char *filename, int freq);
 void pt_free(pt_mod_s * mod);
 pt_mod_s *pt_init(unsigned char *buf, int bufsize, int freq);

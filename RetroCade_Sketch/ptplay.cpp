@@ -35,6 +35,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <SD.h>
+
+//#define DEBUG
 
 #define CHNF_SLIDESKIP		0x0001		/* skip slide fx in first tick */
 #define CHNF_APPLYTONEP		0x0002		/* tone-portamento is active */
@@ -373,7 +376,7 @@ static int getperiod(int note, int finetune, int delta)
 **		Interprete per new note
 */
 
-static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
+static void pt_donote( File *file, pt_mod_s *mod)
 {
 	int ppos, spos;
 	int i, j, k;
@@ -415,7 +418,7 @@ static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
 
 		/* Each pattern has 64 positions, 4 channels, each 4 bytes */
 
-		file.seek(PATTERN_OFFSET + (1024*mod->pos[spos]) + (16*ppos), SEEK_SET);
+		file->seek(PATTERN_OFFSET + (1024*mod->pos[spos]) + (16*ppos));
 
 #else
 		p = mod->pattern + mod->pos[spos];				/* pattern */
@@ -427,7 +430,7 @@ static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
 #ifdef EMBEDDED
 			/* Read in pattern data */
 
-			file.read(buf,4);
+			file->read(buf,4);
 			j = buf[0];
 			k = buf[1];
 			ptd.period = ((j & 15) << 8) + k;
@@ -444,9 +447,9 @@ static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
 			ptd.efboth = j;
 #endif
 
-#if 0
+#ifdef DEBUG
 			// DEBUG
-			Serial.print(debugpos++);              Serial.print(" ");
+			//Serial.print(debugpos++);              Serial.print(" ");
 			Serial.print(mod->pos[spos]);              Serial.print(" ");
 			Serial.print(spos);              Serial.print(" ");
             Serial.print(ppos);              Serial.print(" ");
@@ -454,7 +457,7 @@ static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
 			Serial.print(ptd.sample);            Serial.print(" ");
 			Serial.print(ptd.effect);            Serial.println(" ");
 #endif
-#if 0
+#ifdef DEBUG
 			Serial.print(PATTERN_OFFSET + (1024*mod->pos[spos]) + (16*ppos) );            Serial.print(" ");
 			Serial.print(" buf ");
 			Serial.print((unsigned)buf[0]);     Serial.print(" ");
@@ -1034,7 +1037,7 @@ static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
  **		Interprete per tick
  */
 
-static void pt_dotick( SmallFSFile &file, pt_mod_s *mod)
+static void pt_dotick( File *file, pt_mod_s *mod)
 {
 
 	int i, j, k;
@@ -1258,7 +1261,7 @@ chperdone:
 **		channels:	1, 2	mono or stereo
 */
 
-LIBAPI void pt_render( SmallFSFile &file, pt_mod_s *mod, char *buf, char *buf2,
+LIBAPI void pt_render( File *file, pt_mod_s *mod, char *buf, char *buf2,
 	int bufmodulo, int numsmp, int scale, int depth, int channels)
 {
 	int writeselect = 0;
@@ -1295,7 +1298,7 @@ LIBAPI void pt_render( SmallFSFile &file, pt_mod_s *mod, char *buf, char *buf2,
 	#endif
 		{
 			 c = &mod->chan[0];
-#if 0
+#ifdef DEBUG
 			 Serial.print("BPOS ");
 			 Serial.print(mod->bpos);
 
@@ -1350,9 +1353,9 @@ LIBAPI void pt_render( SmallFSFile &file, pt_mod_s *mod, char *buf, char *buf2,
 						c->sp = j + c->freq;
 
 						/* Load sample data */
-						file.seek(s->offset + (j>>14) ,SEEK_SET);
+						file->seek(s->offset + (j>>14));
 						signed char dat;
-                        file.read(&dat,1);
+                        file->read(&dat,1);
 						// j = c->vol * (s->data[j >> 14]);
 						j = c->vol * dat;//(s->data[j >> 14]);
 
@@ -1442,10 +1445,10 @@ LIBAPI void pt_render( SmallFSFile &file, pt_mod_s *mod, char *buf, char *buf2,
 						
 						c->sp = j + c->freq;
 
-						file.seek(s->offset + (j>>14) ,SEEK_SET);
+						file->seek(s->offset + (j>>14));
 						signed char dat;
-						file.read(&dat,1);
-#if 0
+						file->read(&dat,1);
+#ifdef DEBUG
 						Serial.print("NS ");
 						Serial.print(c->sample);
 						Serial.print(" off ");
