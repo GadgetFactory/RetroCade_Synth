@@ -166,3 +166,10 @@ pip-log.txt
 *.zip
 *.rar
 *.log
+FTDI USB Drivers
+hyperterminal
+index_files
+bad
+*.htm
+SDList
+*.7z
