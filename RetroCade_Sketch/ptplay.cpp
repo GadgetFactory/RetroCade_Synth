@@ -30,6 +30,7 @@ it�s not 100% sure it works in all conditions with combined effects.
 
 #include <HardwareSerial.h>
 #include <SmallFS.h>
+#include "RamFs.h"
 #include "ptplay.h"
 #include <string.h>
 #include <math.h>
@@ -364,7 +365,7 @@ return tab_tunes[finetune][i];
 ** Interprete per new note
 */
 
-static void pt_donote( SmallFSFile &file, pt_mod_s *mod)
+static void pt_donote( RamFSFile &file, pt_mod_s *mod)
 {
 int ppos, spos;
 int i, j, k;
@@ -1025,7 +1026,7 @@ mod->ppos=ppos;
 ** Interprete per tick
 */
 
-static void pt_dotick( SmallFSFile &file, pt_mod_s *mod)
+static void pt_dotick( RamFSFile &file, pt_mod_s *mod)
 {
 
 int i, j, k;
@@ -1249,7 +1250,7 @@ c++;
 ** channels: 1, 2 mono or stereo
 */
 
-LIBAPI void pt_render( SmallFSFile &file, pt_mod_s *mod, char *buf, char *buf2,
+LIBAPI void pt_render( RamFSFile &file, pt_mod_s *mod, char *buf, char *buf2,
 int bufmodulo, int numsmp, int scale, int depth, int channels)
 {
 int writeselect = 0;

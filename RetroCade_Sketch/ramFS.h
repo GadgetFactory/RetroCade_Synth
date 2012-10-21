@@ -10,7 +10,7 @@
 #include <SD.h>
 
 /** RAMFS filesystem magic */
-#define RAMFS_MAGIC 0x50411F50
+//#define RAMFS_MAGIC 0x50411F50
 
 #ifndef SEEK_SET
 # define SEEK_SET   0
@@ -18,28 +18,29 @@
 # define SEEK_END  2
 #endif
 
-struct ramfs_header {
-	unsigned int magic /** big-endian, magic number **/;
-	unsigned int numfiles;
-}__attribute__((packed));
-
-struct ramfs_entry {
-	unsigned int offset;
-	unsigned int size;
-	unsigned char namesize;
-	char name[0];
-} __attribute__((packed));
-
-extern "C" void *bootloaderdata;
-struct boot_t {
-	unsigned int spiend;
-};
+//struct ramfs_header {
+//	unsigned int magic /** big-endian, magic number **/;
+//	unsigned int numfiles;
+//}__attribute__((packed));
+//
+//struct ramfs_entry {
+//	unsigned int offset;
+//	unsigned int size;
+//	unsigned char namesize;
+//	char name[0];
+//} __attribute__((packed));
+//
+//extern "C" void *bootloaderdata;
+//struct boot_t {
+//	unsigned int spiend;
+//};
 /**
  * @brief RAMFS File Class
  */
 class RamFSFile
 {
 public:
+        RamFSFile();
 	RamFSFile(File *file);
 	//RamFSFile(unsigned o,unsigned size): flashoffset(o),filesize(size),seekpos(0) {}
 	/**
@@ -164,12 +165,12 @@ public:
 private:
 	void seek_if_needed(unsigned address);
 
-	struct ramfs_header hdr;
-	unsigned fsstart;
-	unsigned offset;
-#ifdef __linux__
-	int fd;
-#endif
+//	struct ramfs_header hdr;
+//	unsigned fsstart;
+//	unsigned offset;
+//#ifdef __linux__
+//	int fd;
+//#endif
 };
 
 extern RamFS_class RamFS;

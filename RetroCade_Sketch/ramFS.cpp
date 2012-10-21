@@ -19,9 +19,13 @@
 
 #undef RAMFSDEBUG
 
+RamFSFile::RamFSFile(){
+  
+}
+
 int RamFS_class::begin()
 {
-
+  return 0;
 //#ifdef __linux__
 //	fsstart = 0;
 //	fd = ::open("ramfs.dat",O_RDONLY);
@@ -98,6 +102,7 @@ void RamFS_class::seek_if_needed(unsigned address)
 
 unsigned RamFS_class::readByte(unsigned address)
 {
+    return 0;
 //	seek_if_needed(address);
 //	unsigned v = spiread(); // Already cached
 //	spiwrite(0);
