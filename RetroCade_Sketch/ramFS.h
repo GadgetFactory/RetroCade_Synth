@@ -82,12 +82,13 @@ public:
 	 * @brief Read a single byte
 	 */
 	unsigned readByte();
+        static void *zpuinomalloc(unsigned size);
 
 private:
 	int flashoffset;
-	int filesize;
-	int seekpos;
-        char *data;
+	unsigned long filesize;
+	unsigned long seekpos;
+        unsigned char *moddata;
 };
 
 /**

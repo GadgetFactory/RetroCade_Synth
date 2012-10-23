@@ -45,7 +45,7 @@ USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);
 		Serial.println("done.");
 		//SD.ls();  
         }
-    ymSDfile = SD.open("track1.ymdat");
+    ymSDfile = SD.open("TRACK1~1.YMD");
 
         //mod = pt_init_smallfs(modfile);
         

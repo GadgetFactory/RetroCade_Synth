@@ -2,6 +2,8 @@
 #include <SD.h>
 #include "ptplay.h"
 
+#define DEBUG
+
 MODPLAYER::MODPLAYER(){
   
 }
@@ -41,10 +43,49 @@ void MODPLAYER::setup(){
 		//while(1);
 	}
 	//modfile = SmallFS.open("track1.mod");
-        modSDfile = SD.open("track1.mod");
-        modRAMfile = RamFS.open(&modSDfile);
-        modSDfile.close();
-        mod = pt_init_smallfs(modRAMfile);
+
+USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
+	int i;
+	Serial.println("Starting SD Card in ModPlayer");
+
+	digitalWrite(CSPIN,LOW);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	digitalWrite(CSPIN,HIGH);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	if (!SD.begin(CSPIN)) {
+		Serial.println("init failed!");
+		Serial.println(SD.errorCode());
+	} else {
+		Serial.println("done.");
+		//SD.ls();  
+        }
+//        modSDfile = SD.open("track1.mod");
+//        
+//        unsigned char buf[256];
+//        unsigned char *bp=&buf[0];
+//        
+//        modSDfile.seek(0x438);
+//        modSDfile.read(&bp[0], 4);
+//        Serial.println("In ModPlayer Setup ");
+//        Serial.print(bp[0], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[1], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[2], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[3], HEX);
+//        Serial.print(" ");        
+//        Serial.println(" ");         
+//        
+//        modRAMfile = RamFS.open(&modSDfile);
+//        modSDfile.close();
+//        mod = pt_init_smallfs(modRAMfile);
 
         //mod = pt_init_smallfs(modfile);
         
@@ -65,6 +106,22 @@ void MODPLAYER::loadFile(const char* name)
   modSDfile =SD.open(name);
   modRAMfile = RamFS.open(&modSDfile);
   modSDfile.close();
+  
+        unsigned char buf[256];
+        unsigned char *bp=&buf[0];
+        
+        modRAMfile.seek(0x438, SEEK_SET);
+        modRAMfile.read(&bp[0], 4);
+        Serial.println("In ModPlayerloadFile ");
+        Serial.print(bp[0], HEX);
+        Serial.print(" ");
+        Serial.print(bp[1], HEX);
+        Serial.print(" ");
+        Serial.print(bp[2], HEX);
+        Serial.print(" ");
+        Serial.print(bp[3], HEX);
+        Serial.print(" ");        
+        Serial.println(" ");     
   mod = pt_init_smallfs(modRAMfile);
   //mod = pt_init_smallfs(modfile);  
 }
@@ -114,10 +171,10 @@ void MODPLAYER::_zpu_interrupt()
 }
 
 
-extern unsigned char __end__;  
+//extern unsigned char __end__;  
 pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
 {
-
+        Serial.println("Starting pt_init");
 	unsigned char buf[256]; // Some buffer. Let's hope this fits on stack.
 	unsigned char *bp=&buf[0];
 
@@ -135,7 +192,7 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
     modRAMfile.seek(0x438, SEEK_SET);
 
 
-//#ifdef DO_CHECKS
+//#ifdef DEBUG
 	modRAMfile.read(&bp[0], 4);
         Serial.print(bp[0], HEX);
         Serial.print(" ");
@@ -148,7 +205,7 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
         Serial.println(" ");        
       
 	if (!(bp[0] == 'M' && bp[1] == '.' && bp[2] == 'K' && bp[3] == '.')) {
-		Serial.println("Invalid file");
+		Serial.println("Invalid MOD file");
 		return NULL;
 	}
 //#endif
@@ -194,7 +251,8 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
 	}*/
 	//while(1) {}
 
-	mod = (pt_mod_s*)&__end__;
+	//mod = (pt_mod_s*)&__end__;
+        mod = (pt_mod_s*)RamFSFile::zpuinomalloc(sizeof(pt_mod_s));
 	memset(mod, 0, sizeof(*mod));
 
 

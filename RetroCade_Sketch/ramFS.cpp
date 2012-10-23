@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <endian.h>
 #include <stdio.h>
+#include <new.h>
 
 #define BE32(x) be32toh(x)
 
@@ -19,8 +20,20 @@
 
 #undef RAMFSDEBUG
 
+File modSDfile;
+
+extern void*__end__;
+unsigned char *mbuf;
+
 RamFSFile::RamFSFile(){
   
+}
+
+void *RamFSFile::zpuinomalloc(unsigned size)
+{
+ void *ret = mbuf;
+ mbuf+=size;
+ return ret;
 }
 
 int RamFS_class::begin()
@@ -160,6 +173,22 @@ RamFSFile RamFS_class::open(File *file)
 //	// Reset offset.
 //	offset=(unsigned)-1;
 
+//        unsigned char buf[256];
+//        unsigned char *bp=&buf[0];
+//        
+//        file->seek(0x438);
+//        file->read(&bp[0], 4);
+//        Serial.println("In RamFS.open");
+//        Serial.print(bp[0], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[1], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[2], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[3], HEX);
+//        Serial.print(" ");        
+//        Serial.println(" ");   
+
 	return RamFSFile(file);
 }
 
@@ -168,17 +197,112 @@ RamFSFile::RamFSFile(File *file)
         //int len = 0;
         //pt_mod_s *mod;
         //char *buf=0;
+//        unsigned char buf[256];
+//        unsigned char *bp=&buf[0];
+        //unsigned char *datap=&data[0];        
         
+        
+//        file->seek(0x438);
+//        file->read(&bp[0], 4);
+//        Serial.println("In RamFSFile contructor");
+//        Serial.print(bp[0], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[1], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[2], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[3], HEX);
+//        Serial.print(" ");        
+//        Serial.println(" ");          
+        
+        //modSDfile = SD.open("track3.mod");
         filesize = file->size();
+        Serial.print("Filesize: ");
+        Serial.println(filesize);        
+        moddata = (unsigned char *)zpuinomalloc(filesize*sizeof(unsigned char));
+        file->read(&moddata[0], filesize);
+//        for (int i = 0; i < 55000; i++){
+//          moddata[i] = i; 
+//        }
+//        for (int i = 0; i < 55000; i++){
+//          Serial.println(moddata[i]); 
+//        }        
+//        Serial.print("Filesize: ");
+//        Serial.println(filesize);   
+        //modSDfile.seek(0x0); 
+        //Serial.println("Past file seek");
+//        if (modSDfile) {
+//          unsigned long i = 0;
+//          while (modSDfile.available()) {
+//            //modSDfile.read(&moddata[0], filesize);
+//            //Serial.write(modSDfile.read());
+//            //modSDfile.read(&bp[i], 1);
+//            modSDfile.read(&moddata[0],1);
+//            //Serial.write(buf[i]);
+//            //Serial.println(i);
+//            i++;
+//          }
+//        }        
         
-        data = (char *)malloc(filesize * sizeof(char));
-        file->read(data,filesize);  
+        
+//        filesize = file->size();
+//        Serial.print("Filesize: ");
+//        Serial.println(filesize);
+//        //file->seek(0x0);
+//        //data = (unsigned char *)malloc(filesize * sizeof(unsigned char));
+//        moddata = (unsigned char *)malloc(50000);
+//        unsigned char *modp=&moddata[0];
+//        file->seek(0x0);
+//        Serial.println("Past file seek");
+//        if (file) {
+//          unsigned long i = 0;
+//          //file->read(&moddata[0],200);
+//          while (file->available()) {
+//            //Serial.write(file->read());
+//            //moddata[i] = file->read();
+//            //file->read(&moddata[0],1);
+//            file->read(modp,1);
+//            modp++;
+//            Serial.println(i);
+//            i++;
+//          }
+//        }
+        
+//        for (int i = 0; i < filesize; i++){
+//          &datap[i] = file->read();
+////          Serial.print(" ");
+//        }
+//        Serial.println("Past all reads");
+//         
+//      
+//        Serial.println("In RamFSFile contructor data portion");
+//        Serial.print(moddata[0x438], HEX);
+//        Serial.print(" ");
+//        Serial.print(moddata[0x438+1], HEX);
+//        Serial.print(" ");
+//        Serial.print(moddata[0x438+2], HEX);
+//        Serial.print(" ");
+//        Serial.print(moddata[0x438+3], HEX);
+//        Serial.print(" ");        
+//        Serial.println(" ");          
 }
 
 int RamFSFile::read(void *buf, int s)
 {
 //	if (!valid())
 //		return -1;
+
+//        Serial.println("In RamFSFile.read");
+//        Serial.print(moddata[0x438], HEX);
+//        Serial.print(" ");
+//        Serial.print(moddata[0x438+1], HEX);
+//        Serial.print(" ");
+//        Serial.print(moddata[0x438+2], HEX);
+//        Serial.print(" ");
+//        Serial.print(moddata[0x438+3], HEX);
+//        Serial.print("Seekpos "); 
+//        Serial.print(seekpos, HEX);       
+//        Serial.println(" ");  
 
 	if (seekpos==filesize)
 		return 0; /* EOF */
@@ -187,7 +311,8 @@ int RamFSFile::read(void *buf, int s)
 		s = filesize-seekpos;
 	}
 	//RamFS.read(seekpos + flashoffset, buf,s);
-        buf = data + seekpos;
+        //buf = moddata + seekpos;
+        memcpy(buf, moddata+seekpos, s);
 
 	seekpos+=s;
 	return s;  

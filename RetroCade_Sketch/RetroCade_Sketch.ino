@@ -42,9 +42,8 @@ File root;
 RETROCADE retrocade;
 YM2149 ym2149;
 SID sid;
-MODPLAYER modplayer;
 YMPLAYER ymplayer;
-
+MODPLAYER modplayer;
 
 void setup(){
   #ifdef DEBUG
