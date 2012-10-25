@@ -29,29 +29,33 @@ This example code is Creative Commons Attribution.
 #include "ymplayer.h"
 #include "SmallFS.h"
 #include <LiquidCrystal.h>
+#include <SD.h>
+
+File root;
+
 //#include "cbuffer.h"
 
 #undef DO_CHECKS
-//#define DEBUG
+#define DEBUG
 
 //Instantiate the objects we will be using.
 RETROCADE retrocade;
 YM2149 ym2149;
 SID sid;
-MODPLAYER modplayer;
 YMPLAYER ymplayer;
+MODPLAYER modplayer;
 
 void setup(){
   #ifdef DEBUG
-    Serial.begin(9600);
+    Serial.begin(115200);
   #endif
   Serial1.begin(31250);
 
-  modplayer.setup();
-  ymplayer.setup(&ym2149);
-
   //Setup pins for RetroCade MegaWing
   retrocade.setupMegaWing();
+  
+  modplayer.setup();
+  ymplayer.setup(&ym2149);  
   
   ///Set volume to max levels
   ym2149.V1.setVolume(15);
@@ -74,7 +78,33 @@ void setup(){
 // MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
 // MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
+  
+USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
+	int i;
+	Serial.println("Starting SD Card");
+
+	digitalWrite(CSPIN,LOW);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	digitalWrite(CSPIN,HIGH);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	if (!SD.begin(CSPIN)) {
+		Serial.println("init failed!");
+		Serial.println(SD.errorCode());
+	} else {
+		Serial.println("done.");
+		SD.ls();  
+        }
+    root = SD.open("/");
+  
+  retrocade.printDirectory(root, 0);
 }
+
 
 void _zpu_interrupt()
 {
@@ -129,7 +159,7 @@ void HandleControlChange(byte channel, byte number, byte value) {
       modplayer.play(value);
       break;
     case 10:
-      ymplayer.loadFile("track1.ymdat");
+      ymplayer.loadFile("TRACK1~1.YMD");
       ymplayer.play(value);
       break;      
     case 11:
@@ -225,3 +255,5 @@ void loop(){
     ymplayer.audiofill(); 
   retrocade.handleJoystick();     
 }
+
+

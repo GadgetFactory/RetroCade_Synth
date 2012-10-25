@@ -16,6 +16,7 @@
 #include <zpuino.h>
 #include "Arduino.h"
 #include "LiquidCrystal.h"
+#include <SD.h>
 
 #define AUDIO_J1_L WING_B_1
 #define AUDIO_J1_R WING_B_0
@@ -58,6 +59,7 @@ class RETROCADE
    void handleJoystick();
    void setTimeout();
    byte getActiveChannel();
+   void printDirectory(File dir, int numTabs);
   private:
    byte activeChannel;
    int activeInstrument;

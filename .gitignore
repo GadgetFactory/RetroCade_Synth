@@ -1,3 +1,26 @@
+*.avi
+*.exe
+*.zip
+*.rar
+*.log
+FTDI USB Drivers
+hyperterminal
+index_files
+bad
+*.htm
+SDList
+*.7z
+
+
+FTDI USB Drivers
+
+*TestPlan*
+SDList
+tinysid
+tinysid-orig
+webplatform*
+
+
 #################
 ## Eclipse
 #################
@@ -161,15 +184,4 @@ pip-log.txt
 # Mac crap
 .DS_Store
 
-*.avi
-*.exe
-*.zip
-*.rar
-*.log
-FTDI USB Drivers
-hyperterminal
-index_files
-bad
-*.htm
-SDList
-*.7z
+
