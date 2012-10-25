@@ -159,17 +159,25 @@ void HandleControlChange(byte channel, byte number, byte value) {
       modplayer.play(value);
       break;
     case 10:
-      ymplayer.loadFile("TRACK1~1.YMD");
+      ymplayer.loadFile("track1.ymd");
       ymplayer.play(value);
       break;      
     case 11:
       modplayer.loadFile("track2.mod");
       modplayer.play(value);
       break;
+    case 12:
+      ymplayer.loadFile("track2.ymd");
+      ymplayer.play(value);
+      break;        
     case 13:
       modplayer.loadFile("track3.mod");
       modplayer.play(value);
-      break;   
+      break;  
+    case 14:
+      ymplayer.loadFile("track3.ymd");
+      ymplayer.play(value);
+      break;        
     case 84:
       modplayer.volume(value <<1);
       break;        

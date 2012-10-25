@@ -1,6 +1,8 @@
 #include "ymplayer.h"
 #include "YM2149.h"
 
+#define DEBUG
+
 YMPLAYER::YMPLAYER(){
   
 }
@@ -13,63 +15,44 @@ void YMPLAYER::setup(YM2149* ym){
   counter = 0;
   playing = false;
   ym2149 = ym;
-//  Serial.println("Press Key to start");
-//    while (!Serial.available());
-//  Serial.flush();
-//  Serial.println("Starting");
-  
- 	if (SmallFS.begin()<0) {
-		Serial.println("No SmalLFS found.");
-		//while(1);
-	}
-	ymaudiofile = SmallFS.open("track1.ymdat");
 
-USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
-	int i;
-	Serial.println("Starting SD Card");
-
-	digitalWrite(CSPIN,LOW);
-
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
-
-	digitalWrite(CSPIN,HIGH);
-
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
-
-	if (!SD.begin(CSPIN)) {
-		Serial.println("init failed!");
-		Serial.println(SD.errorCode());
-	} else {
-		Serial.println("done.");
-		//SD.ls();  
-        }
-    ymSDfile = SD.open("TRACK1~1.YMD");
-
-        //mod = pt_init_smallfs(modfile);
-        
-//	TMR0CTL = 0;
-//	TMR0CNT = 0;
-//	TMR0CMP = ((CLK_FREQ/2) / FREQ )- 1;
-//	TMR0CTL = _BV(TCTLENA)|_BV(TCTLCCM)|_BV(TCTLDIR)|
-//		_BV(TCTLCP0) | _BV(TCTLIEN);
-//
-//	INTRMASK = BIT(INTRLINE_TIMER0); // Enable Timer0 interrupt
-//
-//	INTRCTL=1;   
 }
 
 void YMPLAYER::loadFile(const char* name)
 {
-  ymaudiofile = SmallFS.open(name);
-  ymSDfile = SD.open(name);
-//  playYM = 1;     
+  ymSDfile.close();
   ymTimeStamp = 0;  
+  ymSmallFSfile = SmallFS.open(name);
+  if (!ymSmallFSfile.valid()) {
+    #ifdef DEBUG  
+      Serial.println("There is no smallfs File.");
+    #endif     
+  }
+    
+  ymSDfile = SD.open(name);    //TODO: Should check for SD filesystem init first.
+  if (!ymSDfile){
+    #ifdef DEBUG  
+      Serial.println("There is no SD File.");
+    #endif     
+  }
 }
 
 void YMPLAYER::play(boolean play)
 {
+  boolean smallfscheck = ymSmallFSfile.valid();
+  if (!ymSDfile && !smallfscheck) {
+    play = false;
+    #ifdef DEBUG
+      Serial.println("Error: No SD or SmallFS File Available");
+    #endif  
+    return; 
+  }
+  
+  if (smallfscheck)
+   fileType = SmallFSType;
+  if (ymSDfile)
+   fileType = SDFSType; 
+  
   playing = play;
   if (play == true)
     resetYMFlag = 1;
@@ -82,20 +65,37 @@ void YMPLAYER::volume(int volume)
 
 void YMPLAYER::audiofill()
 {
-	// Check audio
 	int r;
-
 	ymframe f;
 	while (!YMaudioBuffer.isFull()) {
-//		r = ymaudiofile.read(&f.regval[0], 16);
-		r = ymSDfile.read(&f.regval[0], 16);
-		if (r==0) {
-//			ymaudiofile.seek(0,SEEK_SET);
-//			ymaudiofile.read(&f.regval[0], 16);
-			ymSDfile.seek(SEEK_SET);
-			ymSDfile.read(&f.regval[0], 16);
-		}
-		YMaudioBuffer.push(f);
+          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+            case SmallFSType:
+              r = ymSmallFSfile.read(&f.regval[0], 16);
+              break;
+            case SDFSType:
+              r = ymSDfile.read(&f.regval[0], 16);
+              break;     
+            default:
+              return;
+              break;       
+          }                    
+            
+  		if (r==0) {
+                    switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+                      case SmallFSType:
+  			      ymSmallFSfile.seek(0,SEEK_SET);
+  			      ymSmallFSfile.read(&f.regval[0], 16); 
+                        break;
+                      case SDFSType:
+  			      ymSDfile.seek(0);
+  			      ymSDfile.read(&f.regval[0], 16); 
+                        break;     
+                      default:
+                        return;
+                        break;       
+                    }    
+  		}
+  		YMaudioBuffer.push(f);
 	}
 }
 

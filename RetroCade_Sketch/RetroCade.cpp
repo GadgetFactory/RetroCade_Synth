@@ -9,6 +9,8 @@
  */
  #include "RetroCade.h"
  
+#define FREQ 17000    //Freq for modplayer 
+ 
 LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);
 
 void RETROCADE::setupMegaWing()
@@ -49,6 +51,11 @@ void RETROCADE::setupMegaWing()
   outputPinForFunction(SERIAL1TXPIN, 6);
   pinModePPS(SERIAL1TXPIN, HIGH);
  
+   //Start SmallFS
+  if (SmallFS.begin()<0) {
+	Serial.println("No SmalLFS found.");
+  }  
+ 
   //Setup SD Card
   outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
   pinModePPS(SDIPIN,HIGH);
@@ -63,6 +70,27 @@ void RETROCADE::setupMegaWing()
 
   inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
   pinMode(SDOPIN,INPUT);  
+  USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
+	int i;
+	Serial.println("Starting SD Card");
+
+	digitalWrite(CSPIN,LOW);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	digitalWrite(CSPIN,HIGH);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	if (!SD.begin(CSPIN)) {
+		Serial.println("init failed!");
+		Serial.println(SD.errorCode());
+	} else {
+		Serial.println("done.");
+		//SD.ls();  
+        }
   
   //Setup Joystick
   pinMode(JSELECT, INPUT); 
@@ -82,6 +110,16 @@ void RETROCADE::setupMegaWing()
  lcd.print("CH:   RetroCade");
  lcd.setCursor(0,0);
  lcd.print("Instrument:");
+
+ //Setup timer for YM and mod players
+  TMR0CTL = 0;
+  TMR0CNT = 0;
+  TMR0CMP = ((CLK_FREQ/2) / FREQ )- 1;
+  TMR0CTL = _BV(TCTLENA)|_BV(TCTLCCM)|_BV(TCTLDIR)|
+  	_BV(TCTLCP0) | _BV(TCTLIEN);
+  INTRMASK = BIT(INTRLINE_TIMER0); // Enable Timer0 interrupt
+  INTRCTL=1;    
+
 }
 
 void RETROCADE::setTimeout()

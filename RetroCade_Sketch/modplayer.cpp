@@ -38,33 +38,33 @@ void MODPLAYER::setup(){
 //		//SD.ls();  
 //        }  
   
- 	if (SmallFS.begin()<0) {
-		Serial.println("No SmalLFS found.");
-		//while(1);
-	}
+// 	if (SmallFS.begin()<0) {
+//		Serial.println("No SmalLFS found.");
+//		//while(1);
+//	}
 	//modfile = SmallFS.open("track1.mod");
 
-USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
-	int i;
-	Serial.println("Starting SD Card in ModPlayer");
-
-	digitalWrite(CSPIN,LOW);
-
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
-
-	digitalWrite(CSPIN,HIGH);
-
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
-
-	if (!SD.begin(CSPIN)) {
-		Serial.println("init failed!");
-		Serial.println(SD.errorCode());
-	} else {
-		Serial.println("done.");
-		//SD.ls();  
-        }
+//USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
+//	int i;
+//	Serial.println("Starting SD Card in ModPlayer");
+//
+//	digitalWrite(CSPIN,LOW);
+//
+//	for (i=0;i<51200;i++)
+//		USPIDATA=0xff;
+//
+//	digitalWrite(CSPIN,HIGH);
+//
+//	for (i=0;i<51200;i++)
+//		USPIDATA=0xff;
+//
+//	if (!SD.begin(CSPIN)) {
+//		Serial.println("init failed!");
+//		Serial.println(SD.errorCode());
+//	} else {
+//		Serial.println("done.");
+//		//SD.ls();  
+//        }
 //        modSDfile = SD.open("track1.mod");
 //        
 //        unsigned char buf[256];
@@ -89,15 +89,15 @@ USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);
 
         //mod = pt_init_smallfs(modfile);
         
-	TMR0CTL = 0;
-	TMR0CNT = 0;
-	TMR0CMP = ((CLK_FREQ/2) / FREQ )- 1;
-	TMR0CTL = _BV(TCTLENA)|_BV(TCTLCCM)|_BV(TCTLDIR)|
-		_BV(TCTLCP0) | _BV(TCTLIEN);
-
-	INTRMASK = BIT(INTRLINE_TIMER0); // Enable Timer0 interrupt
-
-	INTRCTL=1;   
+//	TMR0CTL = 0;
+//	TMR0CNT = 0;
+//	TMR0CMP = ((CLK_FREQ/2) / FREQ )- 1;
+//	TMR0CTL = _BV(TCTLENA)|_BV(TCTLCCM)|_BV(TCTLDIR)|
+//		_BV(TCTLCP0) | _BV(TCTLIEN);
+//
+//	INTRMASK = BIT(INTRLINE_TIMER0); // Enable Timer0 interrupt
+//
+//	INTRCTL=1;   
 }
 
 void MODPLAYER::loadFile(const char* name)
