@@ -53,6 +53,11 @@
 #define SCKPIN WING_C_11
 #define SDOPIN WING_C_10
 
+enum kFileType {
+	SmallFSType               = 0,  
+	SDFSType                  = 1,  
+};
+
 class RETROCADE
 { 
   public:

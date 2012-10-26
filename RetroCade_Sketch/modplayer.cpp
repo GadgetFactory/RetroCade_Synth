@@ -1,6 +1,7 @@
 #include "modplayer.h"
 #include <SD.h>
 #include "ptplay.h"
+#include "RetroCade.h"
 
 #define DEBUG
 
@@ -10,124 +11,48 @@ MODPLAYER::MODPLAYER(){
  
 void MODPLAYER::setup(){    
   underruns = 0;
-  playing = false;
-//  Serial.println("Press Key to start");
-//    while (!Serial.available());
-//  Serial.flush();
-//  Serial.println("Starting");
-  
-//USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
-//	int i;
-//	Serial.println("Starting SD Card");
-//
-//	digitalWrite(CSPIN,LOW);
-//
-//	for (i=0;i<51200;i++)
-//		USPIDATA=0xff;
-//
-//	digitalWrite(CSPIN,HIGH);
-//
-//	for (i=0;i<51200;i++)
-//		USPIDATA=0xff;
-//
-//	if (!SD.begin(CSPIN)) {
-//		Serial.println("init failed!");
-//		Serial.println(SD.errorCode());
-//	} else {
-//		Serial.println("done.");
-//		//SD.ls();  
-//        }  
-  
-// 	if (SmallFS.begin()<0) {
-//		Serial.println("No SmalLFS found.");
-//		//while(1);
-//	}
-	//modfile = SmallFS.open("track1.mod");
-
-//USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
-//	int i;
-//	Serial.println("Starting SD Card in ModPlayer");
-//
-//	digitalWrite(CSPIN,LOW);
-//
-//	for (i=0;i<51200;i++)
-//		USPIDATA=0xff;
-//
-//	digitalWrite(CSPIN,HIGH);
-//
-//	for (i=0;i<51200;i++)
-//		USPIDATA=0xff;
-//
-//	if (!SD.begin(CSPIN)) {
-//		Serial.println("init failed!");
-//		Serial.println(SD.errorCode());
-//	} else {
-//		Serial.println("done.");
-//		//SD.ls();  
-//        }
-//        modSDfile = SD.open("track1.mod");
-//        
-//        unsigned char buf[256];
-//        unsigned char *bp=&buf[0];
-//        
-//        modSDfile.seek(0x438);
-//        modSDfile.read(&bp[0], 4);
-//        Serial.println("In ModPlayer Setup ");
-//        Serial.print(bp[0], HEX);
-//        Serial.print(" ");
-//        Serial.print(bp[1], HEX);
-//        Serial.print(" ");
-//        Serial.print(bp[2], HEX);
-//        Serial.print(" ");
-//        Serial.print(bp[3], HEX);
-//        Serial.print(" ");        
-//        Serial.println(" ");         
-//        
-//        modRAMfile = RamFS.open(&modSDfile);
-//        modSDfile.close();
-//        mod = pt_init_smallfs(modRAMfile);
-
-        //mod = pt_init_smallfs(modfile);
-        
-//	TMR0CTL = 0;
-//	TMR0CNT = 0;
-//	TMR0CMP = ((CLK_FREQ/2) / FREQ )- 1;
-//	TMR0CTL = _BV(TCTLENA)|_BV(TCTLCCM)|_BV(TCTLDIR)|
-//		_BV(TCTLCP0) | _BV(TCTLIEN);
-//
-//	INTRMASK = BIT(INTRLINE_TIMER0); // Enable Timer0 interrupt
-//
-//	INTRCTL=1;   
+  playing = false;  
 }
 
 void MODPLAYER::loadFile(const char* name)
 {
-  //modfile = SmallFS.open(name);
-  modSDfile =SD.open(name);
-  modRAMfile = RamFS.open(&modSDfile);
-  modSDfile.close();
-  
-        unsigned char buf[256];
-        unsigned char *bp=&buf[0];
-        
-        modRAMfile.seek(0x438, SEEK_SET);
-        modRAMfile.read(&bp[0], 4);
-        Serial.println("In ModPlayerloadFile ");
-        Serial.print(bp[0], HEX);
-        Serial.print(" ");
-        Serial.print(bp[1], HEX);
-        Serial.print(" ");
-        Serial.print(bp[2], HEX);
-        Serial.print(" ");
-        Serial.print(bp[3], HEX);
-        Serial.print(" ");        
-        Serial.println(" ");     
-  mod = pt_init_smallfs(modRAMfile);
+  modSmallFSfile = SmallFS.open(name);
+  if (!modSmallFSfile.valid()) {
+    #ifdef DEBUG  
+      Serial.println("There is no smallfs File.");
+    #endif     
+  }  
   //mod = pt_init_smallfs(modfile);  
+  
+  modSDfile = SD.open(name);
+  //if (modSDfile){
+    modRAMfile = RamFS.open(&modSDfile);
+    modSDfile.close();
+    mod = pt_init_smallfs();
+    fileType = SDFSType;     
+//  }
+//  else {
+//    #ifdef DEBUG  
+//      Serial.println("There is no SD File.");
+//    #endif     
+//  }   
 }
 
 void MODPLAYER::play(boolean play)
 {
+  boolean smallfscheck = modSmallFSfile.valid();
+//  if (!modRAMfile && !smallfscheck) {
+//    play = false;
+//    #ifdef DEBUG
+//      Serial.println("Error: No SD or SmallFS File Available");
+//    #endif  
+//    return; 
+//  }
+  
+  if (smallfscheck)
+   fileType = SmallFSType;
+//  if (modSDfile)
+//   fileType = SDFSType;   
   playing = play;
 }
 
@@ -166,13 +91,13 @@ void MODPLAYER::_zpu_interrupt()
           //SIGMADELTADATA=0x80008000;
           underruns++;
 	}
-	TMR0CTL &= ~(BIT(TCTLIF));
+	TMR0CTL &= ~(BIT(TCTLIF));    //TODO: This should probably go into main interupt
   //Serial.println("In interupt");
 }
 
 
 //extern unsigned char __end__;  
-pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
+pt_mod_s *MODPLAYER::pt_init_smallfs()
 {
         Serial.println("Starting pt_init");
 	unsigned char buf[256]; // Some buffer. Let's hope this fits on stack.
@@ -189,11 +114,32 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
 	/* M.K. signature */
 
 	// smallfs bp = buf + 0x438;
-    modRAMfile.seek(0x438, SEEK_SET);
+          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+            case SmallFSType:
+              modSmallFSfile.seek(0x438, SEEK_SET);
+              break;
+            case SDFSType:
+               modRAMfile.seek(0x438, SEEK_SET);
+              break;     
+            default:
+              //return;
+              break;       
+          }  
 
 
 //#ifdef DEBUG
-	modRAMfile.read(&bp[0], 4);
+          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+            case SmallFSType:
+              modSmallFSfile.read(&bp[0], 4);
+              break;
+            case SDFSType:
+              modRAMfile.read(&bp[0], 4);
+              break;     
+            default:
+              //return;
+              break;       
+          }  
+	
         Serial.print(bp[0], HEX);
         Serial.print(" ");
         Serial.print(bp[1], HEX);
@@ -214,8 +160,19 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
 
 	k = 0;
 	// smallfs bp = buf + 952;
-	modRAMfile.seek(952, SEEK_SET);
-	modRAMfile.read(&buf,128);
+          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+            case SmallFSType:
+      	      modSmallFSfile.seek(952, SEEK_SET);
+      	      modSmallFSfile.read(&buf,128);
+              break;
+            case SDFSType:
+      	      modRAMfile.seek(952, SEEK_SET);
+      	      modRAMfile.read(&buf,128);
+              break;     
+            default:
+              //return;
+              break;       
+          }  
 
 	for (i = 0; i < 128; ++i)
 	{
@@ -287,12 +244,33 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
 	/* samples */
 
 	// smallfs bp = buf + 20;
-	modRAMfile.seek(20, SEEK_SET);
+          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+            case SmallFSType:
+              modSmallFSfile.seek(20, SEEK_SET);
+              break;
+            case SDFSType:
+              modRAMfile.seek(20, SEEK_SET);
+              break;     
+            default:
+              //return;
+              break;       
+          }  
+	
 
 	for (i = 1; i < 32; ++i)
 	{
 		s = &mod->sample[i];
-		modRAMfile.read(buf,30);
+                switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+                  case SmallFSType:
+                    modSmallFSfile.read(buf,30);
+                    break;
+                  case SDFSType:
+                    modRAMfile.read(buf,30);
+                    break;     
+                  default:
+                    //return;
+                    break;       
+                }  
 #ifdef DEBUG
 //		Serial.print("Name: ");
 //		for(l = 0; l < 22, buf[l]; ++l) {
@@ -330,16 +308,38 @@ pt_mod_s *MODPLAYER::pt_init_smallfs(RamFSFile &file)
 	}
 	/* mod length */
 
+        switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+          case SmallFSType:
+	    modSmallFSfile.seek(950, SEEK_SET);
+            modSmallFSfile.read(buf,1);            
+            break;
+          case SDFSType:
+	    modRAMfile.seek(950, SEEK_SET);
+            modRAMfile.read(buf,1);
+            break;     
+          default:
+            //return;
+            break;       
+        }  
 
-	modRAMfile.seek(950, SEEK_SET);
-    modRAMfile.read(buf,1);
 	//j = buf[950];
 	mod->length = buf[0];//j;
 
 	/* positions */
 
-	modRAMfile.seek(952, SEEK_SET);
-	modRAMfile.read(buf,128);
+        switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+          case SmallFSType:
+	    modSmallFSfile.seek(952, SEEK_SET);
+	    modSmallFSfile.read(buf,128);            
+            break;
+          case SDFSType:
+	    modRAMfile.seek(952, SEEK_SET);
+	    modRAMfile.read(buf,128);
+            break;     
+          default:
+            //return;
+            break;       
+        } 
 
 	// bp = buf + 952;
     bp=&buf[0];

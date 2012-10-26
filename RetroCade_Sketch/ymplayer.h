@@ -21,11 +21,6 @@
 #include <SD.h>
 #include "RetroCade.h"
 
-enum kFileType {
-	SmallFSType               = 0,  
-	SDFSType                  = 1,  
-};
-
 class YMPLAYER
 {
   public: 

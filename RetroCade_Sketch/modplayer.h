@@ -36,13 +36,14 @@ class MODPLAYER
   private:
     CircularBuffer<unsigned,7> audioBuffer;   
     unsigned underruns;
-    pt_mod_s *pt_init_smallfs(RamFSFile &file);
-    SmallFSFile modfile;
+    pt_mod_s *pt_init_smallfs();
+    SmallFSFile modSmallFSfile;
     File modSDfile;
     RamFSFile modRAMfile;
     char buf[128];
     pt_mod_s * mod;
-    boolean playing;    
+    boolean playing;
+    kFileType fileType;    
     //unsigned char __end__;
 };
 
