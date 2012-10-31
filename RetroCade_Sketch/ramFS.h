@@ -8,6 +8,7 @@
 #endif
 
 #include <SD.h>
+#include "SmallFS.h"
 
 /** RAMFS filesystem magic */
 //#define RAMFS_MAGIC 0x50411F50
@@ -42,6 +43,7 @@ class RamFSFile
 public:
         RamFSFile();
 	RamFSFile(File *file);
+        RamFSFile(SmallFSFile *file);
 	//RamFSFile(unsigned o,unsigned size): flashoffset(o),filesize(size),seekpos(0) {}
 	/**
 	 * @brief Check if file was successfuly opened.
@@ -162,6 +164,7 @@ public:
 	 * if file was successfully open.
 	 */
 	RamFSFile open(File *file);
+        RamFSFile open(SmallFSFile *file);
 
 private:
 	void seek_if_needed(unsigned address);

@@ -11,17 +11,46 @@ MODPLAYER::MODPLAYER(){
  
 void MODPLAYER::setup(){    
   underruns = 0;
+<<<<<<< HEAD
   playing = false;  
+=======
+  playing = false;
+>>>>>>> Mod files playing from SD card and smallFS working. Needs updated smallfs
 }
 
 void MODPLAYER::loadFile(const char* name)
 {
+<<<<<<< HEAD
   modSmallFSfile = SmallFS.open(name);
   if (!modSmallFSfile.valid()) {
     #ifdef DEBUG  
       Serial.println("There is no smallfs File.");
     #endif     
   }  
+=======
+  modfile = SmallFS.open(name);
+  modSDfile =SD.open(name);
+  modRAMfile = RamFS.open(&modfile);
+  modSDfile.close();
+  
+        unsigned char buf[256];
+        unsigned char *bp=&buf[0];
+        
+        modRAMfile.seek(0x438, SEEK_SET);
+        modRAMfile.read(&bp[0], 4);
+        Serial.println("In ModPlayerloadFile ");
+        Serial.print(bp[0], HEX);
+        Serial.print(" ");
+        Serial.print(bp[1], HEX);
+        Serial.print(" ");
+        Serial.print(bp[2], HEX);
+        Serial.print(" ");
+        Serial.print(bp[3], HEX);
+        Serial.print(" ");        
+        Serial.println(" ");    
+  //modRAMfile.seek(0x0, SEEK_SET); 
+  mod = pt_init_smallfs(modRAMfile);
+>>>>>>> Mod files playing from SD card and smallFS working. Needs updated smallfs
   //mod = pt_init_smallfs(modfile);  
   
   modSDfile = SD.open(name);

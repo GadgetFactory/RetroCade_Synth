@@ -143,6 +143,76 @@ void RamFS_class::read(unsigned address, void *target, unsigned size)
 //#endif
 }
 
+RamFSFile RamFS_class::open(SmallFSFile *file)
+{
+        Serial.println("In RamFS.open");
+	return RamFSFile(file);
+}
+
+RamFSFile::RamFSFile(SmallFSFile *file)
+{
+        unsigned char buf[256];
+        unsigned char *bp=&buf[0];
+        //unsigned char *datap=&data[0];        
+        
+        
+        file->seek(0x438, SEEK_SET);
+        file->read(&bp[0], 4);
+        Serial.println("In RamFSFile contructor");
+        Serial.print(bp[0], HEX);
+        Serial.print(" ");
+        Serial.print(bp[1], HEX);
+        Serial.print(" ");
+        Serial.print(bp[2], HEX);
+        Serial.print(" ");
+        Serial.print(bp[3], HEX);
+        Serial.print(" ");        
+        Serial.println(" ");      
+  
+//        unsigned long i=0;
+//        filesize = file->size();
+//        Serial.print("Filesize: ");
+//        Serial.println(filesize); 
+//        file->seek(0x0, SEEK_SET);  
+//        moddata = (unsigned char *)zpuinomalloc(filesize*sizeof(unsigned char)); 
+//        //unsigned char *bp2=&moddata[0];       
+//        while (i<filesize) {
+//          //Serial.write(file->read());
+//          //moddata[i] = file->read();
+//          //file->read(&moddata[0],1);
+//          moddata[i] = file->readByte();
+//          //Serial.println(i);
+//          i++;
+//        }  
+  
+    //isValid = false;
+//        filesize = file->size();
+//        Serial.print("Filesize: ");
+//        Serial.println(filesize);        
+//        moddata = (unsigned char *)zpuinomalloc(filesize*sizeof(unsigned char));
+//        //if (file){
+//          file->read(&moddata[0], filesize);
+//          //isValid = true;
+//        //}  
+        
+        
+        filesize = file->size();
+        Serial.print("Filesize: ");
+        Serial.println(filesize);   
+        file->seek(0x0, SEEK_SET);     
+        moddata = (unsigned char *)zpuinomalloc(filesize*sizeof(unsigned char));
+        file->read(&moddata[0], filesize);
+        
+        Serial.println("In RamFSFile");
+        Serial.print(moddata[0x438], HEX);
+        Serial.print(" ");
+        Serial.print(moddata[0x438+1], HEX);
+        Serial.print(" ");
+        Serial.print(moddata[0x438+2], HEX);
+        Serial.print(" ");
+        Serial.println(moddata[0x438+3], HEX);     
+}
+
 RamFSFile RamFS_class::open(File *file)
 {
 //	/* Start at root offset */
@@ -220,6 +290,7 @@ RamFSFile::RamFSFile(File *file)
         Serial.print("Filesize: ");
         Serial.println(filesize);        
         moddata = (unsigned char *)zpuinomalloc(filesize*sizeof(unsigned char));
+        file->seek(0x0); 
         file->read(&moddata[0], filesize);
 //        for (int i = 0; i < 55000; i++){
 //          moddata[i] = i; 
