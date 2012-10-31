@@ -11,27 +11,33 @@ MODPLAYER::MODPLAYER(){
  
 void MODPLAYER::setup(){    
   underruns = 0;
-<<<<<<< HEAD
-  playing = false;  
-=======
   playing = false;
->>>>>>> Mod files playing from SD card and smallFS working. Needs updated smallfs
+  fileLoaded = false;
 }
 
 void MODPLAYER::loadFile(const char* name)
 {
-<<<<<<< HEAD
+  fileLoaded = false;
   modSmallFSfile = SmallFS.open(name);
-  if (!modSmallFSfile.valid()) {
-    #ifdef DEBUG  
-      Serial.println("There is no smallfs File.");
-    #endif     
-  }  
-=======
-  modfile = SmallFS.open(name);
   modSDfile =SD.open(name);
-  modRAMfile = RamFS.open(&modfile);
-  modSDfile.close();
+  boolean smallFsCheck = modSmallFSfile.valid();
+  boolean sdFsCheck = modSDfile;
+  if (sdFsCheck){
+    Serial.println("Opening Mod File from SD Card.");
+    modRAMfile = RamFS.open(&modSDfile);
+    modSDfile.close();
+    fileLoaded = true;
+  }
+  else if (smallFsCheck){
+    Serial.println("Opening Mod File from SmallFS.");
+    modRAMfile = RamFS.open(&modSmallFSfile);
+    fileLoaded = true;
+  }
+  else {
+    Serial.println("No mod files to play in SmallFS or on SD card.");
+    fileLoaded = false; 
+  }
+  
   
         unsigned char buf[256];
         unsigned char *bp=&buf[0];
@@ -49,27 +55,12 @@ void MODPLAYER::loadFile(const char* name)
         Serial.print(" ");        
         Serial.println(" ");    
   //modRAMfile.seek(0x0, SEEK_SET); 
-  mod = pt_init_smallfs(modRAMfile);
->>>>>>> Mod files playing from SD card and smallFS working. Needs updated smallfs
-  //mod = pt_init_smallfs(modfile);  
-  
-  modSDfile = SD.open(name);
-  //if (modSDfile){
-    modRAMfile = RamFS.open(&modSDfile);
-    modSDfile.close();
-    mod = pt_init_smallfs();
-    fileType = SDFSType;     
-//  }
-//  else {
-//    #ifdef DEBUG  
-//      Serial.println("There is no SD File.");
-//    #endif     
-//  }   
+  mod = pt_init_smallfs();  
 }
 
 void MODPLAYER::play(boolean play)
 {
-  boolean smallfscheck = modSmallFSfile.valid();
+  //boolean smallfscheck = modSmallFSfile.valid();
 //  if (!modRAMfile && !smallfscheck) {
 //    play = false;
 //    #ifdef DEBUG
@@ -78,11 +69,14 @@ void MODPLAYER::play(boolean play)
 //    return; 
 //  }
   
-  if (smallfscheck)
-   fileType = SmallFSType;
+//  if (smallfscheck)
+//   fileType = SmallFSType;
 //  if (modSDfile)
-//   fileType = SDFSType;   
-  playing = play;
+//   fileType = SDFSType;  
+  if (fileLoaded)
+    playing = play;
+  else
+    Serial.println("No mod file to play.");
 }
 
 void MODPLAYER::volume(int volume)
@@ -143,31 +137,15 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	/* M.K. signature */
 
 	// smallfs bp = buf + 0x438;
-          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-            case SmallFSType:
-              modSmallFSfile.seek(0x438, SEEK_SET);
-              break;
-            case SDFSType:
+
                modRAMfile.seek(0x438, SEEK_SET);
-              break;     
-            default:
-              //return;
-              break;       
-          }  
+
 
 
 //#ifdef DEBUG
-          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-            case SmallFSType:
-              modSmallFSfile.read(&bp[0], 4);
-              break;
-            case SDFSType:
+
               modRAMfile.read(&bp[0], 4);
-              break;     
-            default:
-              //return;
-              break;       
-          }  
+
 	
         Serial.print(bp[0], HEX);
         Serial.print(" ");
@@ -189,19 +167,9 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 
 	k = 0;
 	// smallfs bp = buf + 952;
-          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-            case SmallFSType:
-      	      modSmallFSfile.seek(952, SEEK_SET);
-      	      modSmallFSfile.read(&buf,128);
-              break;
-            case SDFSType:
       	      modRAMfile.seek(952, SEEK_SET);
       	      modRAMfile.read(&buf,128);
-              break;     
-            default:
-              //return;
-              break;       
-          }  
+
 
 	for (i = 0; i < 128; ++i)
 	{
@@ -273,33 +241,15 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	/* samples */
 
 	// smallfs bp = buf + 20;
-          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-            case SmallFSType:
-              modSmallFSfile.seek(20, SEEK_SET);
-              break;
-            case SDFSType:
+
               modRAMfile.seek(20, SEEK_SET);
-              break;     
-            default:
-              //return;
-              break;       
-          }  
+
 	
 
 	for (i = 1; i < 32; ++i)
 	{
 		s = &mod->sample[i];
-                switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-                  case SmallFSType:
-                    modSmallFSfile.read(buf,30);
-                    break;
-                  case SDFSType:
                     modRAMfile.read(buf,30);
-                    break;     
-                  default:
-                    //return;
-                    break;       
-                }  
 #ifdef DEBUG
 //		Serial.print("Name: ");
 //		for(l = 0; l < 22, buf[l]; ++l) {
@@ -337,38 +287,18 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	}
 	/* mod length */
 
-        switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-          case SmallFSType:
-	    modSmallFSfile.seek(950, SEEK_SET);
-            modSmallFSfile.read(buf,1);            
-            break;
-          case SDFSType:
+
 	    modRAMfile.seek(950, SEEK_SET);
             modRAMfile.read(buf,1);
-            break;     
-          default:
-            //return;
-            break;       
-        }  
+
 
 	//j = buf[950];
 	mod->length = buf[0];//j;
 
 	/* positions */
 
-        switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
-          case SmallFSType:
-	    modSmallFSfile.seek(952, SEEK_SET);
-	    modSmallFSfile.read(buf,128);            
-            break;
-          case SDFSType:
 	    modRAMfile.seek(952, SEEK_SET);
 	    modRAMfile.read(buf,128);
-            break;     
-          default:
-            //return;
-            break;       
-        } 
 
 	// bp = buf + 952;
     bp=&buf[0];

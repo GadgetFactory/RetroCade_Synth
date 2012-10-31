@@ -43,6 +43,7 @@ class MODPLAYER
     char buf[128];
     pt_mod_s * mod;
     boolean playing;
+    boolean fileLoaded;
     kFileType fileType;    
     //unsigned char __end__;
 };
