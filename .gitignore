@@ -1,5 +1,4 @@
 *.avi
-*.exe
 *.zip
 *.rar
 *.log
@@ -10,6 +9,7 @@ bad
 *.htm
 SDList
 *.7z
+tracks
 
 
 FTDI USB Drivers
