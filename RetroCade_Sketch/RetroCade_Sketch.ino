@@ -46,16 +46,14 @@ YMPLAYER ymplayer;
 MODPLAYER modplayer;
 
 void setup(){
-  #ifdef DEBUG
-    Serial.begin(115200);
-  #endif
+//  #ifdef DEBUG
+//    Serial.begin(115200);
+//  #endif
+  Serial.begin(115200);
   Serial1.begin(31250);
 
   //Setup pins for RetroCade MegaWing
-  retrocade.setupMegaWing();
-  
-  modplayer.setup();
-  ymplayer.setup(&ym2149);  
+  retrocade.setupMegaWing(); 
   
   ///Set volume to max levels
   ym2149.V1.setVolume(15);
@@ -79,38 +77,42 @@ void setup(){
 // MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
   
-USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
-	int i;
-	Serial.println("Starting SD Card");
+//USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
+//	int i;
+//	Serial.println("Starting SD Card");
+//
+//	digitalWrite(CSPIN,LOW);
+//
+//	for (i=0;i<51200;i++)
+//		USPIDATA=0xff;
+//
+//	digitalWrite(CSPIN,HIGH);
+//
+//	for (i=0;i<51200;i++)
+//		USPIDATA=0xff;
+//
+//	if (!SD.begin(CSPIN)) {
+//		Serial.println("init failed!");
+//		Serial.println(SD.errorCode());
+//	} else {
+//		Serial.println("done.");
+//		SD.ls();  
+//        }
+//    root = SD.open("/");
+//  
+//  retrocade.printDirectory(root, 0);
+  modplayer.setup();
+  ymplayer.setup(&ym2149); 
 
-	digitalWrite(CSPIN,LOW);
-
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
-
-	digitalWrite(CSPIN,HIGH);
-
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
-
-	if (!SD.begin(CSPIN)) {
-		Serial.println("init failed!");
-		Serial.println(SD.errorCode());
-	} else {
-		Serial.println("done.");
-		SD.ls();  
-        }
-    root = SD.open("/");
-  
-  retrocade.printDirectory(root, 0);
 }
 
 
 void _zpu_interrupt()
 {
-  modplayer._zpu_interrupt();
-  ymplayer._zpu_interrupt(); 
+  modplayer.zpu_interrupt();
+  ymplayer.zpu_interrupt(); 
   retrocade.setTimeout();
+//  TMR0CTL &= ~(BIT(TCTLIF));
 }
 
 void HandleControlChange(byte channel, byte number, byte value) {
@@ -189,6 +191,12 @@ void HandleControlChange(byte channel, byte number, byte value) {
 }
 
 void HandleNoteOn(byte channel, byte pitch, byte velocity) {
+  #ifdef DEBUG
+    Serial.print("Note Received: ");
+    Serial.println(pitch);
+    Serial.print("Channel Received: ");
+    Serial.println(channel);
+  #endif     
   byte activeChannel = retrocade.getActiveChannel();
   if ( activeChannel != 0 )
     channel = activeChannel;
@@ -214,15 +222,12 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
     default:
       break;
   }
- #ifdef DEBUG
-  Serial.print("Note Received: ");
-  Serial.println(pitch);
-  Serial.print("Channel Received: ");
-  Serial.println(channel);
- #endif   
 }
 
 void HandleNoteOff(byte channel, byte pitch, byte velocity) {
+  #ifdef DEBUG
+    Serial.println("In NoteOff");
+  #endif   
   byte activeChannel = retrocade.getActiveChannel();
   if ( activeChannel != 0 )
     channel = activeChannel;  
@@ -247,10 +252,7 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
         break;
       default:
         return;
-  }
-   #ifdef DEBUG
-    Serial.println("In NoteOff");
-   #endif  
+  } 
 }
 
 void loop(){

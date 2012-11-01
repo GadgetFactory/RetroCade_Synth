@@ -31,7 +31,7 @@ class MODPLAYER
     void play(boolean play);    
     boolean getPlaying();
     void audiofill();  
-    void _zpu_interrupt(); 
+    void zpu_interrupt(); 
     void volume(int volume);   
   private:
     CircularBuffer<unsigned,7> audioBuffer;   

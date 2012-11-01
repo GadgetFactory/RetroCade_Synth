@@ -104,7 +104,7 @@ boolean YMPLAYER::getPlaying()
   return playing;
 }
 
-void YMPLAYER::_zpu_interrupt()
+void YMPLAYER::zpu_interrupt()
 {
   counter++;
   if ( counter == 340 ) {
@@ -122,6 +122,9 @@ void YMPLAYER::_zpu_interrupt()
         else{ 
           if (resetYMFlag == 1){
             ym2149->reset();
+            ym2149->V1.setVolume(15);
+            ym2149->V2.setVolume(15);
+            ym2149->V3.setVolume(15);
             resetYMFlag = 0;
             ymTimeStamp = 1;
           }

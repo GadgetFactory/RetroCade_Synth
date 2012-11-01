@@ -18,6 +18,8 @@ void RETROCADE::setupMegaWing()
   activeChannel = 0;
   activeInstrument = 0;
   timeout = 17000;
+  smallFs = false;
+  sdFs = false;
 
   SIGMADELTACTL=0x3;
   //Move the audio output to the appropriate pins on the Papilio Hardware
@@ -52,11 +54,13 @@ void RETROCADE::setupMegaWing()
   pinModePPS(SERIAL1TXPIN, HIGH);
  
    //Start SmallFS
-  if (SmallFS.begin()<0) {
+  if (SmallFS.begin()<0)
 	Serial.println("No SmalLFS found.");
-  }  
+  else
+     smallFs = true; 
  
   //Setup SD Card
+  USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);
   outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
   pinModePPS(SDIPIN,HIGH);
   pinMode(SDIPIN,OUTPUT);
@@ -70,27 +74,28 @@ void RETROCADE::setupMegaWing()
 
   inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
   pinMode(SDOPIN,INPUT);  
-  USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
-	int i;
-	Serial.println("Starting SD Card");
+  
+  int i;
+  Serial.println("Starting SD Card");
 
-	digitalWrite(CSPIN,LOW);
+  digitalWrite(CSPIN,LOW);
 
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
+  for (i=0;i<51200;i++)
+	USPIDATA=0xff;
 
-	digitalWrite(CSPIN,HIGH);
+  digitalWrite(CSPIN,HIGH);
 
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
+  for (i=0;i<51200;i++)
+	USPIDATA=0xff;
 
-	if (!SD.begin(CSPIN)) {
-		Serial.println("init failed!");
-		Serial.println(SD.errorCode());
-	} else {
-		Serial.println("done.");
-		//SD.ls();  
-        }
+  if (!SD.begin(CSPIN)) {
+	Serial.println("init failed!");
+	Serial.println(SD.errorCode());
+        sdFs = false;
+  } else {
+  	Serial.println("done.");
+	sdFs = true;
+  }
   
   //Setup Joystick
   pinMode(JSELECT, INPUT); 
@@ -192,4 +197,12 @@ void RETROCADE::printDirectory(File dir, int numTabs) {
        Serial.println(entry.size(), DEC);
      }
    }
+}
+
+boolean RETROCADE::smallFsActive() {
+  return smallFs;
+}
+
+boolean RETROCADE::sdFsActive() {
+  return sdFs;
 }

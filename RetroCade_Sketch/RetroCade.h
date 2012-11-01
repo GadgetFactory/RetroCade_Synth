@@ -66,10 +66,14 @@ class RETROCADE
    void setTimeout();
    byte getActiveChannel();
    void printDirectory(File dir, int numTabs);
+   boolean sdFsActive();
+   boolean smallFsActive();
   private:
    byte activeChannel;
    int activeInstrument;
    int timeout;
+   boolean smallFs;
+   boolean sdFs;
 };
 
 #endif // LIB_RetroCade_H_

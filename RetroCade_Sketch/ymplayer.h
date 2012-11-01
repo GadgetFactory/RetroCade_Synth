@@ -30,7 +30,7 @@ class YMPLAYER
     void play(boolean play);    
     boolean getPlaying();
     void audiofill();  
-    void _zpu_interrupt(); 
+    void zpu_interrupt(); 
     void volume(int volume);   
   private:
     struct ymframe {        

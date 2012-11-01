@@ -104,7 +104,7 @@ boolean MODPLAYER::getPlaying()
   return playing;
 }
 
-void MODPLAYER::_zpu_interrupt()
+void MODPLAYER::zpu_interrupt()
 {
 	// Play mod file
 	if (audioBuffer.hasData()) {
