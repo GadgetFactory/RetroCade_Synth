@@ -10,6 +10,8 @@ bad
 SDList
 *.7z
 tracks
+*Setup.exe
+
 
 
 FTDI USB Drivers

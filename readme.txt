@@ -8,6 +8,25 @@ Requirements:
   *You must have SynthMaker installed to run the Dashboard. The free version can be downloaded from: http://www.synthmaker.co.uk/
   
 ChangeLog:
+11/1/2012	Version .3
+	-FlowStone Dashboard
+		-Changed from SynthMaker to FlowStone
+		-Added the ability to control the RetroCade without a MIDI output, can control over a Com Port instead.
+		-Generated an EXE version of the Dashboard. VST will be generated when FlowStone 3.0 is released in November.
+		-Zoom Controls added to Dashboard
+			-Pressing "w" toggles full screen.
+			-While in full screen pressing "z" fills the screen.
+			-Pressing "x" returns to normal size.
+	-RetroCade Sketch
+		-Control the RetroCade from a COM port or MIDI In
+		-Play YMdat and Mod files from SD card or SmallFS filesystem.
+			-Place a file name track[1-3].mod or track[1-3].ymd onto the SD card to override the files found in smallFS. Must power cycle the board for the files to be found.
+			-YM files must be converted to ymd files using the process and tools detailed here: (http://audio.gadgetfactory.net/index.php?n=Main.YM2149Flash)
+			-Mod files play out of RamFS filesystem which is located entirely in the 8MB SDRAM.
+	-Merged RetroCade Bit File: Shortcut to load RetroCade-.01d-zpuino-1.0-PapilioPro-S6LX9-RetroCade-1.04.bit with the Papilio Loader
+		-Changes from RetroCade Sketch are merged into this bit file.
+		-Smallfs version of MOD and YM files are merged into this bit file.
+		
 10/8/2012	Version .2
 	-SynthMaker Dashboard
 		-Added Midi In and Midi Out Selectors to the front panel.

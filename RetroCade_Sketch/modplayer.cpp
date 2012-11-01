@@ -114,15 +114,15 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
               modRAMfile.read(&bp[0], 4);
 
 	
-//        Serial.print(bp[0], HEX);
-//        Serial.print(" ");
-//        Serial.print(bp[1], HEX);
-//        Serial.print(" ");
-//        Serial.print(bp[2], HEX);
-//        Serial.print(" ");
-//        Serial.print(bp[3], HEX);
-//        Serial.print(" ");        
-//        Serial.println(" ");        
+        Serial.print(bp[0], HEX);
+        Serial.print(" ");
+        Serial.print(bp[1], HEX);
+        Serial.print(" ");
+        Serial.print(bp[2], HEX);
+        Serial.print(" ");
+        Serial.print(bp[3], HEX);
+        Serial.print(" ");        
+        Serial.println(" ");        
       
 	if (!(bp[0] == 'M' && bp[1] == '.' && bp[2] == 'K' && bp[3] == '.')) {
 		Serial.println("Invalid MOD file");
@@ -152,8 +152,8 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	}
 #endif
 
-//	Serial.print("Number of patterns: ");
-//	Serial.println(k);
+	Serial.print("Number of patterns: ");
+	Serial.println(k);
 
 
 
@@ -166,8 +166,8 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	// TODO: alternative to this, please
 
 	//mod=(pt_mod_s *)calloc(1,sizeof(*mod) + k * sizeof( pt_pattern_s));
-//	Serial.print("Memory needed: ");
-//    Serial.println(  sizeof(*mod) + k * sizeof( pt_pattern_s));
+	Serial.print("Memory needed: ");
+    Serial.println(  sizeof(*mod) + k * sizeof( pt_pattern_s));
 /*	while (1) {
 	}*/
 	//while(1) {}
@@ -307,7 +307,7 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	}
 #endif
 
-//	Serial.println("Loading sample data ptr");
+	Serial.println("Loading sample data ptr");
 	/* ptrs to sampledata */
 
 	bp = (unsigned char*)(1084 + ((64*4*4)*mod->numpat));
@@ -331,7 +331,7 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 		s->repend = s->repeat + s->replen;
 	}
 
-//    Serial.println("All loaded");
+    Serial.println("All loaded");
 	/* init lowpass filter */
 	mod->filter =FALSE;
 
