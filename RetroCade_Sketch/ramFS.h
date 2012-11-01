@@ -19,22 +19,6 @@
 # define SEEK_END  2
 #endif
 
-//struct ramfs_header {
-//	unsigned int magic /** big-endian, magic number **/;
-//	unsigned int numfiles;
-//}__attribute__((packed));
-//
-//struct ramfs_entry {
-//	unsigned int offset;
-//	unsigned int size;
-//	unsigned char namesize;
-//	char name[0];
-//} __attribute__((packed));
-//
-//extern "C" void *bootloaderdata;
-//struct boot_t {
-//	unsigned int spiend;
-//};
 /**
  * @brief RAMFS File Class
  */
@@ -44,6 +28,7 @@ public:
         RamFSFile();
 	RamFSFile(File *file);
         RamFSFile(SmallFSFile *file);
+        static void setInit(boolean active);
 	//RamFSFile(unsigned o,unsigned size): flashoffset(o),filesize(size),seekpos(0) {}
 	/**
 	 * @brief Check if file was successfuly opened.
@@ -57,18 +42,18 @@ public:
 	 * @param size The number of bytes to read from file.
 	 * @return The number of bytes read, 0 for EOF.
 	 */
-	int read(void *buf, int size);
+	int read(void *buf, unsigned long size);
 	/**
 	 * @brief Seek current file position
 	 * @param pos The required position
 	 * @param whence Where to perform seek. Either SEEK_SET, SEEK_CUR or SEEK_END
 	 */
-	void seek(int pos, int whence);
+	void seek(unsigned long pos, int whence);
 	/**
 	 * @brief Get the file size.
 	 * @return The file size.
      */
-	inline int size() const { return filesize; }
+	inline unsigned long size() const { return filesize; }
 	/**
 	 * @brief Read a chunk of data from file, using a callback function.
 	 * The function will be called for every byte read.
@@ -84,13 +69,15 @@ public:
 	 * @brief Read a single byte
 	 */
 	unsigned readByte();
-        static void *zpuinomalloc(unsigned size);
+        static void *zpuinomalloc(unsigned long size);
 
 private:
+        void init();
 	int flashoffset;
 	unsigned long filesize;
 	unsigned long seekpos;
         unsigned char *moddata;
+        static boolean initState;
 };
 
 /**
@@ -106,56 +93,12 @@ public:
 	int begin();
 
 protected:
-//	void spi_disable()
-//	{
-//#ifndef __linux__
-//		digitalWrite(SPI_FLASH_SEL_PIN,HIGH);
-//#endif
-//	}
-//
-//	static void spi_enable()
-//	{
-//#ifndef __linux__
-//		digitalWrite(SPI_FLASH_SEL_PIN,LOW);
-//#endif
-//	}
-//
-//	static inline void spiwrite(unsigned int i)
-//	{
-//#ifndef __linux__
-//		SPIDATA=i;
-//#endif
-//	}
-//
-//	static inline unsigned int spiread()
-//	{
-//#ifndef __linux__
-//		return SPIDATA;
-//#else
-//		return 0;
-//#endif
-//	}
-//
-//	static inline void spiwrite(register_t datareg, unsigned int i)
-//	{
-//#ifndef __linux__
-//		*datareg=i;
-//#endif
-//	}
-//
-//	static inline unsigned int spiread(register_t datareg)
-//	{
-//#ifndef __linux__
-//		return *datareg;
-//#else
-//		return 0;
-//#endif
-//	}
+
 
 protected:
-	void read(unsigned address, void *target, unsigned size);
-	void seek(unsigned address) { seek_if_needed(address); }
-	unsigned readByte(unsigned address);
+	void read(unsigned long address, void *target, unsigned long size);
+	void seek(unsigned long address) { seek_if_needed(address); }
+	unsigned readByte(unsigned long address);
 public:
 	/**
 	 * @brief Open a file on the filesystem.
@@ -167,14 +110,8 @@ public:
         RamFSFile open(SmallFSFile *file);
 
 private:
-	void seek_if_needed(unsigned address);
+	void seek_if_needed(unsigned long address);
 
-//	struct ramfs_header hdr;
-//	unsigned fsstart;
-//	unsigned offset;
-//#ifdef __linux__
-//	int fd;
-//#endif
 };
 
 extern RamFS_class RamFS;

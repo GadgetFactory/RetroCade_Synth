@@ -76,31 +76,6 @@ void setup(){
 // MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
 // MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
-  
-//USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);  
-//	int i;
-//	Serial.println("Starting SD Card");
-//
-//	digitalWrite(CSPIN,LOW);
-//
-//	for (i=0;i<51200;i++)
-//		USPIDATA=0xff;
-//
-//	digitalWrite(CSPIN,HIGH);
-//
-//	for (i=0;i<51200;i++)
-//		USPIDATA=0xff;
-//
-//	if (!SD.begin(CSPIN)) {
-//		Serial.println("init failed!");
-//		Serial.println(SD.errorCode());
-//	} else {
-//		Serial.println("done.");
-//		SD.ls();  
-//        }
-//    root = SD.open("/");
-//  
-//  retrocade.printDirectory(root, 0);
   modplayer.setup();
   ymplayer.setup(&ym2149); 
 
@@ -157,27 +132,33 @@ void HandleControlChange(byte channel, byte number, byte value) {
       ymplayer.play(!value);
       break;
     case 9:
-      modplayer.loadFile("track1.mod");
+      if (value == 127)
+        modplayer.loadFile("track1.mod");
       modplayer.play(value);
       break;
     case 10:
-      ymplayer.loadFile("track1.ymd");
+      if (value == 127)
+        ymplayer.loadFile("track1.ymd");
       ymplayer.play(value);
       break;      
     case 11:
-      modplayer.loadFile("track2.mod");
+      if (value == 127)
+        modplayer.loadFile("track2.mod");
       modplayer.play(value);
       break;
     case 12:
-      ymplayer.loadFile("track2.ymd");
+      if (value == 127)
+        ymplayer.loadFile("track2.ymd");
       ymplayer.play(value);
       break;        
     case 13:
-      modplayer.loadFile("track3.mod");
+      if (value == 127)
+        modplayer.loadFile("track3.mod");
       modplayer.play(value);
       break;  
     case 14:
-      ymplayer.loadFile("track3.ymd");
+      if (value == 127)
+        ymplayer.loadFile("track3.ymd");
       ymplayer.play(value);
       break;        
     case 84:

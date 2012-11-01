@@ -54,10 +54,13 @@ void RETROCADE::setupMegaWing()
   pinModePPS(SERIAL1TXPIN, HIGH);
  
    //Start SmallFS
-  if (SmallFS.begin()<0)
+  if (SmallFS.begin()<0) {
 	Serial.println("No SmalLFS found.");
-  else
+  }
+  else{
+     Serial.println("SmallFS Started.");
      smallFs = true; 
+  }
  
   //Setup SD Card
   USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);
@@ -75,18 +78,18 @@ void RETROCADE::setupMegaWing()
   inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
   pinMode(SDOPIN,INPUT);  
   
-  int i;
+//  int i;
   Serial.println("Starting SD Card");
 
-  digitalWrite(CSPIN,LOW);
-
-  for (i=0;i<51200;i++)
-	USPIDATA=0xff;
-
-  digitalWrite(CSPIN,HIGH);
-
-  for (i=0;i<51200;i++)
-	USPIDATA=0xff;
+//  digitalWrite(CSPIN,LOW);
+//
+//  for (i=0;i<51200;i++)
+//	USPIDATA=0xff;
+//
+//  digitalWrite(CSPIN,HIGH);
+//
+//  for (i=0;i<51200;i++)
+//	USPIDATA=0xff;
 
   if (!SD.begin(CSPIN)) {
 	Serial.println("init failed!");

@@ -37,42 +37,11 @@ void MODPLAYER::loadFile(const char* name)
     Serial.println("No mod files to play in SmallFS or on SD card.");
     fileLoaded = false; 
   }
-  
-  
-        unsigned char buf[256];
-        unsigned char *bp=&buf[0];
-        
-        modRAMfile.seek(0x438, SEEK_SET);
-        modRAMfile.read(&bp[0], 4);
-        Serial.println("In ModPlayerloadFile ");
-        Serial.print(bp[0], HEX);
-        Serial.print(" ");
-        Serial.print(bp[1], HEX);
-        Serial.print(" ");
-        Serial.print(bp[2], HEX);
-        Serial.print(" ");
-        Serial.print(bp[3], HEX);
-        Serial.print(" ");        
-        Serial.println(" ");    
-  //modRAMfile.seek(0x0, SEEK_SET); 
   mod = pt_init_smallfs();  
 }
 
 void MODPLAYER::play(boolean play)
 {
-  //boolean smallfscheck = modSmallFSfile.valid();
-//  if (!modRAMfile && !smallfscheck) {
-//    play = false;
-//    #ifdef DEBUG
-//      Serial.println("Error: No SD or SmallFS File Available");
-//    #endif  
-//    return; 
-//  }
-  
-//  if (smallfscheck)
-//   fileType = SmallFSType;
-//  if (modSDfile)
-//   fileType = SDFSType;  
   if (fileLoaded)
     playing = play;
   else
@@ -111,18 +80,16 @@ void MODPLAYER::zpu_interrupt()
 		unsigned v = audioBuffer.pop();
 		SIGMADELTADATA = v;
 	} else {
-          //SIGMADELTADATA=0x80008000;
           underruns++;
 	}
 	TMR0CTL &= ~(BIT(TCTLIF));    //TODO: This should probably go into main interupt
-  //Serial.println("In interupt");
 }
 
 
 //extern unsigned char __end__;  
 pt_mod_s *MODPLAYER::pt_init_smallfs()
 {
-        Serial.println("Starting pt_init");
+//        Serial.println("Starting pt_init");
 	unsigned char buf[256]; // Some buffer. Let's hope this fits on stack.
 	unsigned char *bp=&buf[0];
 
@@ -147,15 +114,15 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
               modRAMfile.read(&bp[0], 4);
 
 	
-        Serial.print(bp[0], HEX);
-        Serial.print(" ");
-        Serial.print(bp[1], HEX);
-        Serial.print(" ");
-        Serial.print(bp[2], HEX);
-        Serial.print(" ");
-        Serial.print(bp[3], HEX);
-        Serial.print(" ");        
-        Serial.println(" ");        
+//        Serial.print(bp[0], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[1], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[2], HEX);
+//        Serial.print(" ");
+//        Serial.print(bp[3], HEX);
+//        Serial.print(" ");        
+//        Serial.println(" ");        
       
 	if (!(bp[0] == 'M' && bp[1] == '.' && bp[2] == 'K' && bp[3] == '.')) {
 		Serial.println("Invalid MOD file");
@@ -185,8 +152,8 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	}
 #endif
 
-	Serial.print("Number of patterns: ");
-	Serial.println(k);
+//	Serial.print("Number of patterns: ");
+//	Serial.println(k);
 
 
 
@@ -199,8 +166,8 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	// TODO: alternative to this, please
 
 	//mod=(pt_mod_s *)calloc(1,sizeof(*mod) + k * sizeof( pt_pattern_s));
-	Serial.print("Memory needed: ");
-    Serial.println(  sizeof(*mod) + k * sizeof( pt_pattern_s));
+//	Serial.print("Memory needed: ");
+//    Serial.println(  sizeof(*mod) + k * sizeof( pt_pattern_s));
 /*	while (1) {
 	}*/
 	//while(1) {}
@@ -340,7 +307,7 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	}
 #endif
 
-	Serial.println("Loadind sample data ptr");
+//	Serial.println("Loading sample data ptr");
 	/* ptrs to sampledata */
 
 	bp = (unsigned char*)(1084 + ((64*4*4)*mod->numpat));
@@ -364,7 +331,7 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 		s->repend = s->repeat + s->replen;
 	}
 
-    Serial.println("All loaded");
+//    Serial.println("All loaded");
 	/* init lowpass filter */
 	mod->filter =FALSE;
 
