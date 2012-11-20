@@ -5,7 +5,7 @@ Welcome to the R-R-R-R-RetroCade Synth from Gadget Factory.  This exciting new h
 The RetroCade Synth boasts the capability to play the built-in Commodore 64 SID chip, the Yamaha YM-2149 chip, .mod files, and MIDI files - all at the same time! The RetroCade Synth can be played via any external MIDI control interface or via your favorite audio/ sequencing software. We have built a custom VST software dashboard which gives you visual control over all the various parameters the synth has to offer.
 
 Requirements:
-  *You must have SynthMaker installed to run the Dashboard. The free version can be downloaded from: http://www.synthmaker.co.uk/
+  *You must have FlowStone installed to modify the Dashboard. The free version can be downloaded from: http://www.dsprobotics.com/download.php
   
 ChangeLog:
 11/1/2012	Version .3

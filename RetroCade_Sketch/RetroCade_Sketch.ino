@@ -201,6 +201,9 @@ void HandleControlChange(byte channel, byte number, byte value) {
       break;        
     case 84:
       modplayer.volume(value <<1);
+      break;    
+    case 86:
+      sid.setVolume(value/8);
       break;        
     default:
       return;

@@ -31,8 +31,8 @@ RamFSFile::RamFSFile(){
 
 void *RamFSFile::zpuinomalloc(unsigned long size)
 {
- void *ret = mbuf+1000;
- mbuf+=(size+1000);
+ void *ret = mbuf+8192;
+ mbuf+=(size+8192);
  return ret;
 }
 
