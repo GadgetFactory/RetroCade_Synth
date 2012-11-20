@@ -23,16 +23,16 @@
 File modSDfile;
 
 extern void*__end__;
-unsigned char *mbuf;
+unsigned char *mbuf = (unsigned char*)&__end__;
 
 RamFSFile::RamFSFile(){
-
+  
 }
 
 void *RamFSFile::zpuinomalloc(unsigned long size)
 {
- void *ret = mbuf+8192;
- mbuf+=(size+8192);
+ void *ret = mbuf;
+ mbuf+=(size);
  return ret;
 }
 
