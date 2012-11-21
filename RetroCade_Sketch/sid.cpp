@@ -46,19 +46,12 @@ void SID::writeData(unsigned char address, unsigned char data)
 
 SIDVoice::SIDVoice()
 {
-  //SIDVoice(SID_ADDR_BASE_V1);  //If no base is specified then set to base of voice 1.
+
 }
 
 SIDVoice::SIDVoice(int address)    //TODO: Remove this or make it work right.
 {
-//  baseAddress = address;    //TODO is this necessary?
-//  SID_ADDR_FREQ_LOW = baseAddress;
-//  SID_ADDR_FREQ_HI = baseAddress + 1;
-//  SID_ADDR_PW_LOW = baseAddress + 2; 
-//  SID_ADDR_PW_HI = baseAddress + 3;
-//  SID_ADDR_CONTROLREG = baseAddress + 4;
-//  SID_ADDR_ATTACK_DECAY = baseAddress + 5;
-//  SID_ADDR_SUSTAIN_RELEASE = baseAddress + 6;
+
 }
 
 void SIDVoice::setBase(int address)
@@ -75,10 +68,10 @@ void SIDVoice::setBase(int address)
 
 void SIDVoice::reset()
 {
-//  SIDREG(SID_ADDR_FREQ_LOW) = 0;
-//  SIDREG(SID_ADDR_FREQ_HI) = 0; 
-//  SIDREG(SID_ADDR_PW_LOW) = 0;
-//  SIDREG(SID_ADDR_PW_HI) = 0; 
+  SIDREG(SID_ADDR_FREQ_LOW) = 0;
+  SIDREG(SID_ADDR_FREQ_HI) = 0; 
+  SIDREG(SID_ADDR_PW_LOW) = 0;
+  SIDREG(SID_ADDR_PW_HI) = 0; 
   SID_REG_ATTACK_DECAY.ATTACK = 0;
   SID_REG_ATTACK_DECAY.DECAY = 0; 
   SID_REG_SUSTAIN_RELEASE.SUSTAIN = 0;
@@ -91,9 +84,9 @@ void SIDVoice::reset()
   SID_REG_CONTROLREG.RING_MOD = 0;
   SID_REG_CONTROLREG.SYNC = 0;
   SID_REG_CONTROLREG.GATE = 0;
-//  SIDREG(SID_ADDR_ATTACK_DECAY) = *(char*)&SID_REG_ATTACK_DECAY;        //TODO: Make this a static function to save space.
-//  SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE; 
-//  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;    
+  SIDREG(SID_ADDR_ATTACK_DECAY) = *(char*)&SID_REG_ATTACK_DECAY;        //TODO: Make this a static function to save space.
+  SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;    
 }
 
 void SIDVoice::setNote(int note, boolean active)
@@ -262,15 +255,15 @@ void SID::setVolume(byte volume)  //TODO: get rid of voice
 
 void SID::reset(){
   //Filter
-//  SIDREG(SID_ADDR_FILTER_FC_LOW) = 0;
-//  SIDREG(SID_ADDR_FILTER_FC_HI) = 0;
-//  SIDREG(SID_ADDR_FILTER_RES_FILT) = 0;
+  SIDREG(SID_ADDR_FILTER_FC_LOW) = 0;
+  SIDREG(SID_ADDR_FILTER_FC_HI) = 0;
+  SIDREG(SID_ADDR_FILTER_RES_FILT) = 0;
   SID_REG_MODE_VOLUME.OFF = 0;
   SID_REG_MODE_VOLUME.HP = 0;
   SID_REG_MODE_VOLUME.BP = 0;
   SID_REG_MODE_VOLUME.LP = 0;
   SID_REG_MODE_VOLUME.VOLUME = 0x0;
-  //SIDREG(SID_ADDR_FILTER_MODE_VOL) = *(char*)&SID_REG_MODE_VOLUME;
+  SIDREG(SID_ADDR_FILTER_MODE_VOL) = *(char*)&SID_REG_MODE_VOLUME;
   V1.reset();
   V2.reset();
   V3.reset();  

@@ -19,6 +19,7 @@
 #include <SD.h>
 #include "SmallFS.h"
 
+
 #define AUDIO_J1_L WING_B_1
 #define AUDIO_J1_R WING_B_0
 
@@ -68,12 +69,16 @@ class RETROCADE
    void printDirectory(File dir, int numTabs);
    boolean sdFsActive();
    boolean smallFsActive();
+   void spaceInvadersLCD();
   private:
    byte activeChannel;
    int activeInstrument;
-   int timeout;
+   unsigned long timeout;
    boolean smallFs;
    boolean sdFs;
+   byte invadersCurLoc;
+   byte invadersCurSeg;
+   int invadersTimer;   
 };
 
 #endif // LIB_RetroCade_H_

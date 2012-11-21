@@ -283,6 +283,8 @@ void loop(){
   MIDI.read(&Serial1);  
   if (modplayer.getPlaying() == 1)
     modplayer.audiofill();
+  else
+    retrocade.spaceInvadersLCD();          //Don't move the space invader when a mod file is playing
   if (ymplayer.getPlaying() == 1)
     ymplayer.audiofill(); 
   retrocade.handleJoystick();     
