@@ -81,7 +81,7 @@ class RETROCADE
    void setTimeout();
    byte getActiveChannel();
    void printDirectory(File dir, int numTabs);
-   void printFile(char * extension);
+   void printFile(const char* ext);
    boolean sdFsActive();
    boolean smallFsActive();
    void spaceInvadersLCD();

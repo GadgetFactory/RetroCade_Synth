@@ -218,6 +218,22 @@ void RETROCADE::handleJoystick()
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("MOD File");
+        if (buttonPressed == Down) {
+          printFile("MOD");
+        }      
+        if (buttonPressed == Up) {
+          modplayer.play(false);
+        }            
+        if (buttonPressed == Select) {
+          Serial.println("Select Pressed");
+          Serial.println(fileName);
+          modplayer.loadFile(fileName);
+          modplayer.play(true);  
+//          lcd.setCursor(0,1);   
+//          lcd.print(fileName);
+//          lcd.print(" ");
+//          lcd.print(curFile.size(), DEC); 
+        }  
         break;
       case YMFILE:
         lcd.clear();
@@ -248,17 +264,18 @@ void RETROCADE::handleJoystick()
   }  
 }
 
-void RETROCADE::printFile(char * extension) {
+void RETROCADE::printFile(const char* ext) {
      //File entry =  root.openNextFile();
+     //Serial.println(ext);
      curFile =  root.openNextFile();
      if (! curFile) {
        root.rewindDirectory();
-       printFile(extension);
+       printFile(ext);
        return;
      }
      fileName = curFile.name();
      Serial.println(fileName);
-     if (fileExtension(fileName,"YMD",3)) {
+     if (fileExtension(fileName,ext,3)) {
        Serial.println("it is a ymd"); 
        lcd.setCursor(0,1);   
        lcd.print(fileName);
@@ -266,7 +283,7 @@ void RETROCADE::printFile(char * extension) {
        lcd.print(curFile.size(), DEC); 
      } 
      else
-       printFile(extension);
+       printFile(ext);
 }
 
 void RETROCADE::printDirectory(File dir, int numTabs) {
@@ -302,6 +319,7 @@ boolean RETROCADE::sdFsActive() {
 
 int RETROCADE::fileExtension(const char* name, const char* extension, size_t length)
 {
+  //Serial.println(extension);
   const char* ldot = strrchr(name, '.');
   if (ldot != NULL)
   {
