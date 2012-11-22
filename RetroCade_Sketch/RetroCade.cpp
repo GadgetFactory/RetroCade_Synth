@@ -15,6 +15,14 @@
 #define FREQ 17000          //Freq for modplayer 
 #define TIMEOUTMAX 7000    //Timeout for joystick 
 #define INVADERSTIMERMAX 2000    //Timeout for LCD 
+
+//Defines for lcdMode
+#define WELCOME 0
+#define CHANNEL 1
+#define INSTRUMENT 2
+#define MODFILE 3
+#define YMFILE 4
+#define lcdModeMAX 5
  
 LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);
 
@@ -28,6 +36,9 @@ void RETROCADE::setupMegaWing()
   invadersCurLoc = 0;
   invadersCurSeg = 1;
   invadersTimer = INVADERSTIMERMAX;
+  lcdMode = WELCOME;
+  buttonPressed = None;
+  
 
   SIGMADELTACTL=0x3;
   //Move the audio output to the appropriate pins on the Papilio Hardware
@@ -96,6 +107,7 @@ void RETROCADE::setupMegaWing()
   	Serial.println("done.");
 	sdFs = true;
   }
+  root = SD.open("/");
   
   //Setup Joystick
   pinMode(JSELECT, INPUT); 
@@ -141,45 +153,124 @@ byte RETROCADE::getActiveChannel()
 }
 
 void RETROCADE::handleJoystick()
-{
+{ 
   if (timeout==0) {
     if (!digitalRead(JUP)) {
-      if (activeChannel<6)
-        activeChannel++;
-        timeout = TIMEOUTMAX;
-        lcd.setCursor(3,1);
-        lcd.print(activeChannel);
+      timeout = TIMEOUTMAX;
+      buttonPressed = Up;
     } else if (!digitalRead(JDOWN)) {
-      if (activeChannel!=0)
-        activeChannel--;
-        timeout = TIMEOUTMAX;
-        lcd.setCursor(3,1);
-        if (activeChannel == 0)
-          lcd.print(" ");
-        else        
-          lcd.print(activeChannel);
+      timeout = TIMEOUTMAX;
+      buttonPressed = Down;
     } else if (!digitalRead(JRIGHT)) {
-      if (activeInstrument<9)
-        activeInstrument++;
-        timeout = TIMEOUTMAX;
-        lcd.setCursor(11,0);
-        lcd.print(activeInstrument);
+      if (lcdMode<lcdModeMAX)
+        lcdMode++;
+      timeout = TIMEOUTMAX;
+      buttonPressed = Right;
     } else if (!digitalRead(JLEFT)) {
-      if (activeInstrument!=0)
-        activeInstrument--;
-        timeout = TIMEOUTMAX;
-        lcd.setCursor(11,0);
-        if (activeInstrument == 0)
-          lcd.print(" ");
-        else        
-          lcd.print(activeInstrument);   
-    }
-  }
+      if (lcdMode!=0)
+        lcdMode--;
+      timeout = TIMEOUTMAX; 
+      buttonPressed = Left;
+    } else if (!digitalRead(JSELECT)) {
+        timeout = TIMEOUTMAX; 
+        buttonPressed = Select;      
+    }         
+  }  
+  
+  if (buttonPressed < 5) {
+    switch (lcdMode) {
+      case WELCOME:
+        lcd.clear();
+        lcd.setCursor(0,1);
+        lcd.print("RetroCade Synth");        
+        break;
+      case CHANNEL:
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Channel");
+        if (buttonPressed == Up) {
+          if (activeChannel<6)
+            activeChannel++;  
+        }        
+        if (buttonPressed == Down) {
+          if (activeChannel!=0)
+            activeChannel--; 
+        }            
+        lcd.setCursor(0,1);
+        lcd.print(activeChannel);        
+        break;
+      case INSTRUMENT:
+//        lcd.clear();
+//        lcd.setCursor(0,0);
+//        lcd.print("Instrument");
+//        if (buttonPressed == Up) {
+//          if (activeInstrument<9)
+//            activeInstrument++;  
+//        }        
+//        if (buttonPressed == Down) {
+//          if (activeInstrument!=0)
+//            activeInstrument--; 
+//        }            
+//        lcd.setCursor(0,1);
+//        lcd.print(activeInstrument);         
+        break;
+      case MODFILE:
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("MOD File");
+        break;
+      case YMFILE:
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("YMD File");
+        if (buttonPressed == Down) {
+          printFile("YMD");
+        }      
+        if (buttonPressed == Up) {
+          ymplayer.play(false);
+        }            
+        if (buttonPressed == Select) {
+          Serial.println("Select Pressed");
+          Serial.println(fileName);
+          ymplayer.loadFile(fileName);
+          ymplayer.play(true);  
+//          lcd.setCursor(0,1);   
+//          lcd.print(fileName);
+//          lcd.print(" ");
+//          lcd.print(curFile.size(), DEC); 
+        }                    
+        break;   
+      default:
+        //return;
+        break;       
+    }   
+    buttonPressed = None; 
+  }  
+}
+
+void RETROCADE::printFile(char * extension) {
+     //File entry =  root.openNextFile();
+     curFile =  root.openNextFile();
+     if (! curFile) {
+       root.rewindDirectory();
+       printFile(extension);
+       return;
+     }
+     fileName = curFile.name();
+     Serial.println(fileName);
+     if (fileExtension(fileName,"YMD",3)) {
+       Serial.println("it is a ymd"); 
+       lcd.setCursor(0,1);   
+       lcd.print(fileName);
+       lcd.print(" ");
+       lcd.print(curFile.size(), DEC); 
+     } 
+     else
+       printFile(extension);
 }
 
 void RETROCADE::printDirectory(File dir, int numTabs) {
    while(true) {
-     
      File entry =  dir.openNextFile();
      if (! entry) {
        // no more files
@@ -209,6 +300,18 @@ boolean RETROCADE::sdFsActive() {
   return sdFs;
 }
 
+int RETROCADE::fileExtension(const char* name, const char* extension, size_t length)
+{
+  const char* ldot = strrchr(name, '.');
+  if (ldot != NULL)
+  {
+    if (length == 0)
+      length = strlen(extension);
+    return strncmp(ldot + 1, extension, length) == 0;
+  }
+  return 0;
+}
+
 void RETROCADE::spaceInvadersLCD(){
 /* 
   This Space Invaders alien crawling along the RetroCade LCD was created by JO3RI and adapted to the RetroCade by Jack Gassett.
@@ -220,7 +323,7 @@ void RETROCADE::spaceInvadersLCD(){
  
 */  
   
-  if (invadersTimer == 0)
+  if (invadersTimer == 0 && lcdMode == WELCOME)
   {
        if (invadersCurSeg == 10){
         lcd.clear();

@@ -18,9 +18,10 @@
 #include "SmallFS.h"
 #include "cbuffer.h"
 #include <SD.h>
-#include "RetroCade.h"
+//#include "RetroCade.h"
 #include "RamFS.h"
 #include "ptplay.h"
+#include "retrocade_defs.h"
 
 class MODPLAYER
 {

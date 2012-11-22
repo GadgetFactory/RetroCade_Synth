@@ -18,6 +18,8 @@
 #include "LiquidCrystal.h"
 #include <SD.h>
 #include "SmallFS.h"
+#include "modplayer.h"
+#include "ymplayer.h"
 
 
 #define AUDIO_J1_L WING_B_1
@@ -54,23 +56,39 @@
 #define SCKPIN WING_C_11
 #define SDOPIN WING_C_10
 
-enum kFileType {
-	SmallFSType               = 0,  
-	SDFSType                  = 1,  
+
+//enum kFileType {
+//	SmallFSType               = 0,  
+//	SDFSType                  = 1,  
+//};
+
+enum kButtonDirection {
+	Left                = 0, 
+	Right               = 1,  
+	Up                  = 2,  
+        Down                = 3,  
+	Select              = 4,
+        None                = 5
 };
 
 class RETROCADE
 { 
   public:
+   YMPLAYER ymplayer;
+   MODPLAYER modplayer;  
    void setupMegaWing(); 
    void handleJoystick();
    void setTimeout();
    byte getActiveChannel();
    void printDirectory(File dir, int numTabs);
+   void printFile(char * extension);
    boolean sdFsActive();
    boolean smallFsActive();
    void spaceInvadersLCD();
   private:
+   int fileExtension(const char* name, const char* extension, size_t length);
+   byte lcdMode;
+   kButtonDirection buttonPressed;
    byte activeChannel;
    int activeInstrument;
    unsigned long timeout;
@@ -78,7 +96,12 @@ class RETROCADE
    boolean sdFs;
    byte invadersCurLoc;
    byte invadersCurSeg;
-   int invadersTimer;   
+   int invadersTimer; 
+   File root; 
+   File curFile;
+   File curYMFile;
+   File curMODFile;
+   char * fileName; 
 };
 
 #endif // LIB_RetroCade_H_

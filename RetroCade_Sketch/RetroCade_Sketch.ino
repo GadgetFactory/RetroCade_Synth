@@ -63,8 +63,8 @@ ChangeLog:
 #include "SID.h"
 #include "YM2149.h"
 #include "MIDI.h" //Be sure to change MIDI.h to user Serial1 instead of Serial
-#include "modplayer.h"
-#include "ymplayer.h"
+//#include "modplayer.h"
+//#include "ymplayer.h"
 #include "SmallFS.h"
 #include <LiquidCrystal.h>
 #include <SD.h>
@@ -80,8 +80,8 @@ File root;
 RETROCADE retrocade;
 YM2149 ym2149;
 SID sid;
-YMPLAYER ymplayer;
-MODPLAYER modplayer;
+//YMPLAYER ymplayer;
+//MODPLAYER modplayer;
 
 void setup(){
 //  #ifdef DEBUG
@@ -114,16 +114,16 @@ void setup(){
 // MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
 // MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
-  modplayer.setup();
-  ymplayer.setup(&ym2149); 
+  retrocade.modplayer.setup();
+  retrocade.ymplayer.setup(&ym2149); 
 
 }
 
 
 void _zpu_interrupt()
 {
-  modplayer.zpu_interrupt();
-  ymplayer.zpu_interrupt(); 
+  retrocade.modplayer.zpu_interrupt();
+  retrocade.ymplayer.zpu_interrupt(); 
   retrocade.setTimeout();
 //  TMR0CTL &= ~(BIT(TCTLIF));
 }
@@ -166,41 +166,41 @@ void HandleControlChange(byte channel, byte number, byte value) {
  
   switch (number) {  //TODO figure more efficient way to do this. Want to avoid case statements.
     case 117:
-      modplayer.play(!value);
-      ymplayer.play(!value);
+      retrocade.modplayer.play(!value);
+      retrocade.ymplayer.play(!value);
       break;
     case 9:
       if (value == 127)
-        modplayer.loadFile("track1.mod");
-      modplayer.play(value);
+        retrocade.modplayer.loadFile("track1.mod");
+      retrocade.modplayer.play(value);
       break;
     case 10:
       if (value == 127)
-        ymplayer.loadFile("track1.ymd");
-      ymplayer.play(value);
+        retrocade.ymplayer.loadFile("track1.ymd");
+      retrocade.ymplayer.play(value);
       break;      
     case 11:
       if (value == 127)
-        modplayer.loadFile("track2.mod");
-      modplayer.play(value);
+        retrocade.modplayer.loadFile("track2.mod");
+      retrocade.modplayer.play(value);
       break;
     case 12:
       if (value == 127)
-        ymplayer.loadFile("track2.ymd");
-      ymplayer.play(value);
+        retrocade.ymplayer.loadFile("track2.ymd");
+      retrocade.ymplayer.play(value);
       break;        
     case 13:
       if (value == 127)
-        modplayer.loadFile("track3.mod");
-      modplayer.play(value);
+        retrocade.modplayer.loadFile("track3.mod");
+      retrocade.modplayer.play(value);
       break;  
     case 14:
       if (value == 127)
-        ymplayer.loadFile("track3.ymd");
-      ymplayer.play(value);
+        retrocade.ymplayer.loadFile("track3.ymd");
+      retrocade.ymplayer.play(value);
       break;        
     case 84:
-      modplayer.volume(value <<1);
+      retrocade.modplayer.volume(value <<1);
       break;    
     case 86:
       sid.setVolume(value/8);
@@ -281,12 +281,12 @@ void loop(){
   // Call MIDI.read the fastest you can for real-time performance.
   MIDI.read(&Serial);
   MIDI.read(&Serial1);  
-  if (modplayer.getPlaying() == 1)
-    modplayer.audiofill();
+  if (retrocade.modplayer.getPlaying() == 1)
+    retrocade.modplayer.audiofill();
   else
     retrocade.spaceInvadersLCD();          //Don't move the space invader when a mod file is playing
-  if (ymplayer.getPlaying() == 1)
-    ymplayer.audiofill(); 
+  if (retrocade.ymplayer.getPlaying() == 1)
+    retrocade.ymplayer.audiofill(); 
   retrocade.handleJoystick();     
 }
 
