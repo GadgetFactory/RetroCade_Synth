@@ -20,6 +20,9 @@ http://www.gadgetfactory.net
 This example code is Creative Commons Attribution.
 
 ChangeLog:
+11/23/2012      Version 1.0
+        -
+
 11/1/2012	Version .3
 	-FlowStone Dashboard
 		-Changed from SynthMaker to FlowStone

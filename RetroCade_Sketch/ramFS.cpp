@@ -80,7 +80,7 @@ RamFSFile::RamFSFile(SmallFSFile *file)
 {
         filesize = file->size();
         file->seek(0x0, SEEK_SET);     
-        moddata = (unsigned char *)zpuinomalloc(filesize*sizeof(unsigned char));
+        moddata = (unsigned char *)malloc(filesize*sizeof(unsigned char));
         memset(moddata, 0, filesize*sizeof(unsigned char));
         file->read(&moddata[0], filesize);   
 }
@@ -94,7 +94,7 @@ RamFSFile::RamFSFile(File *file)
 {
         filesize = file->size();  
         file->seek(0x0);         
-        moddata = (unsigned char *)zpuinomalloc(filesize*sizeof(unsigned char));
+        moddata = (unsigned char *)malloc(filesize*sizeof(unsigned char));
         //memset(moddata, 0, filesize*sizeof(unsigned char));
         file->read(&moddata[0], filesize);         
 }

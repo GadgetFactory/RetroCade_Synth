@@ -245,10 +245,10 @@ void RETROCADE::handleJoystick()
           Serial.println(fileName);
           modplayer.loadFile(fileName);
           modplayer.play(true);  
-//          lcd.setCursor(0,1);   
-//          lcd.print(fileName);
-//          lcd.print(" ");
-//          lcd.print(curFile.size(), DEC); 
+          lcd.setCursor(0,1);   
+          lcd.print(fileName);
+          lcd.print(" ");
+          lcd.print(curFile.size(), DEC); 
         }  
         break;
       case YMFILE:
@@ -266,10 +266,10 @@ void RETROCADE::handleJoystick()
           Serial.println(fileName);
           ymplayer.loadFile(fileName);
           ymplayer.play(true);  
-//          lcd.setCursor(0,1);   
-//          lcd.print(fileName);
-//          lcd.print(" ");
-//          lcd.print(curFile.size(), DEC); 
+          lcd.setCursor(0,1);   
+          lcd.print(fileName);
+          lcd.print(" ");
+          lcd.print(curFile.size(), DEC); 
         }                    
         break;   
       default:
@@ -294,7 +294,7 @@ void RETROCADE::printFile(const char* ext) {
      fileName = curFile.name();
      Serial.println(fileName);
      if (fileExtension(fileName,ext,3)) {
-       Serial.println("it is a ymd"); 
+       //Serial.println("it is a ymd"); 
        lcd.setCursor(0,1);   
        lcd.print(fileName);
        lcd.print(" ");

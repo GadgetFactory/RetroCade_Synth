@@ -173,7 +173,7 @@ pt_mod_s *MODPLAYER::pt_init_smallfs()
 	//while(1) {}
 
 	//mod = (pt_mod_s*)&__end__;
-        mod = (pt_mod_s*)File::zpuinomalloc(sizeof(pt_mod_s));
+        mod = (pt_mod_s*)malloc(sizeof(pt_mod_s));
 	memset(mod, 0, sizeof(*mod));
 
 
