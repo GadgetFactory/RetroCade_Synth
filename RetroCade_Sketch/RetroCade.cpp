@@ -82,32 +82,7 @@ void RETROCADE::setupMegaWing()
   }
  
   //Setup SD Card
-  USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);
-  outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
-  pinModePPS(SDIPIN,HIGH);
-  pinMode(SDIPIN,OUTPUT);
-
-  outputPinForFunction( SCKPIN, IOPIN_USPI_SCK);
-  pinModePPS(SCKPIN,HIGH);
-  pinMode(SCKPIN,OUTPUT);
-
-  pinModePPS(CSPIN,LOW);
-  pinMode(CSPIN,OUTPUT);
-
-  inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
-  pinMode(SDOPIN,INPUT);  
-  
-  Serial.println("Starting SD Card");
-
-  if (!SD.begin(CSPIN)) {
-	Serial.println("init failed!");
-	Serial.println(SD.errorCode());
-        sdFs = false;
-  } else {
-  	Serial.println("done.");
-	sdFs = true;
-  }
-  root = SD.open("/");
+  initSD();
   
   //Setup Joystick
   pinMode(JSELECT, INPUT); 
@@ -137,6 +112,47 @@ void RETROCADE::setupMegaWing()
   INTRMASK = BIT(INTRLINE_TIMER0); // Enable Timer0 interrupt
   INTRCTL=1;    
 
+}
+
+void RETROCADE::initSD()
+{
+  int i;
+  USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);
+  outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
+  pinModePPS(SDIPIN,HIGH);
+  pinMode(SDIPIN,OUTPUT);
+
+  outputPinForFunction( SCKPIN, IOPIN_USPI_SCK);
+  pinModePPS(SCKPIN,HIGH);
+  pinMode(SCKPIN,OUTPUT);
+
+  pinModePPS(CSPIN,LOW);
+  pinMode(CSPIN,OUTPUT);
+
+  inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
+  pinMode(SDOPIN,INPUT);    
+
+  Serial.println("Starting SD Card");
+  
+	digitalWrite(CSPIN,HIGH);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;
+
+	digitalWrite(CSPIN,LOW);
+
+	for (i=0;i<51200;i++)
+		USPIDATA=0xff;  
+
+  if (!SD.begin(CSPIN)) {
+	Serial.println("init failed!");
+	Serial.println(SD.errorCode());
+        sdFs = false;
+  } else {
+  	Serial.println("done.");
+	sdFs = true;
+  }  
+  root = SD.open("/");
 }
 
 void RETROCADE::setTimeout()
@@ -269,8 +285,10 @@ void RETROCADE::printFile(const char* ext) {
      //Serial.println(ext);
      curFile =  root.openNextFile();
      if (! curFile) {
+       Serial.println("No File Opened");
+       //initSD();
        root.rewindDirectory();
-       printFile(ext);
+       //printFile(ext);
        return;
      }
      fileName = curFile.name();

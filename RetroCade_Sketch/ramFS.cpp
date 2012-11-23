@@ -23,7 +23,7 @@
 File modSDfile;
 
 extern void*__end__;
-unsigned char *mbuf = (unsigned char*)&__end__;
+unsigned long *mbuf = (unsigned long*)&__end__+80000;
 
 RamFSFile::RamFSFile(){
   
@@ -92,10 +92,10 @@ RamFSFile RamFS_class::open(File *file)
 
 RamFSFile::RamFSFile(File *file)
 {
-        filesize = file->size();      
+        filesize = file->size();  
+        file->seek(0x0);         
         moddata = (unsigned char *)zpuinomalloc(filesize*sizeof(unsigned char));
-        memset(moddata, 0, filesize*sizeof(unsigned char));
-        file->seek(0x0); 
+        //memset(moddata, 0, filesize*sizeof(unsigned char));
         file->read(&moddata[0], filesize);         
 }
 

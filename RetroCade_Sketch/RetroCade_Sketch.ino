@@ -2,14 +2,15 @@
 Gadget Factory
 RetroCade Synthesizer
 This example will let you play the YM2149 and SID audio chip integrated into the ZPUino Soft Processor using a MIDI instrument such as a keyboard or guitar.
-To learn more about this example visit its home page at the Papilio Audio Wiki:
-http://www.kickstarter.com/projects/13588168/retrocade-synth-one-chiptune-board-to-rule-them-al
+To learn more about this example visit its home page at the Papilio RetroCade Wiki:
+http://retrocade.gadgetfactory.net
+
 To learn more about the Papilio and Gadget Factory products visit:
 http://www.GadgetFactory.net
+
 Hardware:
-* Connect a MIDI-Audio Wing to CH
-* Connect an Audio Wing to AL
-* User an Arcade MegaWing
+* Connect a RetroCade MegaWing
+
 *******IMPORTANT********************
 Be sure to load the ZPUino "RetroCade" variant to the Papilio's SPI Flash before loading this sketch.
 

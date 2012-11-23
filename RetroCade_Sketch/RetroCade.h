@@ -86,6 +86,7 @@ class RETROCADE
    boolean smallFsActive();
    void spaceInvadersLCD();
   private:
+   void initSD();
    int fileExtension(const char* name, const char* extension, size_t length);
    byte lcdMode;
    kButtonDirection buttonPressed;
