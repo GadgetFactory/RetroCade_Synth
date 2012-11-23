@@ -1,3 +1,13 @@
+/*!
+ *  @file		ramFS.cpp
+ *  Project		RamFS Library
+ *	@brief		Allows SD or SmallFS files to be loaded into SDRAM.
+ *	Version		1.0
+ *  @author		Jack Gassett 
+ *	@date		11/10/12
+ *  License		GPL
+ */
+
 #include "RamFS.h"
 #include <string.h>
 #ifdef __linux__
@@ -72,7 +82,7 @@ void RamFS_class::read(unsigned long address, void *target, unsigned long size)
 
 RamFSFile RamFS_class::open(SmallFSFile *file)
 {
-        Serial.println("In RamFS.open");
+        //Serial.println("In RamFS.open");
 	return RamFSFile(file);
 }
 
@@ -95,7 +105,7 @@ RamFSFile::RamFSFile(File *file)
         filesize = file->size();  
         file->seek(0x0);         
         moddata = (unsigned char *)malloc(filesize*sizeof(unsigned char));
-        //memset(moddata, 0, filesize*sizeof(unsigned char));
+        memset(moddata, 0, filesize*sizeof(unsigned char));
         file->read(&moddata[0], filesize);         
 }
 

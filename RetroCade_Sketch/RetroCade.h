@@ -5,7 +5,7 @@
  *	Version		1.0
  *  @author		Jack Gassett 
  *	@date		9/11/12
- *  License		Creative Commons Atribution
+ *  License		GPL
  */
 
 #ifndef LIB_RetroCade_H_
@@ -20,7 +20,6 @@
 #include "SmallFS.h"
 #include "modplayer.h"
 #include "ymplayer.h"
-
 
 #define AUDIO_J1_L WING_B_1
 #define AUDIO_J1_R WING_B_0
@@ -55,12 +54,6 @@
 #define SDIPIN WING_C_12
 #define SCKPIN WING_C_11
 #define SDOPIN WING_C_10
-
-
-//enum kFileType {
-//	SmallFSType               = 0,  
-//	SDFSType                  = 1,  
-//};
 
 enum kButtonDirection {
 	Left                = 0, 

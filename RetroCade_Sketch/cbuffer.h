@@ -1,3 +1,13 @@
+/*!
+ *  @file		cbuffer.h
+ *  Project		RetroCade Library
+ *	@brief		RetroCade Library for the ZPUino
+ *	Version		1.0
+ *  @author		Alvaro Lopes 
+ *	@date		9/11/12
+ *  License		FreeBSD
+ */
+
 #ifndef __CBUFFER_H__
 #define __CBUFFER_H__
 

@@ -18,7 +18,6 @@
 #include "SmallFS.h"
 #include "cbuffer.h"
 #include <SD.h>
-//#include "RetroCade.h"
 #include "RamFS.h"
 #include "ptplay.h"
 #include "retrocade_defs.h"
@@ -46,7 +45,6 @@ class MODPLAYER
     boolean playing;
     boolean fileLoaded;
     kFileType fileType;    
-    //unsigned char __end__;
 };
 
 

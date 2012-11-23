@@ -5,7 +5,7 @@
  *	Version		1.0
  *  @author		Jack Gassett 
  *	@date		9/11/12
- *  License		Creative Commons Atribution
+ *  License		GPL
  */
  #include "RetroCade.h"
  #include "LiquidCrystal.h"
@@ -22,7 +22,8 @@
 #define INSTRUMENT 2
 #define MODFILE 3
 #define YMFILE 4
-#define lcdModeMAX 5
+#define ABOUT 5
+#define LCDMODEMAX 6
  
 LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);
 
@@ -98,10 +99,6 @@ void RETROCADE::setupMegaWing()
  lcd.begin(16,2);
  // clear the LCD screen:
  lcd.clear();
-// lcd.setCursor(0,1);
-// lcd.print("CH:   RetroCade");
-// lcd.setCursor(0,0);
-// lcd.print("Instrument:");
 
  //Setup timer for YM and mod players
   TMR0CTL = 0;
@@ -178,7 +175,7 @@ void RETROCADE::handleJoystick()
       timeout = TIMEOUTMAX;
       buttonPressed = Down;
     } else if (!digitalRead(JRIGHT)) {
-      if (lcdMode<lcdModeMAX)
+      if (lcdMode<LCDMODEMAX)
         lcdMode++;
       timeout = TIMEOUTMAX;
       buttonPressed = Right;
@@ -241,8 +238,8 @@ void RETROCADE::handleJoystick()
           modplayer.play(false);
         }            
         if (buttonPressed == Select) {
-          Serial.println("Select Pressed");
-          Serial.println(fileName);
+          //Serial.println("Select Pressed");
+          //Serial.println(fileName);
           modplayer.loadFile(fileName);
           modplayer.play(true);  
           lcd.setCursor(0,1);   
@@ -262,8 +259,8 @@ void RETROCADE::handleJoystick()
           ymplayer.play(false);
         }            
         if (buttonPressed == Select) {
-          Serial.println("Select Pressed");
-          Serial.println(fileName);
+          //Serial.println("Select Pressed");
+          //Serial.println(fileName);
           ymplayer.loadFile(fileName);
           ymplayer.play(true);  
           lcd.setCursor(0,1);   
@@ -271,7 +268,14 @@ void RETROCADE::handleJoystick()
           lcd.print(" ");
           lcd.print(curFile.size(), DEC); 
         }                    
-        break;   
+        break;  
+      case ABOUT:
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("RetroCade Synth");          
+        lcd.setCursor(0,1);
+        lcd.print("Version: 1.0");          
+        break;        
       default:
         //return;
         break;       
@@ -281,20 +285,15 @@ void RETROCADE::handleJoystick()
 }
 
 void RETROCADE::printFile(const char* ext) {
-     //File entry =  root.openNextFile();
-     //Serial.println(ext);
      curFile =  root.openNextFile();
      if (! curFile) {
        Serial.println("No File Opened");
-       //initSD();
        root.rewindDirectory();
-       //printFile(ext);
        return;
      }
      fileName = curFile.name();
-     Serial.println(fileName);
+     //Serial.println(fileName);
      if (fileExtension(fileName,ext,3)) {
-       //Serial.println("it is a ymd"); 
        lcd.setCursor(0,1);   
        lcd.print(fileName);
        lcd.print(" ");

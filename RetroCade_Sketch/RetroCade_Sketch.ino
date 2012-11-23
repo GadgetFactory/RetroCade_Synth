@@ -17,11 +17,15 @@ Be sure to load the ZPUino "RetroCade" variant to the Papilio's SPI Flash before
 created 2012
 by Jack Gassett
 http://www.gadgetfactory.net
-This example code is Creative Commons Attribution.
+
+License: GPL
 
 ChangeLog:
 11/23/2012      Version 1.0
-        -
+        -RetroCade Sketch
+                -SID Volume CC added.
+                -Crawling Space Invaders added to the Welcome LCD screen.
+                -Added ability to browse and play YMD and MOD files from the LCD screen.
 
 11/1/2012	Version .3
 	-FlowStone Dashboard
@@ -67,15 +71,11 @@ ChangeLog:
 #include "SID.h"
 #include "YM2149.h"
 #include "MIDI.h" //Be sure to change MIDI.h to user Serial1 instead of Serial
-//#include "modplayer.h"
-//#include "ymplayer.h"
 #include "SmallFS.h"
 #include <LiquidCrystal.h>
 #include <SD.h>
 
 File root;
-
-//#include "cbuffer.h"
 
 #undef DO_CHECKS
 //#define DEBUG
@@ -84,13 +84,8 @@ File root;
 RETROCADE retrocade;
 YM2149 ym2149;
 SID sid;
-//YMPLAYER ymplayer;
-//MODPLAYER modplayer;
 
 void setup(){
-//  #ifdef DEBUG
-//    Serial.begin(115200);
-//  #endif
   Serial.begin(115200);
   Serial1.begin(31250);
 
@@ -129,7 +124,6 @@ void _zpu_interrupt()
   retrocade.modplayer.zpu_interrupt();
   retrocade.ymplayer.zpu_interrupt(); 
   retrocade.setTimeout();
-//  TMR0CTL &= ~(BIT(TCTLIF));
 }
 
 void HandleControlChange(byte channel, byte number, byte value) {
@@ -144,7 +138,7 @@ void HandleControlChange(byte channel, byte number, byte value) {
  #endif    
   
   //Define which voice responds to each channel
-  switch (channel) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+  switch (channel) {  
     case 1:
       sid.V1.handleCC(number, value);
       break;
@@ -168,7 +162,7 @@ void HandleControlChange(byte channel, byte number, byte value) {
       break;       
   }  
  
-  switch (number) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+  switch (number) {  
     case 117:
       retrocade.modplayer.play(!value);
       retrocade.ymplayer.play(!value);

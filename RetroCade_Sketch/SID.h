@@ -5,7 +5,7 @@
  *	Version		1.0
  *  @author		Jack Gassett 
  *	@date		4/10/12
- *  License		Creative Commons Atribution
+ *  License		GPL
  */
 
 #ifndef LIB_SID_H_

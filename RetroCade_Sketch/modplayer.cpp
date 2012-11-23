@@ -1,3 +1,13 @@
+/*!
+ *  @file		modplayer.cpp
+ *  Project		modplayer Library
+ *	@brief		modplayer wrapper for the ptplay library for the ZPUino, ported by Alvaro Lopes
+ *	Version		1.0
+ *  @author		Jack Gassett 
+ *	@date		4/10/12
+ *  License		GPL
+ */
+
 #include "modplayer.h"
 #include <SD.h>
 #include "ptplay.h"

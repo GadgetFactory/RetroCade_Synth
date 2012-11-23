@@ -65,7 +65,7 @@ void YMVoice::setNote(int note, boolean active)
 
 void YMVoice::setNoise(boolean active)
 {
-  switch (YM_ADDR_FREQ) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+  switch (YM_ADDR_FREQ) { 
     case 0:
       YM_REG_MIXER.NOISEA = !active;
       break;
@@ -95,7 +95,7 @@ void YMVoice::setTone(boolean active)
     tmp = 0;
   else
     tmp = 1;
-  switch (YM_ADDR_LEVEL) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+  switch (YM_ADDR_LEVEL) {  
     case 0x08:
       YM_REG_MIXER.TONEA = tmp;
       break;
@@ -134,8 +134,8 @@ void YMVoice::reset()
 
 void YMVoice::handleCC(byte number, byte value)
 {
-  //Handle the Control Changes for SID
-  switch (number) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+  //Handle the Control Changes for YM2149
+  switch (number) {  
     case 2:
       YM2149::setEnvelopeCONT(value);
       break;

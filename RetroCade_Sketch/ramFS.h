@@ -1,3 +1,13 @@
+/*!
+ *  @file		ramFS.h
+ *  Project		RamFS Library
+ *	@brief		Allows SD or SmallFS files to be loaded into SDRAM.
+ *	Version		1.0
+ *  @author		Jack Gassett 
+ *	@date		11/10/12
+ *  License		GPL
+ */
+
 #ifndef __RAMFS_H__
 #define __RAMFS_H__
 
@@ -9,9 +19,6 @@
 
 #include <SD.h>
 #include "SmallFS.h"
-
-/** RAMFS filesystem magic */
-//#define RAMFS_MAGIC 0x50411F50
 
 #ifndef SEEK_SET
 # define SEEK_SET   0

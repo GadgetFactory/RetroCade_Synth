@@ -20,9 +20,6 @@
 #include "YM2149.h"
 #include <SD.h>
 #include "retrocade_defs.h"
-//#include "RetroCade.h"
-
-
 
 class YMPLAYER
 {
@@ -45,18 +42,11 @@ class YMPLAYER
     int ymTimeStamp;
     int resetYMFlag;
     YM2149* ym2149;
-    //unsigned underruns;
-    //pt_mod_s *pt_init_smallfs(SmallFSFile &file);
     SmallFSFile ymSmallFSfile;
     File ymSDfile;
-    //void *ymCurrentFile;
-    //char buf[128];
-    //pt_mod_s * mod;
     boolean playing; 
     kFileType fileType;  
-    //unsigned char __end__;
-    
-  
+   
 };
 
 

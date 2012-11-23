@@ -1,3 +1,13 @@
+/*!
+ *  @file		ymplayer.cpp
+ *  Project		ymplayer Library
+ *	@brief		ymplayer library for the ZPUino
+ *	Version		1.0
+ *  @author		Jack Gassett 
+ *	@date		4/10/12
+ *  License		GPL
+ */
+ 
 #include "ymplayer.h"
 #include "YM2149.h"
 
