@@ -26,6 +26,7 @@ ChangeLog:
                 -SID Volume CC added.
                 -Crawling Space Invaders added to the Welcome LCD screen.
                 -Added ability to browse and play YMD and MOD files from the LCD screen.
+                -Ring Mod and Sync CC's added.
 
 11/1/2012	Version .3
 	-FlowStone Dashboard
@@ -162,11 +163,8 @@ void HandleControlChange(byte channel, byte number, byte value) {
       break;       
   }  
  
+  // These are active no matter which channel is selected.
   switch (number) {  
-    case 117:
-      retrocade.modplayer.play(!value);
-      retrocade.ymplayer.play(!value);
-      break;
     case 9:
       if (value == 127)
         retrocade.modplayer.loadFile("track1.mod");
@@ -202,7 +200,11 @@ void HandleControlChange(byte channel, byte number, byte value) {
       break;    
     case 86:
       sid.setVolume(value/8);
-      break;        
+      break;     
+    case 117:
+      retrocade.modplayer.play(!value);
+      retrocade.ymplayer.play(!value);
+      break;      
     default:
       return;
       break;       

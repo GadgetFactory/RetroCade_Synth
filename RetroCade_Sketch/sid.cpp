@@ -220,9 +220,41 @@ void SIDVoice::handleCC(byte number, byte value)
     case 91:
       setEnvelopeSustain(value/8);
       break;    
+    case 92:  //This is for Ring Modulation Fine.  
+      switch (baseAddress) {  
+        case SID_ADDR_BASE_V1:                          //When we are on Voice 1 we need to combine with Frequency of Voice 3
+          SIDREG(SID_ADDR_BASE_V3) = (value << 1);
+          break;
+        case SID_ADDR_BASE_V2:                          //When we are on Voice 2 we need to combine with Frequency of Voice 1
+          SIDREG(SID_ADDR_BASE_V1) = (value << 1);
+          break;
+        case SID_ADDR_BASE_V3:                          //When we are on Voice 3 we need to combine with Frequency of Voice 2
+          SIDREG(SID_ADDR_BASE_V2) = (value << 1);
+          break;
+        default:
+          return;
+          break;       
+      }
+      break;         
     case 93:
       setEnvelopeRelease(value/8);
-      break;               
+      break;    
+    case 95:  //This is for Ring Modulation Coarse.  
+      switch (baseAddress) {  
+        case SID_ADDR_BASE_V1:                          //When we are on Voice 1 we need to combine with Frequency of Voice 3
+          SIDREG(SID_ADDR_BASE_V3 + 1) = (value);
+          break;
+        case SID_ADDR_BASE_V2:                          //When we are on Voice 2 we need to combine with Frequency of Voice 1
+          SIDREG(SID_ADDR_BASE_V1 + 1) = (value);
+          break;
+        case SID_ADDR_BASE_V3:                          //When we are on Voice 3 we need to combine with Frequency of Voice 2
+          SIDREG(SID_ADDR_BASE_V2 + 1) = (value);
+          break;
+        default:
+          return;
+          break;       
+      }
+      break;         
     default:
       return;
       break;       
