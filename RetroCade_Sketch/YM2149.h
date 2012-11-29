@@ -36,14 +36,17 @@ class YMVoice
   public:
     void setBase(int freqAddress, int volumeAddress);
     void setNote(int note, boolean active);
+    void setFreq(int freq);
     void setVolume(byte volume);
     void setEnvelope(boolean active);
     void setTone(boolean active);
     void setNoise(boolean active);
     void reset(); 
-    void handleCC(byte number, byte value);    
+    void handleCC(byte number, byte value); 
+    int getCurrentFreq();    
   private:
     int baseAddress;
+    int currentFreq;
     int YM_ADDR_FREQ;
     int YM_ADDR_LEVEL;
     struct YM_REG_LEVEL_STRUCT{

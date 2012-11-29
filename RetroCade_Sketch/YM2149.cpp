@@ -60,7 +60,19 @@ void YMVoice::setNote(int note, boolean active)
 {
   //setTone(active);
   YM2149::writeData(YM_ADDR_FREQ, YM2149::MIDI2freq[note]);
-  YM2149::writeData(YM_ADDR_FREQ+1, (YM2149::MIDI2freq[note] >> 8));  
+  YM2149::writeData(YM_ADDR_FREQ+1, (YM2149::MIDI2freq[note] >> 8));
+  currentFreq = YM2149::MIDI2freq[note];
+}
+
+void YMVoice::setFreq(int freq)
+{
+  YM2149::writeData(YM_ADDR_FREQ, freq);
+  YM2149::writeData(YM_ADDR_FREQ+1, (freq >> 8));  
+}
+
+int YMVoice::getCurrentFreq()
+{
+  return currentFreq;
 }
 
 void YMVoice::setNoise(boolean active)

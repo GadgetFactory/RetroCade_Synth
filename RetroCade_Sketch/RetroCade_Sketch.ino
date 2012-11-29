@@ -80,7 +80,7 @@ ChangeLog:
 File root;
 
 #undef DO_CHECKS
-//#define DEBUG
+#define DEBUG
 
 //Instantiate the objects we will be using.
 RETROCADE retrocade;
@@ -222,6 +222,7 @@ void HandlePitchBend(byte channel, int bend) {
   byte activeChannel = retrocade.getActiveChannel();
   if ( activeChannel != 0 )
     channel = activeChannel;
+  int ymBend = bend/10;    
   switch (channel){
     case 1:
       if (sid.V1.getCurrentFreq() + bend > 388)
@@ -235,15 +236,18 @@ void HandlePitchBend(byte channel, int bend) {
       if (sid.V3.getCurrentFreq() + bend > 388)
         sid.V3.setFreq(sid.V3.getCurrentFreq()+bend);
       break;
-//     case 4:
-//      ym2149.V1.setNote(pitch, 1);
-//      break;
-//     case 5:
-//      ym2149.V2.setNote(pitch, 1);
-//      break;
-//     case 6:
-//      ym2149.V3.setNote(pitch, 1);
-//      break;      
+     case 4:
+      if (ym2149.V1.getCurrentFreq() - ymBend > 100)
+        ym2149.V1.setFreq(ym2149.V1.getCurrentFreq()-ymBend); 
+      break;
+     case 5:
+      if (ym2149.V2.getCurrentFreq() - ymBend > 100)
+        ym2149.V2.setFreq(ym2149.V2.getCurrentFreq()-ymBend);  
+      break;
+     case 6:
+      if (ym2149.V3.getCurrentFreq() - ymBend > 100)
+        ym2149.V3.setFreq(ym2149.V3.getCurrentFreq()-ymBend);  
+      break;      
      default:
        return;
      break;
