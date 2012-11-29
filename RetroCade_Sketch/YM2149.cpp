@@ -161,7 +161,7 @@ void YMVoice::handleCC(byte number, byte value)
       setVolume(value/8);
       break;       
     case 74:
-      //YM2149::setNoiseFrequency(value);
+      YM2149::setNoiseFrequency(value);
       break;        
     case 75:
       YM2149::setEnvelopeFrequencyLo(value << 1);
@@ -187,6 +187,10 @@ void YM2149::writeData(unsigned char address, unsigned char data)
   YM2149REG(address) = data;
 }
 
+void YM2149::setNoiseFrequency(byte freq)
+{    
+  writeData(YM_ADDR_NOISE, freq);
+}
 
 void YM2149::setEnvelopeFrequency(int freq)
 {    

@@ -27,6 +27,7 @@ ChangeLog:
                 -Crawling Space Invaders added to the Welcome LCD screen.
                 -Added ability to browse and play YMD and MOD files from the LCD screen.
                 -Ring Mod and Sync CC's added.
+                -Added YM2149 Noise Frequency.
 
 11/1/2012	Version .3
 	-FlowStone Dashboard
@@ -34,9 +35,9 @@ ChangeLog:
 		-Added the ability to control the RetroCade without a MIDI output, can control over a Com Port instead.
 		-Generated an EXE version of the Dashboard. VST will be generated when FlowStone 3.0 is released in November.
 		-Zoom Controls added to Dashboard
-			-Pressing "w" toggles full screen.
-			-While in full screen pressing "z" fills the screen.
-			-Pressing "x" returns to normal size.
+			-Pressing Up Arrow toggles full screen.
+			-While in full screen pressing Left Arrow fills the screen.
+			-Pressing Down Arrow returns to normal size.
 	-RetroCade Sketch
 		-Control the RetroCade from a COM port or MIDI In
 		-Play YMdat and Mod files from SD card or SmallFS filesystem.
@@ -194,7 +195,7 @@ void HandleControlChange(byte channel, byte number, byte value) {
       if (value == 127)
         retrocade.ymplayer.loadFile("track3.ymd");
       retrocade.ymplayer.play(value);
-      break;        
+      break;         
     case 84:
       retrocade.modplayer.volume(value <<1);
       break;    
