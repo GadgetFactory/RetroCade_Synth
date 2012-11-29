@@ -242,8 +242,19 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
      case 6:
       ym2149.V3.setNote(pitch, 1);
       break;
-    default:
-      break;
+     case 7:
+      if (pitch > 60) {
+          retrocade.modplayer.loadFile("hihat.mod");
+          retrocade.modplayer.play(true);
+      }
+      else {
+          retrocade.modplayer.loadFile("kick.mod");
+          retrocade.modplayer.play(true);      
+      }
+     break;         
+     default:
+       return;
+     break;
   }
 }
 
@@ -273,8 +284,12 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
       case 6:
         ym2149.V3.setNote(128, 1);
         break;
+      case 7:
+        retrocade.modplayer.play(false);
+        break;        
       default:
         return;
+      break; 
   } 
 }
 

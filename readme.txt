@@ -8,15 +8,24 @@ Requirements:
   *You must have FlowStone installed to modify the Dashboard. The free version can be downloaded from: http://www.dsprobotics.com/download.php
   
 ChangeLog:
+ChangeLog:
+11/23/2012      Version 1.0
+        -RetroCade Sketch
+                -SID Volume CC added.
+                -Crawling Space Invaders added to the Welcome LCD screen.
+                -Added ability to browse and play YMD and MOD files from the LCD screen.
+                -Ring Mod and Sync CC's added.
+                -Added YM2149 Noise Frequency.
+
 11/1/2012	Version .3
 	-FlowStone Dashboard
 		-Changed from SynthMaker to FlowStone
 		-Added the ability to control the RetroCade without a MIDI output, can control over a Com Port instead.
 		-Generated an EXE version of the Dashboard. VST will be generated when FlowStone 3.0 is released in November.
 		-Zoom Controls added to Dashboard
-			-Pressing "w" toggles full screen.
-			-While in full screen pressing "z" fills the screen.
-			-Pressing "x" returns to normal size.
+			-Pressing Up Arrow toggles full screen.
+			-While in full screen pressing Left Arrow fills the screen.
+			-Pressing Down Arrow returns to normal size.
 	-RetroCade Sketch
 		-Control the RetroCade from a COM port or MIDI In
 		-Play YMdat and Mod files from SD card or SmallFS filesystem.
