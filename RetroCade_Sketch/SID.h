@@ -57,6 +57,7 @@ class SIDVoice
     void reset(); 
   private:
     void writeData(unsigned char address, unsigned char data);
+    void ringMod(byte baseOffset, byte valueOffset, byte value);
     int baseAddress;
     int SID_ADDR_FREQ_LOW;
     int SID_ADDR_FREQ_HI;

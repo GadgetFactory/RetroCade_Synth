@@ -220,45 +220,65 @@ void SIDVoice::handleCC(byte number, byte value)
     case 91:
       setEnvelopeSustain(value/8);
       break;    
-    case 92:  //This is for Ring Modulation Fine.  
-      switch (baseAddress) {  
-        case SID_ADDR_BASE_V1:                          //When we are on Voice 1 we need to combine with Frequency of Voice 3
-          SIDREG(SID_ADDR_BASE_V3) = (value << 1);
-          break;
-        case SID_ADDR_BASE_V2:                          //When we are on Voice 2 we need to combine with Frequency of Voice 1
-          SIDREG(SID_ADDR_BASE_V1) = (value << 1);
-          break;
-        case SID_ADDR_BASE_V3:                          //When we are on Voice 3 we need to combine with Frequency of Voice 2
-          SIDREG(SID_ADDR_BASE_V2) = (value << 1);
-          break;
-        default:
-          return;
-          break;       
-      }
+    case 92:  //This is for Ring Modulation Fine. 
+      ringMod(0,1, value); 
+//      switch (baseAddress) {  
+//        case SID_ADDR_BASE_V1:                          //When we are on Voice 1 we need to combine with Frequency of Voice 3
+//          SIDREG(SID_ADDR_BASE_V3) = (value << 1);
+//          break;
+//        case SID_ADDR_BASE_V2:                          //When we are on Voice 2 we need to combine with Frequency of Voice 1
+//          SIDREG(SID_ADDR_BASE_V1) = (value << 1);
+//          break;
+//        case SID_ADDR_BASE_V3:                          //When we are on Voice 3 we need to combine with Frequency of Voice 2
+//          SIDREG(SID_ADDR_BASE_V2) = (value << 1);
+//          break;
+//        default:
+//          return;
+//          break;       
+//      }
       break;         
     case 93:
       setEnvelopeRelease(value/8);
       break;    
     case 95:  //This is for Ring Modulation Coarse.  
-      switch (baseAddress) {  
-        case SID_ADDR_BASE_V1:                          //When we are on Voice 1 we need to combine with Frequency of Voice 3
-          SIDREG(SID_ADDR_BASE_V3 + 1) = (value);
-          break;
-        case SID_ADDR_BASE_V2:                          //When we are on Voice 2 we need to combine with Frequency of Voice 1
-          SIDREG(SID_ADDR_BASE_V1 + 1) = (value);
-          break;
-        case SID_ADDR_BASE_V3:                          //When we are on Voice 3 we need to combine with Frequency of Voice 2
-          SIDREG(SID_ADDR_BASE_V2 + 1) = (value);
-          break;
-        default:
-          return;
-          break;       
-      }
+      ringMod(1,0, value);    
+//      switch (baseAddress) {  
+//        case SID_ADDR_BASE_V1:                          //When we are on Voice 1 we need to combine with Frequency of Voice 3
+//          SIDREG(SID_ADDR_BASE_V3 + 1) = (value);
+//          break;
+//        case SID_ADDR_BASE_V2:                          //When we are on Voice 2 we need to combine with Frequency of Voice 1
+//          SIDREG(SID_ADDR_BASE_V1 + 1) = (value);
+//          break;
+//        case SID_ADDR_BASE_V3:                          //When we are on Voice 3 we need to combine with Frequency of Voice 2
+//          SIDREG(SID_ADDR_BASE_V2 + 1) = (value);
+//          break;
+//        default:
+//          return;
+//          break;       
+//      }
       break;         
     default:
       return;
       break;       
   }     
+}
+
+void SIDVoice::ringMod(byte baseOffset, byte valueOffset, byte value)
+{
+      switch (baseAddress) {  
+        case SID_ADDR_BASE_V1:                          //When we are on Voice 1 we need to combine with Frequency of Voice 3
+          SIDREG(SID_ADDR_BASE_V3 + baseOffset) = (value << valueOffset);
+          break;
+        case SID_ADDR_BASE_V2:                          //When we are on Voice 2 we need to combine with Frequency of Voice 1
+          SIDREG(SID_ADDR_BASE_V1 + baseOffset) = (value << valueOffset);
+          break;
+        case SID_ADDR_BASE_V3:                          //When we are on Voice 3 we need to combine with Frequency of Voice 2
+          SIDREG(SID_ADDR_BASE_V2 + baseOffset) = (value << valueOffset);
+          break;
+        default:
+          return;
+          break;       
+      }  
 }
 
 void SIDVoice::setInstrument(byte attack, byte decay, byte sustain, byte rel, bool noise, bool square, bool sawtooth, bool triangle, int pwm)
