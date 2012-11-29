@@ -37,6 +37,7 @@ class SIDVoice
     SIDVoice(int address);
     void setBase(int address);   
     void setNote(int note, boolean active);
+    void setFreq(int freq);
     void setPWLo(byte dutyCycle); 
     void setPWHi(byte dutyCycle);    
     void setGate(boolean active);
@@ -55,10 +56,12 @@ class SIDVoice
     void setInstrument(byte attack, byte decay, byte sustain, byte release, bool noise, bool square, bool sawtooth, bool triangle, int pwm);
     void handleCC(byte number, byte value);
     void reset(); 
+    int getCurrentFreq();
   private:
     void writeData(unsigned char address, unsigned char data);
     void ringMod(byte baseOffset, byte valueOffset, byte value);
     int baseAddress;
+    int currentFreq;
     int SID_ADDR_FREQ_LOW;
     int SID_ADDR_FREQ_HI;
     int SID_ADDR_PW_LOW;

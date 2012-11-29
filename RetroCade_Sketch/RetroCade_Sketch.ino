@@ -113,7 +113,7 @@ void setup(){
   MIDI.setHandleControlChange(HandleControlChange); // Put only the name of the function
   MIDI.setHandleNoteOff(HandleNoteOff); // Put only the name of the function
 // MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
-// MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
+ MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
   retrocade.modplayer.setup();
   retrocade.ymplayer.setup(&ym2149); 
@@ -211,6 +211,43 @@ void HandleControlChange(byte channel, byte number, byte value) {
       break;       
   }    
 
+}
+
+void HandlePitchBend(byte channel, int bend) { 
+  #ifdef DEBUG
+  Serial.print("Pitch Bend Received: ");
+  Serial.println(channel);  
+  Serial.println(bend); 
+  #endif  
+  byte activeChannel = retrocade.getActiveChannel();
+  if ( activeChannel != 0 )
+    channel = activeChannel;
+  switch (channel){
+    case 1:
+      if (sid.V1.getCurrentFreq() + bend > 388)
+        sid.V1.setFreq(sid.V1.getCurrentFreq()+bend);
+      break;
+    case 2:
+      if (sid.V2.getCurrentFreq() + bend > 388)
+        sid.V2.setFreq(sid.V2.getCurrentFreq()+bend);
+      break;
+    case 3:
+      if (sid.V3.getCurrentFreq() + bend > 388)
+        sid.V3.setFreq(sid.V3.getCurrentFreq()+bend);
+      break;
+//     case 4:
+//      ym2149.V1.setNote(pitch, 1);
+//      break;
+//     case 5:
+//      ym2149.V2.setNote(pitch, 1);
+//      break;
+//     case 6:
+//      ym2149.V3.setNote(pitch, 1);
+//      break;      
+     default:
+       return;
+     break;
+  }
 }
 
 void HandleNoteOn(byte channel, byte pitch, byte velocity) {
