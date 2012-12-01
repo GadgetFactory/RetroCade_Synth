@@ -81,10 +81,12 @@ class RETROCADE
   private:
    void initSD();
    int fileExtension(const char* name, const char* extension, size_t length);
+   void smallfsModFileJoystick();
    byte lcdMode;
    kButtonDirection buttonPressed;
    byte activeChannel;
    int activeInstrument;
+   byte smallfsActiveTrack;
    unsigned long timeout;
    boolean smallFs;
    boolean sdFs;
@@ -95,7 +97,7 @@ class RETROCADE
    File curFile;
    File curYMFile;
    File curMODFile;
-   char * fileName; 
+   char * fileName;
 };
 
 #endif // LIB_RetroCade_H_

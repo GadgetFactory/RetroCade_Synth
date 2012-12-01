@@ -53,7 +53,7 @@ class SIDVoice
     void setEnvelopeDecay(byte rate);
     void setEnvelopeSustain(byte level);
     void setEnvelopeRelease(byte rate); 
-    void setInstrument(byte attack, byte decay, byte sustain, byte release, bool noise, bool square, bool sawtooth, bool triangle, int pwm);
+    void setInstrument(const char* name, byte attack, byte decay, byte sustain, byte release, bool noise, bool square, bool sawtooth, bool triangle, int pwm);
     void handleCC(byte number, byte value);
     void reset(); 
     int getCurrentFreq();
@@ -69,6 +69,7 @@ class SIDVoice
     int SID_ADDR_CONTROLREG;
     int SID_ADDR_ATTACK_DECAY;
     int SID_ADDR_SUSTAIN_RELEASE;
+    char instrumentName[25];
     struct SID_REG_CONTROLREG_STRUCT{
         unsigned int NOISE_WAVE : 1; 
         unsigned int SQUARE_WAVE : 1;

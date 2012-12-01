@@ -101,9 +101,9 @@ void setup(){
   sid.setVolume(15);
 
   //Select an instrument for each SID Voice.
-  sid.V1.setInstrument(0,0,15,0,0,0,0,1,0); //Calliope
-  sid.V2.setInstrument(12,0,12,0,0,0,1,0,0); //Accordian
-  sid.V3.setInstrument(0,9,0,0,0,1,0,0,512); //Harpsicord
+  sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,0); //Calliope
+  sid.V2.setInstrument("Accordian",12,0,12,0,0,0,1,0,0); //Accordian
+  sid.V3.setInstrument("Harpsicord",0,9,0,0,0,1,0,0,512); //Harpsicord
    
   // Initiate MIDI communications, listen to all channels
   MIDI.begin(MIDI_CHANNEL_OMNI);

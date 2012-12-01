@@ -264,8 +264,12 @@ void SIDVoice::ringMod(byte baseOffset, byte valueOffset, byte value)
       }  
 }
 
-void SIDVoice::setInstrument(byte attack, byte decay, byte sustain, byte rel, bool noise, bool square, bool sawtooth, bool triangle, int pwm)
+void SIDVoice::setInstrument(const char* name,byte attack, byte decay, byte sustain, byte rel, bool noise, bool square, bool sawtooth, bool triangle, int pwm)
 {
+  Serial.println("In setinstrument");
+  Serial.println(name);
+  strcpy(instrumentName, name);
+  Serial.println(instrumentName);
   SID_REG_ATTACK_DECAY.ATTACK = attack;
   SID_REG_ATTACK_DECAY.DECAY = decay;
   SID_REG_SUSTAIN_RELEASE.SUSTAIN = sustain;

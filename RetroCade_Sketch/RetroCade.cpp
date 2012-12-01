@@ -21,9 +21,12 @@
 #define CHANNEL 1
 #define INSTRUMENT 2
 #define MODFILE 3
-#define YMFILE 4
-#define ABOUT 5
-#define LCDMODEMAX 6
+#define SMALLFSMODFILE 4
+#define YMFILE 5
+#define ABOUT 6
+#define LCDMODEMAX 7
+
+char smallfsModTrack[] = "track1.mod";
  
 LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);
 
@@ -31,6 +34,7 @@ void RETROCADE::setupMegaWing()
 {
   activeChannel = 0;
   activeInstrument = 0;
+  smallfsActiveTrack = 0;
   timeout = TIMEOUTMAX;
   smallFs = false;
   sdFs = false;
@@ -218,6 +222,7 @@ void RETROCADE::handleJoystick()
 //        lcd.print("Instrument");
 //        if (buttonPressed == Up) {
 //          if (activeInstrument<9)
+//            //sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,0); //Calliope
 //            activeInstrument++;  
 //        }        
 //        if (buttonPressed == Down) {
@@ -230,7 +235,7 @@ void RETROCADE::handleJoystick()
       case MODFILE:
         lcd.clear();
         lcd.setCursor(0,0);
-        lcd.print("MOD File");
+        lcd.print("MOD File SD Card");
         if (buttonPressed == Down) {
           printFile("MOD");
         }      
@@ -248,6 +253,9 @@ void RETROCADE::handleJoystick()
           lcd.print(curFile.size(), DEC); 
         }  
         break;
+      case SMALLFSMODFILE:
+        smallfsModFileJoystick();
+        break;        
       case YMFILE:
         lcd.clear();
         lcd.setCursor(0,0);
@@ -282,6 +290,37 @@ void RETROCADE::handleJoystick()
     }   
     buttonPressed = None; 
   }  
+}
+
+void RETROCADE::smallfsModFileJoystick() 
+{
+//  char smallfsModTrack[] = "track1.mod";
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("MOD File SmallFS");
+  if (buttonPressed == Down) {          
+    if (smallfsActiveTrack<=8) {
+      smallfsActiveTrack++;
+      smallfsModTrack[5] = (0x30 + smallfsActiveTrack );
+    }
+    else {
+      smallfsActiveTrack=1;
+      smallfsModTrack[5] = (0x30 + smallfsActiveTrack );
+    }
+    lcd.setCursor(0,1); 
+    lcd.print(smallfsModTrack);
+  }      
+  if (buttonPressed == Up) {
+    modplayer.play(false);
+  }            
+  if (buttonPressed == Select) {
+    Serial.println("Select Pressed");
+    Serial.println(smallfsModTrack);
+    modplayer.loadFile(smallfsModTrack);
+    modplayer.play(true);  
+    lcd.setCursor(0,1);   
+    lcd.print(smallfsModTrack);
+  }    
 }
 
 void RETROCADE::printFile(const char* ext) {
