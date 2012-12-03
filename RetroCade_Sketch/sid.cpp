@@ -29,6 +29,23 @@ const int SID::MIDI2freq[] = {//MIDI note number
   0//off
 };
 
+#define SIDINSTRUMENTS 9
+int sidInstrument[SIDINSTRUMENTS][9]=
+        { {0,0,15,0,0,0,0,1,0},                                              
+          {0,5,5,0,1,0,0,0,0},                                                                                           
+          {12,0,12,0,0,0,1,0,0},
+          {0,9,2,1,0,0,1,0,0},
+          {0,9,0,0,0,1,0,0,512},
+          {0,9,9,0,0,1,0,0,2048},
+          {8,9,4,1,0,1,0,0,512},
+          {0,9,0,0,0,0,0,1,0},
+          {9,4,4,0,0,0,0,1,0} };
+          
+//byte sidInstrumentName[SIDINSTRUMENTS][20]=        //TODO: Goofy way to do this, change to struct or function when strcpy works.
+//        { "Calliope",                                              
+//          "Accordian",                                                                                           
+//          "Harpsicord" };  
+
 
 SID::SID(){  
   V1.setBase(SID_ADDR_BASE_V1);
@@ -280,6 +297,28 @@ void SIDVoice::setInstrument(const char* name,byte attack, byte decay, byte sust
   SID_REG_CONTROLREG.TRIANGLE_WAVE = triangle;
   setPWLo(pwm);
   setPWHi(pwm >> 8);  
+
+  SIDREG(SID_ADDR_ATTACK_DECAY) = *(char*)&SID_REG_ATTACK_DECAY;        //TODO: Make this a static function to save space.
+  SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE; 
+  SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;  
+}
+
+void SIDVoice::loadInstrument(byte instrument)
+{
+//  Serial.println("In setinstrument");
+//  Serial.println(name);
+//  strcpy(instrumentName, sidInstrumentName);
+//  Serial.println(instrumentName);
+  SID_REG_ATTACK_DECAY.ATTACK = sidInstrument[instrument][0];
+  SID_REG_ATTACK_DECAY.DECAY = sidInstrument[instrument][1];
+  SID_REG_SUSTAIN_RELEASE.SUSTAIN = sidInstrument[instrument][2];
+  SID_REG_SUSTAIN_RELEASE.RELEASE = sidInstrument[instrument][3];
+  SID_REG_CONTROLREG.NOISE_WAVE = sidInstrument[instrument][4];
+  SID_REG_CONTROLREG.SQUARE_WAVE = sidInstrument[instrument][5];
+  SID_REG_CONTROLREG.SAWTOOTH_WAVE = sidInstrument[instrument][6];
+  SID_REG_CONTROLREG.TRIANGLE_WAVE = sidInstrument[instrument][7];
+  setPWLo(sidInstrument[instrument][8]);
+  setPWHi((sidInstrument[instrument][8]) >> 8);  
 
   SIDREG(SID_ADDR_ATTACK_DECAY) = *(char*)&SID_REG_ATTACK_DECAY;        //TODO: Make this a static function to save space.
   SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE; 

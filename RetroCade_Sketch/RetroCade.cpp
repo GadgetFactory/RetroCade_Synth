@@ -26,7 +26,19 @@
 #define ABOUT 6
 #define LCDMODEMAX 7
 
-char smallfsModTrack[] = "track1.mod";
+char smallfsModTrack[] = "track1.mod";        
+
+#define SIDINSTRUMENTS 9          
+char sidInstrumentName[SIDINSTRUMENTS][20]=        //TODO: Goofy way to do this, change to struct or function when strcpy works.
+        { "Calliope",                                              
+          "Drum",
+          "Accordian", 
+          "Guitar",           
+          "Harpsicord", 
+          "Organ", 
+          "Trumpet", 
+          "Xylophone",           
+          "Flute" };  
  
 LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);
 
@@ -217,41 +229,10 @@ void RETROCADE::handleJoystick()
         lcd.print(activeChannel);        
         break;
       case INSTRUMENT:
-//        lcd.clear();
-//        lcd.setCursor(0,0);
-//        lcd.print("Instrument");
-//        if (buttonPressed == Up) {
-//          if (activeInstrument<9)
-//            //sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,0); //Calliope
-//            activeInstrument++;  
-//        }        
-//        if (buttonPressed == Down) {
-//          if (activeInstrument!=0)
-//            activeInstrument--; 
-//        }            
-//        lcd.setCursor(0,1);
-//        lcd.print(activeInstrument);         
+        instrumentJoystick();
         break;
       case MODFILE:
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("MOD File SD Card");
-        if (buttonPressed == Down) {
-          printFile("MOD");
-        }      
-        if (buttonPressed == Up) {
-          modplayer.play(false);
-        }            
-        if (buttonPressed == Select) {
-          //Serial.println("Select Pressed");
-          //Serial.println(fileName);
-          modplayer.loadFile(fileName);
-          modplayer.play(true);  
-          lcd.setCursor(0,1);   
-          lcd.print(fileName);
-          lcd.print(" ");
-          lcd.print(curFile.size(), DEC); 
-        }  
+        modFileJoystick();
         break;
       case SMALLFSMODFILE:
         smallfsModFileJoystick();
@@ -290,6 +271,50 @@ void RETROCADE::handleJoystick()
     }   
     buttonPressed = None; 
   }  
+}
+
+void RETROCADE::modFileJoystick() 
+{
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("MOD File SD Card");
+        if (buttonPressed == Down) {
+          printFile("MOD");
+        }      
+        if (buttonPressed == Up) {
+          modplayer.play(false);
+        }            
+        if (buttonPressed == Select) {
+          //Serial.println("Select Pressed");
+          //Serial.println(fileName);
+          modplayer.loadFile(fileName);
+          modplayer.play(true);  
+          lcd.setCursor(0,1);   
+          lcd.print(fileName);
+          lcd.print(" ");
+          lcd.print(curFile.size(), DEC); 
+        }    
+}
+
+void RETROCADE::instrumentJoystick() 
+{
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("SIDV1 Instrument");
+  if (buttonPressed == Up) {
+    if (activeInstrument < (SIDINSTRUMENTS -1)) {
+      activeInstrument++;      
+      sid.V1.loadInstrument(activeInstrument);  
+    }
+  }        
+  if (buttonPressed == Down) {
+    if (activeInstrument!=0) {
+      activeInstrument--; 
+      sid.V1.loadInstrument(activeInstrument);  
+    }
+  }            
+  lcd.setCursor(0,1);
+  lcd.print(sidInstrumentName[activeInstrument]);     
 }
 
 void RETROCADE::smallfsModFileJoystick() 

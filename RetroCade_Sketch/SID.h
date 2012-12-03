@@ -54,6 +54,7 @@ class SIDVoice
     void setEnvelopeSustain(byte level);
     void setEnvelopeRelease(byte rate); 
     void setInstrument(const char* name, byte attack, byte decay, byte sustain, byte release, bool noise, bool square, bool sawtooth, bool triangle, int pwm);
+    void loadInstrument(byte instrument);
     void handleCC(byte number, byte value);
     void reset(); 
     int getCurrentFreq();

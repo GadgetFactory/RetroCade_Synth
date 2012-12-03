@@ -70,8 +70,8 @@ ChangeLog:
   HardwareSerial Serial1(11);   //This is to define Serial1 for the ZPUino.
 
 #include "RetroCade.h"
-#include "SID.h"
-#include "YM2149.h"
+//#include "SID.h"
+//#include "YM2149.h"
 #include "MIDI.h" //Be sure to change MIDI.h to user Serial1 instead of Serial
 #include "SmallFS.h"
 #include <LiquidCrystal.h>
@@ -80,12 +80,12 @@ ChangeLog:
 File root;
 
 #undef DO_CHECKS
-#define DEBUG
+//#define DEBUG
 
 //Instantiate the objects we will be using.
 RETROCADE retrocade;
-YM2149 ym2149;
-SID sid;
+//YM2149 ym2149;
+//SID sid;
 
 void setup(){
   Serial.begin(115200);
@@ -95,15 +95,15 @@ void setup(){
   retrocade.setupMegaWing(); 
   
   ///Set volume to max levels
-  ym2149.V1.setVolume(15);
-  ym2149.V2.setVolume(15);
-  ym2149.V3.setVolume(15);   
-  sid.setVolume(15);
+  retrocade.ym2149.V1.setVolume(15);
+  retrocade.ym2149.V2.setVolume(15);
+  retrocade.ym2149.V3.setVolume(15);   
+  retrocade.sid.setVolume(15);
 
   //Select an instrument for each SID Voice.
-  sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,0); //Calliope
-  sid.V2.setInstrument("Accordian",12,0,12,0,0,0,1,0,0); //Accordian
-  sid.V3.setInstrument("Harpsicord",0,9,0,0,0,1,0,0,512); //Harpsicord
+  retrocade.sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,0); //Calliope
+  retrocade.sid.V2.setInstrument("Accordian",12,0,12,0,0,0,1,0,0); //Accordian
+  retrocade.sid.V3.setInstrument("Harpsicord",0,9,0,0,0,1,0,0,512); //Harpsicord
    
   // Initiate MIDI communications, listen to all channels
   MIDI.begin(MIDI_CHANNEL_OMNI);
@@ -116,7 +116,7 @@ void setup(){
  MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
   retrocade.modplayer.setup();
-  retrocade.ymplayer.setup(&ym2149); 
+  retrocade.ymplayer.setup(&retrocade.ym2149); 
 
 }
 
@@ -142,22 +142,22 @@ void HandleControlChange(byte channel, byte number, byte value) {
   //Define which voice responds to each channel
   switch (channel) {  
     case 1:
-      sid.V1.handleCC(number, value);
+      retrocade.sid.V1.handleCC(number, value);
       break;
     case 2:
-      sid.V2.handleCC(number, value);
+      retrocade.sid.V2.handleCC(number, value);
       break;
     case 3:
-      sid.V3.handleCC(number, value);
+      retrocade.sid.V3.handleCC(number, value);
       break;
     case 4:
-      ym2149.V1.handleCC(number, value);
+      retrocade.ym2149.V1.handleCC(number, value);
       break;
     case 5:
-      ym2149.V2.handleCC(number, value);
+      retrocade.ym2149.V2.handleCC(number, value);
       break;
     case 6:
-      ym2149.V3.handleCC(number, value);
+      retrocade.ym2149.V3.handleCC(number, value);
       break;      
     default:
       //return;
@@ -200,7 +200,7 @@ void HandleControlChange(byte channel, byte number, byte value) {
       retrocade.modplayer.volume(value <<1);
       break;    
     case 86:
-      sid.setVolume(value/8);
+      retrocade.sid.setVolume(value/8);
       break;     
     case 117:
       retrocade.modplayer.play(!value);
@@ -225,28 +225,28 @@ void HandlePitchBend(byte channel, int bend) {
   int ymBend = bend/10;    
   switch (channel){
     case 1:
-      if (sid.V1.getCurrentFreq() + bend > 388)
-        sid.V1.setFreq(sid.V1.getCurrentFreq()+bend);
+      if (retrocade.sid.V1.getCurrentFreq() + bend > 388)
+        retrocade.sid.V1.setFreq(retrocade.sid.V1.getCurrentFreq()+bend);
       break;
     case 2:
-      if (sid.V2.getCurrentFreq() + bend > 388)
-        sid.V2.setFreq(sid.V2.getCurrentFreq()+bend);
+      if (retrocade.sid.V2.getCurrentFreq() + bend > 388)
+        retrocade.sid.V2.setFreq(retrocade.sid.V2.getCurrentFreq()+bend);
       break;
     case 3:
-      if (sid.V3.getCurrentFreq() + bend > 388)
-        sid.V3.setFreq(sid.V3.getCurrentFreq()+bend);
+      if (retrocade.sid.V3.getCurrentFreq() + bend > 388)
+        retrocade.sid.V3.setFreq(retrocade.sid.V3.getCurrentFreq()+bend);
       break;
      case 4:
-      if (ym2149.V1.getCurrentFreq() - ymBend > 100)
-        ym2149.V1.setFreq(ym2149.V1.getCurrentFreq()-ymBend); 
+      if (retrocade.ym2149.V1.getCurrentFreq() - ymBend > 100)
+        retrocade.ym2149.V1.setFreq(retrocade.ym2149.V1.getCurrentFreq()-ymBend); 
       break;
      case 5:
-      if (ym2149.V2.getCurrentFreq() - ymBend > 100)
-        ym2149.V2.setFreq(ym2149.V2.getCurrentFreq()-ymBend);  
+      if (retrocade.ym2149.V2.getCurrentFreq() - ymBend > 100)
+        retrocade.ym2149.V2.setFreq(retrocade.ym2149.V2.getCurrentFreq()-ymBend);  
       break;
      case 6:
-      if (ym2149.V3.getCurrentFreq() - ymBend > 100)
-        ym2149.V3.setFreq(ym2149.V3.getCurrentFreq()-ymBend);  
+      if (retrocade.ym2149.V3.getCurrentFreq() - ymBend > 100)
+        retrocade.ym2149.V3.setFreq(retrocade.ym2149.V3.getCurrentFreq()-ymBend);  
       break;      
      default:
        return;
@@ -266,22 +266,22 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
     channel = activeChannel;
   switch (channel){
     case 1:
-      sid.V1.setNote(pitch, 1);
+      retrocade.sid.V1.setNote(pitch, 1);
       break;
     case 2:
-      sid.V2.setNote(pitch, 1);
+      retrocade.sid.V2.setNote(pitch, 1);
       break;
     case 3:
-      sid.V3.setNote(pitch, 1);
+      retrocade.sid.V3.setNote(pitch, 1);
       break;
      case 4:
-      ym2149.V1.setNote(pitch, 1);
+      retrocade.ym2149.V1.setNote(pitch, 1);
       break;
      case 5:
-      ym2149.V2.setNote(pitch, 1);
+      retrocade.ym2149.V2.setNote(pitch, 1);
       break;
      case 6:
-      ym2149.V3.setNote(pitch, 1);
+      retrocade.ym2149.V3.setNote(pitch, 1);
       break;
      case 7:
       if (pitch > 60) {
@@ -308,22 +308,22 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
     channel = activeChannel;  
   switch(channel){
       case 1:
-        sid.V1.setNote(pitch, 0);
+        retrocade.sid.V1.setNote(pitch, 0);
         break;
       case 2:
-        sid.V2.setNote(pitch, 0);
+        retrocade.sid.V2.setNote(pitch, 0);
         break;
       case 3:
-        sid.V3.setNote(pitch, 0);
+        retrocade.sid.V3.setNote(pitch, 0);
         break;
       case 4:
-        ym2149.V1.setNote(128, 1);
+        retrocade.ym2149.V1.setNote(128, 1);
         break;
       case 5:
-        ym2149.V2.setNote(128, 1);
+        retrocade.ym2149.V2.setNote(128, 1);
         break;
       case 6:
-        ym2149.V3.setNote(128, 1);
+        retrocade.ym2149.V3.setNote(128, 1);
         break;
       case 7:
         retrocade.modplayer.play(false);

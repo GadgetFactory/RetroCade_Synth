@@ -20,6 +20,8 @@
 #include "SmallFS.h"
 #include "modplayer.h"
 #include "ymplayer.h"
+#include "SID.h"
+#include "YM2149.h"
 
 #define AUDIO_J1_L WING_B_1
 #define AUDIO_J1_R WING_B_0
@@ -68,7 +70,9 @@ class RETROCADE
 { 
   public:
    YMPLAYER ymplayer;
-   MODPLAYER modplayer;  
+   MODPLAYER modplayer; 
+   YM2149 ym2149;
+   SID sid;   
    void setupMegaWing(); 
    void handleJoystick();
    void setTimeout();
@@ -82,6 +86,8 @@ class RETROCADE
    void initSD();
    int fileExtension(const char* name, const char* extension, size_t length);
    void smallfsModFileJoystick();
+   void instrumentJoystick();
+   void modFileJoystick();
    byte lcdMode;
    kButtonDirection buttonPressed;
    byte activeChannel;
