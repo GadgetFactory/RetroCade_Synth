@@ -23,10 +23,12 @@
 #define MODFILE 3
 #define SMALLFSMODFILE 4
 #define YMFILE 5
-#define ABOUT 6
-#define LCDMODEMAX 7
+#define SMALLFSYMFILE 6
+#define ABOUT 7
+#define LCDMODEMAX 8
 
-char smallfsModTrack[] = "track1.mod";        
+char smallfsModTrack[] = "track1.mod";
+//char smallfsYmTrack[] = "track1.mod";
 
 #define SIDINSTRUMENTS 9          
 char sidInstrumentName[SIDINSTRUMENTS][20]=        //TODO: Goofy way to do this, change to struct or function when strcpy works.
@@ -232,12 +234,37 @@ void RETROCADE::handleJoystick()
         instrumentJoystick();
         break;
       case MODFILE:
+        smallfsActiveTrack = 0;
         modFileJoystick();
         break;
       case SMALLFSMODFILE:
-        smallfsModFileJoystick();
+        smallfsModFileJoystick(0);
         break;        
       case YMFILE:
+        ymFileJoystick();
+        break; 
+      case SMALLFSYMFILE:   
+        smallfsModFileJoystick(1);
+        break;           
+      case ABOUT:
+        smallfsActiveTrack = 0;
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("RetroCade Synth");          
+        lcd.setCursor(0,1);
+        lcd.print("Version: 1.0");          
+        break;        
+      default:
+        //return;
+        break;       
+    }   
+    buttonPressed = None; 
+  }  
+}
+
+void RETROCADE::ymFileJoystick() 
+{
+        smallfsActiveTrack = 0;
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("YMD File");
@@ -256,21 +283,7 @@ void RETROCADE::handleJoystick()
           lcd.print(fileName);
           lcd.print(" ");
           lcd.print(curFile.size(), DEC); 
-        }                    
-        break;  
-      case ABOUT:
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("RetroCade Synth");          
-        lcd.setCursor(0,1);
-        lcd.print("Version: 1.0");          
-        break;        
-      default:
-        //return;
-        break;       
-    }   
-    buttonPressed = None; 
-  }  
+        }     
 }
 
 void RETROCADE::modFileJoystick() 
@@ -317,12 +330,23 @@ void RETROCADE::instrumentJoystick()
   lcd.print(sidInstrumentName[activeInstrument]);     
 }
 
-void RETROCADE::smallfsModFileJoystick() 
+void RETROCADE::smallfsModFileJoystick(byte type) 
 {
 //  char smallfsModTrack[] = "track1.mod";
   lcd.clear();
   lcd.setCursor(0,0);
-  lcd.print("MOD File SmallFS");
+  if (type == 0){
+    lcd.print("MOD File SmallFS");
+    smallfsModTrack[7] = 0x6d;  //m
+    smallfsModTrack[8] = 0x6f;  //o
+    smallfsModTrack[9] = 0x64;  //d
+  }
+  if (type == 1){
+    lcd.print("YMD File SmallFS");
+    smallfsModTrack[7] = 0x79;  //y
+    smallfsModTrack[8] = 0x6d;  //m
+    smallfsModTrack[9] = 0x64;  //d
+  }
   if (buttonPressed == Down) {          
     if (smallfsActiveTrack<=8) {
       smallfsActiveTrack++;
@@ -336,13 +360,24 @@ void RETROCADE::smallfsModFileJoystick()
     lcd.print(smallfsModTrack);
   }      
   if (buttonPressed == Up) {
-    modplayer.play(false);
+//    if (type == 0)    
+      modplayer.play(false);
+//    if (type == 1)
+      ymplayer.play(false);  
+    lcd.setCursor(0,1);   
+    lcd.print("Stop Track");    
   }            
   if (buttonPressed == Select) {
     Serial.println("Select Pressed");
     Serial.println(smallfsModTrack);
-    modplayer.loadFile(smallfsModTrack);
-    modplayer.play(true);  
+    if (type == 0){    
+      modplayer.loadFile(smallfsModTrack);
+      modplayer.play(true);  
+    }
+    if (type == 1){
+      ymplayer.loadFile(smallfsModTrack);
+      ymplayer.play(true);  
+    }    
     lcd.setCursor(0,1);   
     lcd.print(smallfsModTrack);
   }    

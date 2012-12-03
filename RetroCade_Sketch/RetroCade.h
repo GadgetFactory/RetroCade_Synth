@@ -85,9 +85,10 @@ class RETROCADE
   private:
    void initSD();
    int fileExtension(const char* name, const char* extension, size_t length);
-   void smallfsModFileJoystick();
+   void smallfsModFileJoystick(byte type);
    void instrumentJoystick();
    void modFileJoystick();
+   void ymFileJoystick();   
    byte lcdMode;
    kButtonDirection buttonPressed;
    byte activeChannel;

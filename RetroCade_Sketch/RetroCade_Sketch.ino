@@ -28,6 +28,7 @@ ChangeLog:
                 -Added ability to browse and play YMD and MOD files from the LCD screen.
                 -Ring Mod and Sync CC's added.
                 -Added YM2149 Noise Frequency.
+                -SID V1 Instrument select from LCD.
 
 11/1/2012	Version .3
 	-FlowStone Dashboard
