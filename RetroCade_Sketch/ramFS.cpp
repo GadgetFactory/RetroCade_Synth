@@ -102,11 +102,16 @@ RamFSFile RamFS_class::open(File *file)
 
 RamFSFile::RamFSFile(File *file)
 {
+        unsigned long i = 0;
         filesize = file->size();  
         file->seek(0x0);         
         moddata = (unsigned char *)malloc(filesize*sizeof(unsigned char));
         memset(moddata, 0, filesize*sizeof(unsigned char));
-        file->read(&moddata[0], filesize);         
+        //file->read(&moddata[0], filesize);   //TODO: Use this more efficient form when the SD library is fixed.      
+        while (file->available()) {
+          moddata[i] = file->read();
+          i++;
+        }        
 }
 
 int RamFSFile::read(void *buf, unsigned long s)

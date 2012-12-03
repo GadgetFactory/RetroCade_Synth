@@ -267,7 +267,7 @@ void RETROCADE::ymFileJoystick()
         smallfsActiveTrack = 0;
         lcd.clear();
         lcd.setCursor(0,0);
-        lcd.print("YMD File");
+        lcd.print("YMD File SD Card");
         if (buttonPressed == Down) {
           printFile("YMD");
         }      
@@ -282,7 +282,7 @@ void RETROCADE::ymFileJoystick()
           lcd.setCursor(0,1);   
           lcd.print(fileName);
           lcd.print(" ");
-          lcd.print(curFile.size(), DEC); 
+          lcd.print(curFile.size(), DEC);
         }     
 }
 
@@ -305,7 +305,7 @@ void RETROCADE::modFileJoystick()
           lcd.setCursor(0,1);   
           lcd.print(fileName);
           lcd.print(" ");
-          lcd.print(curFile.size(), DEC); 
+          lcd.print(curFile.size(), DEC);
         }    
 }
 
