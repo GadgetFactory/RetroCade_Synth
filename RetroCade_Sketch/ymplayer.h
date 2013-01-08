@@ -39,6 +39,7 @@ class YMPLAYER
     CircularBuffer<ymframe,2> YMaudioBuffer; 
     unsigned int timerTicks;  
     int counter;
+    byte volumeAdjust;
     int ymTimeStamp;
     int resetYMFlag;
     YM2149* ym2149;

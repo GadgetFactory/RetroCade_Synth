@@ -69,8 +69,8 @@ enum kButtonDirection {
 class RETROCADE
 { 
   public:
-   YMPLAYER ymplayer;
-   MODPLAYER modplayer; 
+   //YMPLAYER ymplayer;
+   //MODPLAYER modplayer; 
    YM2149 ym2149;
    SID sid;   
    void setupMegaWing(); 

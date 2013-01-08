@@ -132,6 +132,11 @@ void YMVoice::setVolume(byte volume)
   //YM2149::writeData(YM_ADDR_LEVEL, volume & 0x0f);
 }
 
+byte YMVoice::getVolume()
+{
+  return YM_REG_LEVEL.LEVEL;
+}
+
 void YMVoice::reset()
 {
   //set frequency to no freq

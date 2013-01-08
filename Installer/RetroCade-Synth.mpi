@@ -7285,7 +7285,7 @@ File ::6631156A-6203-4D79-A6BA-D06BE4B0A184 -type dir -name Mangler -parent 3ACA
 File ::1530F7C2-AE9C-4451-B7C7-5F2EE65F5060 -name make.sh -parent 6631156A-6203-4D79-A6BA-D06BE4B0A184
 File ::9F59AFE9-99A5-4D70-9862-8A7BB1C1DD42 -type dir -name src -parent 6631156A-6203-4D79-A6BA-D06BE4B0A184
 File ::070F9900-FE09-4B6D-87A8-2A155B9D7E12 -name Mangler.java -parent 9F59AFE9-99A5-4D70-9862-8A7BB1C1DD42
-FileGroup ::4B7D0E11-E316-4E9C-9BE2-EF5D8C9C9C69 -setup Install -active Yes -platforms {FreeBSD-6-x86 FreeBSD-7-x86 HPUX-hppa Linux-x86 Linux-x86_64 Solaris-sparc Solaris-x86 TarArchive Windows ZipArchive} -name {Java Installer} -parent FileGroups
+FileGroup ::4B7D0E11-E316-4E9C-9BE2-EF5D8C9C9C69 -setup Install -active No -platforms {FreeBSD-6-x86 FreeBSD-7-x86 HPUX-hppa Linux-x86 Linux-x86_64 Solaris-sparc Solaris-x86 TarArchive Windows ZipArchive} -name {Java Installer} -parent FileGroups
 File ::0463A747-C2CB-48AF-9C82-C7875C4DDF45 -directory <%Temp%> -name C:/dropbox/GadgetFactory/GadgetFactory_Engineering/Templates/common/jre-6u30-windows-i586.exe -location ../../Templates/common -parent 4B7D0E11-E316-4E9C-9BE2-EF5D8C9C9C69
 Component ::926EBA3E-3B65-49A2-AA64-02BF94B7DE00 -setup Install -active Yes -platforms Windows -name {Default Component} -parent Components
 Component ::46633430-9F57-4A6F-AD0C-09BAAA28CD76 -setup Install -active Yes -platforms Windows -name Java -parent Components

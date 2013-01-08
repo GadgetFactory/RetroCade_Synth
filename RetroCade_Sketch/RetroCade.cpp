@@ -220,7 +220,7 @@ void RETROCADE::handleJoystick()
         lcd.setCursor(0,0);
         lcd.print("Channel");
         if (buttonPressed == Up) {
-          if (activeChannel<6)
+          if (activeChannel<7)
             activeChannel++;  
         }        
         if (buttonPressed == Down) {
@@ -252,7 +252,7 @@ void RETROCADE::handleJoystick()
         lcd.setCursor(0,0);
         lcd.print("RetroCade Synth");          
         lcd.setCursor(0,1);
-        lcd.print("Version: 1.0");          
+        lcd.print("Version: 1.01");          
         break;        
       default:
         //return;

@@ -43,7 +43,8 @@ class YMVoice
     void setNoise(boolean active);
     void reset(); 
     void handleCC(byte number, byte value); 
-    int getCurrentFreq();    
+    int getCurrentFreq(); 
+    byte getVolume();   
   private:
     int baseAddress;
     int currentFreq;

@@ -21,6 +21,10 @@ http://www.gadgetfactory.net
 License: GPL
 
 ChangeLog:
+11/23/2012      Version 1.01
+        -RetroCade Sketch
+                -YM Player Volume Control
+                
 11/23/2012      Version 1.0
         -RetroCade Sketch
                 -SID Volume CC added.
@@ -29,6 +33,8 @@ ChangeLog:
                 -Ring Mod and Sync CC's added.
                 -Added YM2149 Noise Frequency.
                 -SID V1 Instrument select from LCD.
+                -SID Pitch Control
+                -HiHat and Kick split keyboard from mod files on MIDI channel 7
 
 11/1/2012	Version .3
 	-FlowStone Dashboard
@@ -95,10 +101,10 @@ void setup(){
   //Setup pins for RetroCade MegaWing
   retrocade.setupMegaWing(); 
   
-  ///Set volume to max levels
-  retrocade.ym2149.V1.setVolume(15);
-  retrocade.ym2149.V2.setVolume(15);
-  retrocade.ym2149.V3.setVolume(15);   
+  ///Give some volume
+  retrocade.ym2149.V1.setVolume(11);
+  retrocade.ym2149.V2.setVolume(11);
+  retrocade.ym2149.V3.setVolume(11);   
   retrocade.sid.setVolume(15);
 
   //Select an instrument for each SID Voice.

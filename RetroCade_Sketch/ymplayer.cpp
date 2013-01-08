@@ -12,6 +12,7 @@
 #include "YM2149.h"
 
 #define DEBUG
+#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
 YMPLAYER::YMPLAYER(){
   
@@ -25,7 +26,7 @@ void YMPLAYER::setup(YM2149* ym){
   counter = 0;
   playing = false;
   ym2149 = ym;
-
+  volumeAdjust = 4;
 }
 
 void YMPLAYER::loadFile(const char* name)
@@ -70,7 +71,7 @@ void YMPLAYER::play(boolean play)
 
 void YMPLAYER::volume(int volume)
 {
-  //mod->mastervolume = volume;
+  volumeAdjust = volume;
 }
 
 void YMPLAYER::audiofill()
@@ -78,7 +79,7 @@ void YMPLAYER::audiofill()
 	int r;
 	ymframe f;
 	while (!YMaudioBuffer.isFull()) {
-          switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+          switch (fileType) {  
             case SmallFSType:
               r = ymSmallFSfile.read(&f.regval[0], 16);
               break;
@@ -91,7 +92,7 @@ void YMPLAYER::audiofill()
           }                    
             
   		if (r==0) {
-                    switch (fileType) {  //TODO figure more efficient way to do this. Want to avoid case statements.
+                    switch (fileType) {  
                       case SmallFSType:
   			      ymSmallFSfile.seek(0,SEEK_SET);
   			      ymSmallFSfile.read(&f.regval[0], 16); 
@@ -105,6 +106,14 @@ void YMPLAYER::audiofill()
                         break;       
                     }    
   		}
+                //Adjust the volume level
+//                f.regval[8] = constrain(f.regval[8] - volumeAdjust, 0, 15);
+//                f.regval[9] = constrain(f.regval[9] - volumeAdjust, 0, 15);
+//                f.regval[10] = constrain(f.regval[10] - volumeAdjust, 0, 15);  
+                //Adjust the volume level individually
+                f.regval[8] = constrain((f.regval[8] - (15-ym2149->V1.getVolume())), 0, 15);
+                f.regval[9] = constrain((f.regval[9] - (15-ym2149->V2.getVolume())), 0, 15);
+                f.regval[10] = constrain((f.regval[10] - (15-ym2149->V3.getVolume())), 0, 15);                                 
   		YMaudioBuffer.push(f);
 	}
 }
@@ -132,9 +141,9 @@ void YMPLAYER::zpu_interrupt()
         else{ 
           if (resetYMFlag == 1){
             ym2149->reset();
-            ym2149->V1.setVolume(15);
-            ym2149->V2.setVolume(15);
-            ym2149->V3.setVolume(15);
+            ym2149->V1.setVolume(11);
+            ym2149->V2.setVolume(11);
+            ym2149->V3.setVolume(11);
             resetYMFlag = 0;
             ymTimeStamp = 1;
           }

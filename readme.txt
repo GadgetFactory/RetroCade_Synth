@@ -8,7 +8,10 @@ Requirements:
   *You must have FlowStone installed to modify the Dashboard. The free version can be downloaded from: http://www.dsprobotics.com/download.php
   
 ChangeLog:
-ChangeLog:
+11/23/2012      Version 1.01
+        -RetroCade Sketch
+                -YM Player Volume Control
+
 11/23/2012      Version 1.0
         -RetroCade Sketch
                 -SID Volume CC added.
@@ -16,6 +19,9 @@ ChangeLog:
                 -Added ability to browse and play YMD and MOD files from the LCD screen.
                 -Ring Mod and Sync CC's added.
                 -Added YM2149 Noise Frequency.
+                -SID V1 Instrument select from LCD.
+                -SID Pitch Control
+                -HiHat and Kick split keyboard from mod files on MIDI channel 7
 
 11/1/2012	Version .3
 	-FlowStone Dashboard
