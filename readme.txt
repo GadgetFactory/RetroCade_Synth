@@ -8,6 +8,9 @@ Requirements:
   *You must have FlowStone installed to modify the Dashboard. The free version can be downloaded from: http://www.dsprobotics.com/download.php
   
 ChangeLog:
+1/9/2013        Version 1.02
+        -NoteOff fix from Lee O'D
+		
 11/23/2012      Version 1.01
         -RetroCade Sketch
                 -YM Player Volume Control
