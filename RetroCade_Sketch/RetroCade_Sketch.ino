@@ -21,6 +21,9 @@ http://www.gadgetfactory.net
 License: GPL
 
 ChangeLog:
+1/9/2013        Version 1.02
+        -NoteOff fix from Lee O'D
+
 11/23/2012      Version 1.01
         -RetroCade Sketch
                 -YM Player Volume Control
@@ -84,6 +87,7 @@ ChangeLog:
 #include <LiquidCrystal.h>
 #include <SD.h>
 
+byte lastpitch[8];
 File root;
 
 #undef DO_CHECKS
@@ -268,6 +272,7 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
     Serial.print("Channel Received: ");
     Serial.println(channel);
   #endif     
+  lastpitch[channel-1]=pitch;
   byte activeChannel = retrocade.getActiveChannel();
   if ( activeChannel != 0 )
     channel = activeChannel;
@@ -309,10 +314,12 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
 void HandleNoteOff(byte channel, byte pitch, byte velocity) {
   #ifdef DEBUG
     Serial.println("In NoteOff");
+    Serial.println(pitch);
   #endif   
   byte activeChannel = retrocade.getActiveChannel();
   if ( activeChannel != 0 )
     channel = activeChannel;  
+  if (lastpitch[channel-1]!=pitch) { return; }
   switch(channel){
       case 1:
         retrocade.sid.V1.setNote(pitch, 0);
