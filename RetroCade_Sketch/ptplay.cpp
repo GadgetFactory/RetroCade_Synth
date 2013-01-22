@@ -30,7 +30,7 @@ it�s not 100% sure it works in all conditions with combined effects.
 
 #include <HardwareSerial.h>
 #include <SmallFS.h>
-#include "RamFs.h"
+#include "ramFs.h"
 #include "ptplay.h"
 #include <string.h>
 #include <math.h>

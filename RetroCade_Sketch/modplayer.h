@@ -18,7 +18,7 @@
 #include "SmallFS.h"
 #include "cbuffer.h"
 #include <SD.h>
-#include "RamFS.h"
+#include "ramFS.h"
 #include "ptplay.h"
 #include "retrocade_defs.h"
 

@@ -8,7 +8,7 @@
  *  License		GPL
  */
 
-#include "RamFS.h"
+#include "ramFS.h"
 #include <string.h>
 #ifdef __linux__
 
