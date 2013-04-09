@@ -1,0 +1,70 @@
+
+F0 7F 02 00 MSB LSB DATA F7
+
+Above, MSB and LSB refer to the 7 bit LSB and MSB of the parameter address.
+
+System Exclusive Message Unique Parameter Values: **
+
+  MFR_ID               7F           ; mfr ID - Change this if you want a different ID
+  MODEL_NUMBER         02           ; 00 = GateMan-I; 01 = PolyDaWG; 02 = GateManPoly
+  UNIT_NUMBER          00           ; unit number
+
+=========================================================================================
+NCO parameters -
+  one location per NCO, eg 00 is for NCO0, 01 is for NCO1, etc.
+
+Address block 00:  (MSB of param address)
+
+param address LSB:
+00 - 03 : Coarse Tune in semitones
+04 - 07 : fine tune MSB            - fine tune spans one semitone
+08 - 0B : fine tune LSB
+0C - 0F : NCO level MSB
+10 - 13 : NCO level LSB
+18 - 1B : noise modulation level MSB  - noise modulates pitch
+1C - 1F : noise modulation level LSB
+20 - 23 : noise filter bandwidth
+24 - 27 : PWMstatic value
+28 - 2B : PWM modulation source route (2 bits)
+2C - 2F : Waveform select (2 bits)
+30 - 33 : Boost (noise level gain adjustment window)
+
+=========================================================================================
+ADSR, Filter and global parameters:
+
+Address block 01: (MSB of param address)
+
+param address LSB:
+10      : Transpose in semitones
+
+20      : SVF ADSR Att Rate MSB
+21      : SVF ADSR Att Rate LSB
+22      : SVF ADSR Dec Rate MSB
+23      : SVF ADSR Dec Rate LSB
+24      : SVF ADSR Sus Level MSB
+25      : SVF ADSR Sus Level LSB
+26      : SVF ADSR Rel Rate MSB
+27      : SVF ADSR Rel Rate LSB
+
+30      : NCA ADSR Att Rate MSB
+31      : NCA ADSR Att Rate LSB
+32      : NCA ADSR Dec Rate MSB
+33      : NCA ADSR Dec Rate LSB
+34      : NCA ADSR Sus Level MSB
+35      : NCA ADSR Sus Level LSB
+36      : NCA ADSR Rel Rate MSB
+37      : NCA ADSR Rel Rate LSB
+
+50      : SVF Q reciprocal MSB
+51      : SVF Q reciprocal LSB
+		 
+60      : DAC Window * (gain adjustment window)
+
+* The DAC Windows is a movable 12 bit Window.  It should be adjusted for the highest
+synthesizer audio output without binary wrapping.  This is used to compensate for the
+fact that the state variable filter can have positive gain at frequencies within the 
+resonance frequency span.
+
+** I do not own MFR_ID 7F.  Since I do not intend to sell this as a commercial product, 
+I simply picked one out of the air.  The PicoBlaze code is published with this design, 
+you can change the value of MFR_ID and re-assemble the code.

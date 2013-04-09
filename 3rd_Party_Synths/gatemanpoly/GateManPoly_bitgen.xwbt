@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=C:\dropbox\GadgetFactory\GadgetFactory_Engineering\RetroCade_Synth\3rd_Party_Synths\gatemanpoly\GateManPoly.ncd
+OUTFILE=C:\dropbox\GadgetFactory\GadgetFactory_Engineering\RetroCade_Synth\3rd_Party_Synths\gatemanpoly\GateManPoly.bit
+FAMILY=Spartan6
+PART=xc6slx9-2tqg144
+WORKINGDIR=C:\dropbox\GadgetFactory\GadgetFactory_Engineering\RetroCade_Synth\3rd_Party_Synths\gatemanpoly
+LICENSE=WebPack
+USER_INFO=175441551_0_0_655

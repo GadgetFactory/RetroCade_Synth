@@ -1,0 +1,773 @@
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Copyright © 2011-2012, Xilinx, Inc.
+                    ; This file contains confidential and proprietary information of Xilinx, Inc. and is
+                    ; protected under U.S. and international copyright and other intellectual property laws.
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Disclaimer:
+                    ; This disclaimer is not a license and does not grant any rights to the materials
+                    ; distributed herewith. Except as otherwise provided in a valid license issued to
+                    ; you by Xilinx, and to the maximum extent permitted by applicable law: (1) THESE
+                    ; MATERIALS ARE MADE AVAILABLE "AS IS" AND WITH ALL FAULTS, AND XILINX HEREBY
+                    ; DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY,
+                    ; INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT,
+                    ; OR FITNESS FOR ANY PARTICULAR PURPOSE; and (2) Xilinx shall not be liable
+                    ; (whether in contract or tort, including negligence, or under any other theory
+                    ; of liability) for any loss or damage of any kind or nature related to, arising
+                    ; under or in connection with these materials, including for any direct, or any
+                    ; indirect, special, incidental, or consequential loss or damage (including loss
+                    ; of data, profits, goodwill, or any type of loss or damage suffered as a result
+                    ; of any action brought by a third party) even if such damage or loss was
+                    ; reasonably foreseeable or Xilinx had been advised of the possibility of the same.
+                    ;
+                    ; CRITICAL APPLICATIONS
+                    ; Xilinx products are not designed or intended to be fail-safe, or for use in any
+                    ; application requiring fail-safe performance, such as life-support or safety
+                    ; devices or systems, Class III medical devices, nuclear facilities, applications
+                    ; related to the deployment of airbags, or any other applications that could lead
+                    ; to death, personal injury, or severe property or environmental damage
+                    ; (individually and collectively, "Critical Applications"). Customer assumes the
+                    ; sole risk and liability of any use of Xilinx products in Critical Applications,
+                    ; subject only to applicable laws and regulations governing limitations on product
+                    ; liability.
+                    ;
+                    ; THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS PART OF THIS FILE AT ALL TIMES.
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ;
+                    ;             _  ______ ____  ____  __  __  __
+                    ;            | |/ / ___|  _ \/ ___||  \/  |/ /_
+                    ;            | ' / |   | |_) \___ \| |\/| | '_ \
+                    ;            | . \ |___|  __/ ___) | |  | | (_) )
+                    ;            |_|\_\____|_|   |____/|_|  |_|\___/
+                    ;
+                    ;
+                    ; KCPSM6 reference design: PicoTerm features and UART macros.
+                    ;
+                    ; Presented on the ATLYS Spartan-6 board but easily ported to other platforms.
+                    ;
+                    ;
+                    ; Ken Chapman - Xilinx Ltd
+                    ;
+                    ; 6th September 2012 - Initial version
+                    ;
+                    ;
+                    ; INTRODUCTION
+                    ;
+                    ; This program interacts with the 'uart_tx6' and 'uart_rx6' macros to communicate
+                    ; with PicoTerm. As well as providing some simple examples of UART based communication
+                    ; based on a normal text display and key board entry, this program shows some ways in
+                    ; which the other features provided by PicoTerm can be used.
+                    ;
+                    ; NOTE - This design should be used with PicoTerm. This codes does check to see that
+                    ;        PicoTerm is connected and will display a message and stop if a different
+                    ;        terminal is being used.
+                    ;
+                    ; In particular the design includes a real time digital clock. Hardware generates
+                    ; interrupts to KCPSM6 at one second intervals and the interrupt service routine (ISR)
+                    ; implements a standard hours, minutes and seconds timer. Two PicoTerm features are
+                    ; then used in conjunction with this core functionality. The Virtual 7-Segment Display
+                    ; is used to display the time in a retro style (hours and minutes with a flashing point)                      ; and a Device Control String (DCS) is used to obtain the current time from the
+                    ; and the time is synchronised to that of the PC using Device Control Strings (DCS).
+                    ;
+                    ; With the digital clock serviced by interrupts in KCPSM6 and displayed in a separate
+                    ; window by PicoTerm the ability to perform other tasks is also illustrated by a few
+                    ; simple items functions that again interact with PicoTerm and exploit its features.
+                    ; The main PicoTerm window displays text in various colours and allows the 8 general
+                    ; purpose LEDs to be turned on and off using keyboard entries. The 8 general purpose
+                    ; switches on the board are monitored and their settings displayed in the PicoTerm
+                    ; Virtual LED window.
+                    ;
+                    ; Please see 'UART6_User_Guide' and 'PicoTerm_README' files for more detailed descriptions
+                    ; of the 'uart_tx6' and 'uart_rx6' macros and PicoTerm. All the PSM code provided in this
+                    ; reference design contains additional descriptions and comments covering specific details.
+                    ;
+                    ;
+                    ; NOTE - This PSM file includes two further PSM files so these must also be present
+                    ;        when running the KCPSM6 assembler (v2.00 or later). It is hoped that the
+                    ;        included files will also be suitable for reuse and inclusion in your own
+                    ;        programs. For this reason each file contains descriptions of the routines
+                    ;        that are provided.
+                    ;
+                    ;            PicoTerm_routines.psm  - A set of routines to interface with the UART
+                    ;                                     macros and use the PicoTerm features.
+                    ;
+                    ;            soft_delays_100mhz.psm - Software delays based on 100MHz clock frequency.
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Port definitions
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ;
+                    ; LEDs and DIP Switches
+                    ; ---------------------
+                    ;
+                    CONSTANT LED_port, 02           ;8 General purpose LEDs       LD[7:0]
+                    ;
+                    CONSTANT SWITCH_port, 02        ;8 General purpose Switches   SW[7:0]
+                    ;
+                    ;
+                    ; UART (for connection with PicoTerm)
+                    ; -----------------------------------
+                    ;
+                    ; See 'PicoTerm_routines.psm' for I/O ports used with UART macros.
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Special Register usage
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; No registers are given special names in this program.
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Scratch Pad Memory Locations (64 Bytes)
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Scratch pad memory can be expanded to 128 or 256 bytes if required.
+                    ;
+                    ;
+                    ;
+                    ; PicoTerm features
+                    ; -----------------
+                    ;
+                    ; See 'PicoTerm_routines.psm' for allocation of 18 memory locations.
+                    ;
+                    ;
+                    ; LED and Switch values
+                    ; ---------------------
+                    ;
+                    CONSTANT LED_value, 20          ;status of LEDs
+                    CONSTANT SWITCH_value, 21       ;status of Switches
+                    ;
+                    ;
+                    ; Real time clock
+                    ; ---------------
+                    ;
+                    CONSTANT seconds, 22
+                    CONSTANT minutes, 23
+                    CONSTANT hours, 24
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Useful data constants
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ;
+                    ; ASCII codes
+                    ;
+                    CONSTANT character_NULL, 00     ;NULL
+                    CONSTANT character_BS, 08       ;Back Space
+                    CONSTANT character_LF, 0A       ;line feed
+                    CONSTANT character_CR, 0D       ;carriage return
+                    CONSTANT character_ESC, 1B      ;Escape
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Initialise the system
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; A delay of 1 second is implemented which is intended to give time for all the hardware
+                    ; to settle into a stable condition before starting to doing anything. This can be
+                    ; particularly beneficial when dealing with long cables where serial lines can take some
+                    ; time to reach the initial idle state following power being applied.
+                    ;
+        cold_start: CALL delay_1s
+                    ;
+                    CALL reset_UART_macros          ;Reset buffers in UART macros
+                    ;
+                    ;
+                    ; Initialised PicoTerm display and display welcome messages
+                    ;
+                    CALL PicoTerm_CLS
+                    CALL welcome_message
+                    ;
+                    ;
+                    ; Turn off 8 general purpose LEDs on the board
+                    ;
+                    LOAD s0, 00000000'b
+                    STORE s0, LED_value
+                    OUTPUT s0, LED_port
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Confirm connection has been made with PicoTerm
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Before attempting to use any of the special features provided by PicoTerm it is a good
+                    ; idea to check that PicoTerm really is connected. This is where the Device Control String
+                    ; (DCS) request for a 'Ping' can be used. If a different terminal is being used then the
+                    ; plain text messages will be displayed as normal but the 'Ping' request will fail to
+                    ; return the response expected. So if this should occur a message will be displayed and
+                    ; this program will halt.
+                    ;
+                    ; Calling the 'PicoTerm_Ping' routine will transmit the Device Control String (DCS)
+                    ; to request the 'Ping' from PicoTerm. If PicoTerm is connected then it should respond
+                    ; with a DCS containing the (upper case) character 'P'. The response will be intercepted
+                    ; by the UART_RX routine and stored in scratch pad memory location 'PicoTerm_Response0'.
+                    ; It will take a short while for PicoTerm to respond so the 'Ping' check must wait whilst
+                    ; repeatedly calling the UART_RX routine.
+                    ;
+                    ; The transmission and reception of the 'Ping' DCS sequences (6 characters in total) would
+                    ; take ~520us at 115,200 buad rate. Since the program is only going to halt if no response
+                    ; occurs it will actually wait much longer. Each call of the UART_RX routine that results
+                    ; in its timeout will take ~2,000 clock cycles (~20us at 100MHz) so up to 50,000 (C350 hex)
+                    ; calls of UART_RX are made before giving up after approximately one second.
+                    ;
+                    LOAD s0, 00                     ;clear 'Ping' response location
+                    STORE s0, PicoTerm_Response0
+                    ;
+                    CALL PicoTerm_Ping              ;request 'Ping' from PicoTerm
+                    ;
+                    LOAD sB, C3                     ;wait for 50,000 iterations
+                    LOAD sA, 50                     ;  (~1 second at 100MHz)
+                    ;
+      wait_PT_ping: CALL UART_RX                    ;discard any characters received
+                    FETCH s0, PicoTerm_Response0
+                    COMPARE s0, "P"                 ;Test for valid 'Ping' response
+                    JUMP Z, PicoTerm_detected       ;continue normally
+                    SUB sA, 01                      ;decrement [sB,sA]
+                    SUBCY sB, 00
+                    JUMP NZ, wait_PT_ping
+                    ;
+                    ; 'Ping' response not received so transmit a text message.
+                    ; Note this would still be displayed on other terminals.
+                    ;
+                    LOAD sB, no_detect_PT_msg'upper
+                    LOAD sA, no_detect_PT_msg'lower
+                    CALL send_message
+         halt_here: JUMP halt_here                  ;Halt program.
+                    ;
+                    ;
+                    STRING not_PT1$, "ERROR - Unable to detect PicoTerm."
+                    STRING not_PT2$, "Please use PicoTerm v1.28 or later with this design."
+                    ;
+                    ;
+  no_detect_PT_msg: LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, not_PT1$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, not_PT2$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, character_NULL
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; PicoTerm text colours
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; A message is displayed in the 8 colours supported by PicoTerm.
+                    ;
+                    ; This is a simple demonstration of UART communication and the use of Device Control
+                    ; Strings (DCS). Please see 'PicoTerm_routines.psm' for the colour setting routines.
+                    ;
+ PicoTerm_detected: CALL send_CR
+                    CALL PicoTerm_text_Red
+                    CALL send_PicoTerm
+                    CALL PicoTerm_text_Green
+                    CALL send_PicoTerm
+                    CALL PicoTerm_text_Yellow
+                    CALL send_PicoTerm
+                    CALL PicoTerm_text_Blue
+                    CALL send_PicoTerm
+                    CALL PicoTerm_text_Magenta
+                    CALL send_PicoTerm
+                    CALL PicoTerm_text_Cyan
+                    CALL send_PicoTerm
+                    CALL PicoTerm_text_Grey
+                    CALL send_PicoTerm
+                    CALL PicoTerm_text_Black
+                    CALL send_PicoTerm
+                    ;
+                    ; The colour blue will be used for the rest of the program.
+                    ;
+                    CALL PicoTerm_text_Blue
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Request time value from PicoTerm and initialise real time clock in scratch pad memory
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Calling the 'PicoTerm_Time_Value' routine will transmit the Device Control String (DCS)
+                    ; to request the time value from PicoTerm. PicoTerm will respond will then respond with
+                    ; a DCS containing 't' followed by the time value bytes (hours, minutes and seconds).
+                    ;
+                    ; Providing the UART_RX routine is being called then it will automatically intercept the
+                    ; response from PicoTerm and store it in scratch pad memory. However, it must be
+                    ; accepted that the response will take some time to occur and it is possible that other
+                    ; characters will be received prior to the response. So for this reason the UART_RX
+                    ; routine must be called (potentially multiple times) to enable the response to be
+                    ; intercepted and for any other characters to be processed.
+                    ;
+                    ; In order to determine when the response has been received the first location in which
+                    ; the response is stored in scratch pad memory can be used as a 'flag'. Clearing
+                    ; location 'PicoTerm_Response0' before requesting the time string allows this location
+                    ; to then be monitored. When the contents of this location becomes non zero (in this case
+                    ; it would be expected to change to the character 't') then the response is ready to
+                    ; be read and used as required.
+                    ;
+                    ; Note that once UART_RX observes a 'DCS' character indicating the start of a response from
+                    ; PicoTerm then it will wait until all of that response has been received and stored in
+                    ; scratch pad memory. Hence using the first location as a 'flag' is valid for the whole
+                    ; response as well as confirming that the response corresponds with the request.
+                    ;
+                    ;
+                    LOAD s0, 00                     ;clear response 'flag'
+                    STORE s0, PicoTerm_Response0
+                    ;
+                    CALL PicoTerm_Time_Value        ;request time value from PicoTerm
+                    ;
+wait_PT_time_value: CALL UART_RX                    ;discard any other characters received
+                    FETCH s0, PicoTerm_Response0
+                    COMPARE s0, "t"                 ;Confirm response is the one expected
+                    JUMP NZ, wait_PT_time_value
+                    ;
+                    FETCH s0, PicoTerm_Response1    ;initialise hours
+                    STORE s0, hours
+                    FETCH s0, PicoTerm_Response2    ;initialise minutes
+                    STORE s0, minutes
+                    FETCH s0, PicoTerm_Response3    ;initialise seconds
+                    STORE s0, seconds
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Initialise PicoTerm Virtual LED Display
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The virtual LED's will reflect the settings of the 8 general purpose switches on the
+                    ; board...
+                    ;
+                    ;             Red - Switch is on (up)
+                    ;           Amber - last switch (or switches) to change
+                    ;          Green  - Switch is off (down)
+                    ;
+                    ;
+                    INPUT s0, SWITCH_port           ;read current switch settings
+                    STORE s0, SWITCH_value          ;update reference switch setting
+                    ;
+                    STORE s0, PicoTerm_LEDs_Red     ;pattern for ON switches
+                    XOR s0, 11111111'b              ;invert pattern
+                    STORE s0, PicoTerm_LEDs_Green   ;pattern for OFF switches
+                    LOAD s0, 00000000'b
+                    STORE s0, PicoTerm_LEDs_Amber   ;no recent switch changes
+                    ;
+                    CALL PicoTerm_LEDs              ;open virtual LED window with initial values
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Enable Interrupts for real time clock operation and display
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Interrupts are generated at 1 second intervals by the hardware.
+                    ;
+                    ENABLE INTERRUPT
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Main Program
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The 'main' program represents the code area that KCSPM6 will be executing most of the
+                    ; time during normal operation (i.e. when not servicing an interrupt). Due to the
+                    ; simplicity of this reference design this code is quite small and not very involved
+                    ; but hopefully still provides a useful reference.
+                    ;
+                    ; The main program maintains UART communication with PicoTerm to detect any keyboard
+                    ; entries and to make a suitable responses when they occur. In this example the primary
+                    ; objective of keyboard entries is to control the 8 general purpose LEDs on the board.
+                    ; This function is interleaved with monitoring the 8 general purpose switches on the
+                    ; board and controlling the virtual LEDs displayed on a PicoTerm window using Device
+                    ; Control Strings (DCS).
+                    ;
+                    ; So whilst simple, this design and code does illustrate independent (and effectively
+                    ; simultaneous) communication in two directions...
+                    ;
+                    ;     PicoTerm Keyboard -> UART -> KCPSM6 -> Output Port -> LEDs on board
+                    ;
+                    ;     Switches on board -> Input Port -> KCPSM6 -> UART -> PicoTerm virtual LEDs
+                    ;
+                    ; Not forgetting that interrupts occur at one second intervals and KCPSM6 is maintaining
+                    ; and displaying a real time clock whilst the 'main' program is handling the switches and
+                    ; LEDs (real and virtual).
+                    ;
+                    ;
+              main: CALL send_CR
+                    CALL send_CR
+                    LOAD sB, LED_control_msg'upper  ;prompt user to specify an LED number
+                    LOAD sA, LED_control_msg'lower
+                    CALL send_message
+                    CALL send_CR
+            prompt: CALL send_CR
+                    LOAD s5, ">"
+                    CALL UART_TX
+                    CALL send_space                 ;advance cursor to prompt for LED number
+                    ;
+                    ; Wait for user to make a keyboard entry.
+                    ;
+                    ; Whilst waiting for the user to press a key the switches on the board will be read
+                    ; and compared with their previous value. If the switches have changed then the
+                    ; Device Control String (DCS) is transmitted to control the virtual LEDs on PicoTerm.
+                    ;
+                    ; Note that a DCS is only transmitted to PicoTerm when the switches change. Whilst it
+                    ; would be possible to continuously transmit DCS containing the same information it
+                    ; is not good practice (e.g. the buffer in the UART transmitter would always be full).
+                    ;
+                    ;
+    user_selection: CALL UART_RX                    ;attempt to receive character into s5
+                    JUMP NZ, LED_selection          ;if character has been entered jump to handling code.
+                    ;
+                    INPUT s0, SWITCH_port           ;read current switch settings.
+                    FETCH s1, SWITCH_value          ;recall previous value
+                    COMPARE s0, s1                  ;test for change
+                    JUMP Z, user_selection          ;continue to wait if no changes
+                    ;
+                    ; The virtual LED's reflect the settings of the 8 general purpose switches on the
+                    ; board...
+                    ;
+                    ;             Red - Switch is on (up)
+                    ;           Amber - last switch to change
+                    ;          Green  - Switch is off (down)
+                    ;
+                    ; In theory you could change more than one switch at the same time resulting in multiple
+                    ; amber LEDs being turned on. However, it is extremely unlikely that this will occur
+                    ; in practice because "at the same time" really means within the same period of ~20us
+                    ; and that is most unlikely with manual slide switches.
+                    ;
+                    STORE s0, SWITCH_value          ;update reference switch settings
+                    XOR s1, s0                      ;identify which switch (or switches) changed
+                    STORE s1, PicoTerm_LEDs_Amber   ;recent switch changes
+                    STORE s0, PicoTerm_LEDs_Red     ;pattern for ON switches
+                    XOR s0, 11111111'b              ;invert pattern
+                    STORE s0, PicoTerm_LEDs_Green   ;pattern for OFF switches
+                    ;
+                    ; The 'PicoTerm_LEDs' routine (see 'PicoTerm_routines.psm') transmits a DCS to PicoTerm
+                    ; consisting of 6 characters/bytes. When an interrupt occurs (once every second), the
+                    ; interrupt service routine (end of this file) updates the PicoTerm virtual 7-segement
+                    ; display which itself involves the transmission of a DCS consisting of 7 characters/bytes.
+                    ; If a switch change and interrupt occur at about the same time it could result in the
+                    ; virtual 7-segment DCS being transmitted in the middle of the virtual LED DCS. Therefore,
+                    ; interrupts are temporarily disabled whilst all 6 characters/bytes of the virtual LED
+                    ; DCS are transmitted.
+                    ;
+                    DISABLE INTERRUPT
+                    CALL PicoTerm_LEDs              ;update virtual LED window
+                    ENABLE INTERRUPT
+                    ;
+                    JUMP user_selection             ;continue to wait for keyboard entry
+                    ;
+                    ;
+                    ; LED Selection
+                    ;
+                    ; The user has made an input at the keyboard which needs to be echoed back to the
+                    ; PicoTerm's normal terminal window. Ideally the user has entered a character in the
+                    ; range 0 to 7 which can be used to toggle the corresponding bit of the LED control byte
+                    ; and then output to the LED port. However, the user may enter a different character
+                    ; so this must be trapped and a suitable message displayed if it occurs.
+                    ;
+                    ; ASCII codes
+                    ;              '0' = 30 hex = 48 decimal
+                    ;              '7' = 37 hex = 55 decimal
+                    ;
+     LED_selection: CALL UART_TX                    ;echo user input back to terminal
+                    COMPARE s5, "8"                 ;test for characters above '7'
+                    JUMP NC, bad_LED_selection
+                    COMPARE s5, "0"                 ;test for characters below '0'
+                    JUMP C, bad_LED_selection
+                    ;
+                    ; Convert value into a bit selection
+                    ;   example    '5' to set bit5 in register s1   00100000
+                    ;
+                    SUB s5, "0"                     ;ASCII to value conversion
+                    LOAD s1, 00000001'b
+     make_LED_mask: SUB s5, 1'd
+                    JUMP C, toggle_LED
+                    SL0 s1
+                    JUMP make_LED_mask
+                    ;
+        toggle_LED: FETCH s0, LED_value             ;current LED states
+                    XOR s0, s1                      ;toggle selected LED
+                    STORE s0, LED_value             ;update stored LED states
+                    OUTPUT s0, LED_port             ;drive LEDs on board
+                    ;
+                    JUMP prompt                     ;prompt for next LED selection (no message)
+                    ;
+                    ; User has made incorrect keyboard entry so display message
+                    ;
+ bad_LED_selection: CALL send_CR
+                    LOAD sB, bad_LED_msg'upper      ;tell user input was invalid LED
+                    LOAD sA, bad_LED_msg'lower
+                    CALL send_message
+                    JUMP main                       ;prompt for next LED selection (with message)
+                    ;
+                    ;
+                    ; Text messages used in main section of the program
+                    ;
+                    STRING LED_control$, "Please select an LED to toggle (0 to 7)"
+                    STRING bad_LED$, "Sorry, that was an invalid LED selection"
+                    ;
+   LED_control_msg: LOAD&RETURN s5, LED_control$
+                    LOAD&RETURN s5, character_NULL
+                    ;
+       bad_LED_msg: LOAD&RETURN s5, bad_LED$
+                    LOAD&RETURN s5, character_NULL
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Welcome Message.
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The welcome message includes a display of the version information available from the
+                    ; assembler and the 'hwbuild' from the instantiation of KCPSM6 in the hardware design.
+                    ;
+   welcome_message: LOAD sB, welcome_msg'upper
+                    LOAD sA, welcome_msg'lower
+                    CALL send_message
+                    HWBUILD s5                      ;hardware version defines ASCII letter
+                    CALL UART_TX
+                    CALL send_CR
+                    RETURN 
+                    ;
+                    ; Welcome message
+                    ;
+                    STRING banner1$, "  _  ______ ____  ____  __  __  __"
+                    STRING banner2$, " | |/ / ___|  _ \/ ___||  \/  |/ /_"
+                    STRING banner3$, " | ' / |   | |_) \___ \| |\/| | '_ \"
+                    STRING banner4$, " | . \ |___|  __/ ___) | |  | | (_) )"
+                    STRING banner5$, " |_|\_\____|_|   |____/|_|  |_|\___/"
+                    ;
+                    ; Welcome message
+                    ;
+                    STRING welcome1$, "Reference Design: UART macros and PicoTerm Features"
+                    STRING welcome2$, "                  Real Time Clock includes interrupt handling"
+                    STRING welcome3$, "Assembly Date: "
+                    STRING welcome4$, "   Time: "
+                    STRING welcome5$, "Assembler Version: "
+                    STRING welcome6$, "Hardware Design: "
+                    ;
+                    ;
+       welcome_msg: LOAD&RETURN s5, banner1$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, banner2$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, banner3$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, banner4$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, banner5$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, welcome1$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, welcome2$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, welcome3$
+                    LOAD&RETURN s5, datestamp$
+                    LOAD&RETURN s5, welcome4$
+                    LOAD&RETURN s5, timestamp$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, welcome5$
+                    LOAD&RETURN s5, KCPSM6_version$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, welcome6$
+                    LOAD&RETURN s5, character_NULL
+                    ;
+                    ;
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send 'PicoTerm' message
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Transmit 'PicoTerm can display text in 8 colours!' followed by carriage return.
+                    ;
+     send_PicoTerm: LOAD sB, PicoTerm_msg'upper
+                    LOAD sA, PicoTerm_msg'lower
+                    CALL send_message
+                    RETURN 
+                    ;
+                    ;
+                    STRING PicoTerm$, "PicoTerm can display text in 8 colours!"
+                    ;
+                    ;
+      PicoTerm_msg: LOAD&RETURN s5, PicoTerm$
+                    LOAD&RETURN s5, character_CR
+                    LOAD&RETURN s5, character_NULL
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send a message to the UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; A message is transmitted to the USB-UART.
+                    ; The start address of the message must be provided in [sB,sA].
+                    ; Terminate the transmission with a NULL character (00 hex).
+                    ;
+      send_message: CALL@ (sB, sA)
+                    COMPARE s5, 00                  ;terminate on NUL character
+                    RETURN Z
+                    CALL UART_TX
+                    ADD sA, 1'd
+                    ADDCY sB, 0'd
+                    JUMP send_message
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send Carriage Return to UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Registers used s0, s1, s2, and s5.
+                    ;
+           send_CR: LOAD s5, character_CR
+                    JUMP UART_TX                    ;includes RETURN
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Send a Space to UART
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; Registers used s0, s1, s2, and s5.
+                    ;
+        send_space: LOAD s5, " "
+                    JUMP UART_TX                    ;includes RETURN
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Include PSM files
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The INCLUDE directive enables commonly routines to be kept in their own PSM files and
+                    ; easily reused in different programs (i.e. avoiding 'cut and paste'). It also allows
+                    ; each PSM to remain a more manageable size.
+                    ;
+                    ;
+                    ; Include routines that implement interface with UART macros and control PicoTerm.
+                    ; --------------------------------------------------------------------------------
+                    ;
+                    INCLUDE "PicoTerm_routines.psm"
+                    ;
+                    ;
+                    ; Software Delays
+                    ; ---------------
+                    ;
+                    INCLUDE "soft_delays_100mhz.psm"
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; Interrupt Service Routine (ISR) - Real Time Digital Clock
+                    ;------------------------------------------------------------------------------------------
+                    ;
+                    ; The hardware generates an interrupt once per second and this is used to maintain a real
+                    ; time clock which is displayed on the PicoTerm Virtual 7-Segment Display.
+                    ;
+                    ; The real time values of hours, minutes and seconds are held in 3 scratch pad memory
+                    ; locations. The ISR reads and increments the seconds value and then writes it back.
+                    ; Before writing back a test is made for 60 seconds and if that is the case then the
+                    ; seconds are reset and the process extended to incrementing the minutes and hours as
+                    ; necessary.
+                    ;
+                    ; Initially the time stored in scratch pad memory will be 00:00:00 but a Device Control
+                    ; String (DCS) request to PicoTerm for the time value is used to synchronise the time
+                    ; with the connected PC. The interrupts and ISR maintain the correct time thereafter.
+                    ;
+                    ; Register Bank 'B' is used during the ISR so all registers in Bank 'A' are preserved.
+                    ; RETURNI automatically restores Bank 'A' on completion of the ISR.
+                    ;
+                    ; The ISR is located in program memory starting at the location corresponding with
+                    ; the  'interrupt_vector' address defined in the instantiation of KCPSM6 in the hardware.
+                    ; In this instance the vector is 3C0 hex which means there are 64 instructions available
+                    ; before reaching the end of a 1K program memory.
+                    ;
+                    ADDRESS 3C0
+                    ;
+                    ;
+               ISR: REGBANK B
+                    ;
+                    ; Update time in scratch pad memory
+                    ;
+                    FETCH s0, seconds               ;fetch old time
+                    FETCH s1, minutes
+                    FETCH s2, hours
+                    ;
+                    ADD s0, 1'd                     ;increment seconds
+                    COMPARE s0, 60'd                ;test for 60 seconds
+                    JUMP Z, update_minutes
+                    STORE s0, seconds               ;store new time
+                    JUMP display_time
+                    ;
+    update_minutes: LOAD s0, 0'd                    ;reset seconds
+                    STORE s0, seconds
+                    ADD s1, 1'd                     ;increment minutes
+                    COMPARE s1, 60'd                ;test for 60 minutes
+                    JUMP Z, update_hours
+                    STORE s1, minutes               ;store new time
+                    JUMP display_time
+                    ;
+      update_hours: LOAD s1, 0'd                    ;reset minutes
+                    STORE s1, minutes
+                    ADD s2, 1'd                     ;increment hours
+                    COMPARE s2, 24'd                ;test for 24 hours
+                    JUMP Z, clear_hours
+                    STORE s2, hours                 ;store new time
+                    JUMP display_time
+                    ;
+       clear_hours: LOAD s2, 0'd                    ;reset hours
+                    STORE s2, hours                 ;store new time
+                    ;
+                    ; Display time on PicoTerm Virtual 7-Segment Display.
+                    ;
+                    ; Hours are in 's2' and Minutes are in 's1'. These binary values are converted
+                    ; to decimal and then into 7-segment control codes that are stored in scratch
+                    ; pad memory locations before calling the 'PicoTerm_7Segment' routine.
+                    ;
+                    ; The decimal point of 'digit2' is toggled at 1-second intervals.
+                    ;
+      display_time: SR0 s0                          ;isolate LSB of seconds
+                    SRA s3                          ;  in MSB of s3
+                    AND s3, 10000000'b
+                    ;
+                    LOAD s0, s1                     ;convert minutes
+                    CALL byte_to_decimal            ;  to decimal in s1 and s0
+                    CALL nibble_to_7seg             ;convert 'units' to 7-seg
+                    STORE s0, PicoTerm_7seg_digit0
+                    LOAD s0, s1                     ;convert 'tens' to 7-seg
+                    CALL nibble_to_7seg
+                    STORE s0, PicoTerm_7seg_digit1
+                    ;
+                    LOAD s0, s2                     ;convert hours
+                    CALL byte_to_decimal            ;  to decimal in s1 and s0
+                    CALL nibble_to_7seg             ;convert 'units' to 7-seg
+                    OR s0, s3                       ;superimpose decimal point
+                    STORE s0, PicoTerm_7seg_digit2
+                    LOAD s0, s1                     ;convert 'tens' to 7-seg
+                    CALL nibble_to_7seg
+                    STORE s0, PicoTerm_7seg_digit3
+                    ;
+                    CALL PicoTerm_7Segment          ;PicoTerm display
+                    ;
+                    RETURNI ENABLE                  ;also restores register bank
+                    ;
+                    ;
+                    ;
+                    ; Routine to convert binary value in the range 00 to 63 hex provided in register
+                    ; 's0' into the binary coded decimal (BCD) equivalent in the range 0 to 99 in
+                    ; registers 's1' and 's0'.
+                    ;
+                    ;   Example                        s0 = 24 hex   -->    s1 = 3
+                    ;   24 hex = 36 decimal                                 s0 = 6
+                    ;
+                    ;
+   byte_to_decimal: LOAD s1, 00                     ;clear 'tens'
+       b_to_d_loop: COMPARE s0, 10'd                ;if 'units' is less than 10
+                    RETURN C                        ;  then conversion complete
+                    ADD s1, 1'd                     ;otherwise increment number of 'tens'
+                    SUB s0, 10'd                    ; and subtract 10 from 'units'
+                    JUMP b_to_d_loop
+                    ;
+                    ;
+                    ;------------------------------------------------------------------------------------------
+                    ; End of Program
+                    ;------------------------------------------------------------------------------------------
+                    ;

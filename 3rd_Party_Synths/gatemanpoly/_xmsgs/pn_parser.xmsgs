@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated   -->
+<!--     by the Xilinx ISE software.  Any direct editing or        -->
+<!--     changes made to this file may result in unpredictable     -->
+<!--     behavior or data corruption.  It is strongly advised that -->
+<!--     users do not edit the contents of this file.              -->
+<!--                                                               -->
+<!-- Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.    -->
+
+<messages>
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/ADSR.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/DeltaSigma.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/GateManPoly.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/MIDICTRL.V&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/MIDIuartrx.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/SVF_multi_1.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/TTYuartrx.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/kcpsm3.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/kcpsm6.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/noise_iir.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/sat.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/sine_tab.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/spi_dac_out.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/Dropbox/GadgetFactory/GadgetFactory_Engineering/RetroCade_Synth/3rd_Party_Synths/gatemanpoly/tuning_ROM.v&quot; into library work</arg>
+</msg>
+
+</messages>
+

@@ -1,0 +1,1234 @@
+                   ; Program: MIDICTRL.psm (polyphonic)
+                   ;  Author: Scott R. Gravenhorst
+                   ;    Date: 01-25-2007
+                   ;Rev date: 08-27-2007
+                   ; Version: 1.23
+                   ;----------------------------------------------------------------------------------------
+                   ; Ver 1.03 Add control ports for 4 NCOs pitch values.
+                   ; Ver 1.04 system exclusive message input implemetation
+                   ;          sysex mfr ID 7F
+                   ; Ver 1.05 Combine all single bit flags into one register.
+                   ;          Attempt to combine byte counts into one register instead of two
+                   ;          to facilitate register usage in more complex dual UART ISR.
+                   ; Ver 1.06 Added parameter update via sysex.  Sysex data message is in address/data
+                   ;          format.  Address currently starts at 0x20 and ends at 0x7F because sysex
+                   ;          data values (including the address value) can't be larger than 0x7F.
+                   ;          If ports become scarce, this can be chaged to also allow 0x00 - 0x1F at
+                   ;          the expense of external circuitry rework.  Sysex data is applied to
+                   ;          to synth by using the address value to select the port using a register
+                   ;          as a port pointer. Note that no address range checking is performed.
+                   ; Ver 1.07 Added selectable waveform NCOs
+                   ; Ver 1.08 Remove sysex message type, add model number byte.
+                   ; Ver 1.09 sysex address space changed to 00 to 7F from 20 to 7F
+                   ; Ver 1.10 sysex address space expanded to 14 bits.
+                   ; Ver 1.11 Add constant MIDI_TRANSPOSE.  This provides a way to give more range to the
+                   ;          upper end of the keyboard for when large offsets used.  Without this
+                   ;          constant (subtracted from all MIDI note numbers), this program will subtract
+                   ;          octaves until the note number no longer has bit 7 set.  Actual pitch is then
+                   ;          adjusted in the hardware in the NCO (nco_v8.v) module.  For the Korg
+                   ;          Wavestation, I've found that hex 14 works well.
+                   ; Ver 1.12 Add LCD Project name and author text.
+                   ;
+                   ; Ver 1.13 This file switches to the DWG synth, first version.
+                   ;          Notes are presented in MIDI note number, not note - octave.
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;
+                   ;  POLYSYNTH...
+                   ;
+                   ; Ver 1.14 First polysynth, 2 strings.  Some of the notes above here no longer apply.
+                   ; Ver 1.15 4 strings.
+                   ; Ver 1.16 6 strings.
+                   ; Ver 1.17 Piano like action, sustain pedal
+                   ; Ver 1.18 8 strings.
+                   ; Ver 1.19 Discovered a problem with the way the sustain pedal works.  rework here and
+                   ;          in the main module (PolyDaWG8.v)
+                   ; Ver 1.20 dual display for defining what mod wheel does.
+                   ; Ver 1.21 Voices stolen from keys held down.  Hardware is different, ver_l required.
+                   ; Ver 1.22 Changed LCD display of mode from N/O to Norm/Orig
+                   ; Ver 1.23 Changed handling of real note off messages. (0x90)
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;
+                   ; MIDI UART input and synth control program.  Receives and interprets MIDI data.
+                   ; MIDI support includes what Korg Wavestation can send.
+                   ; note on/off, mod wheel, pitch wheel, joystick X and Y, channel pressure, sustain pedal.
+                   ;
+                   ; Note: DATAbyte1 represents the first data byte for commands which use 2 data bytes.
+                   ;       DATAbyte2 represents the second data byte for commands which use 2 data bytes.
+                   ;       DATAbyte2 represents the only data byte for commands which use 1 data byte.
+                   ;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   CONSTANT MFR_ID, 7F                      ; my mfr ID - Change this if you want a different ID
+                   CONSTANT MODEL_NUMBER, 02                ; 00 = GateMan-I; 01 = PolyDaWG; 02 = GateManPoly
+                   CONSTANT UNIT_NUMBER, 00                 ; unit number
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   CONSTANT MIDI_TRANSPOSE, 14              ; how much to SUBTRACT from MIDI note numbers for note on/off messages
+                   ; this gives more range on the high end
+                   ; Bit definition constants as masks
+                   CONSTANT rxready_bit, 02                 ; bit mask to sense for rx data available
+                   CONSTANT MIDIbyteAVAILABLE_bit, 01       ; FLAGS register TEST mask
+                   CONSTANT TTYbyteAVAILABLE_bit, 02        ; FLAGS register TEST mask
+                   CONSTANT MESSAGEcomplete_bit, 04         ; FLAGS register TEST mask
+                   CONSTANT MIDIbyteAVAILABLE_set, 01       ; FLAGS register TEST mask
+                   CONSTANT TTYbyteAVAILABLE_set, 02        ; FLAGS register TEST mask
+                   CONSTANT MESSAGEcomplete_set, 04         ; FLAGS register TEST mask
+                   CONSTANT MIDIbyteAVAILABLE_clr, FE       ; FLAGS register TEST mask
+                   CONSTANT TTYbyteAVAILABLE_clr, FD        ; FLAGS register TEST mask
+                   CONSTANT MESSAGEcomplete_clr, FB         ; FLAGS register TEST mask
+                   CONSTANT MIDI_UARTstatus_bit, 40
+                   CONSTANT TTY_UARTstatus_bit, 80
+                   ; MIDI CONSTANTS
+                   ; message type constants
+                   CONSTANT K_NoteOff, 80
+                   CONSTANT K_NoteOn, 90
+                   CONSTANT K_PolyKeyPressure, A0
+                   CONSTANT K_ControllerChange, B0
+                   CONSTANT K_ProgramChange, C0
+                   CONSTANT K_ChannelPressure, D0
+                   CONSTANT K_PitchBend, E0
+                   CONSTANT K_System, F0
+                   ; Controller Change byte 1 constants:
+                   CONSTANT MOD_WHEEL, 01
+                   CONSTANT SUSTAIN, 40
+                   CONSTANT JOYSTICK_X, 10                  ; Korg Wavestation, don't know about others.
+                   CONSTANT JOYSTICK_Y, 11                  ; Korg Wavestation, don't know about others.
+                   CONSTANT ALL_NOTES_OFF, 7B
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;LCD interface ports
+                   ;
+                   ;The master enable signal is not used by the LCD display itself
+                   ;but may be required to confirm that LCD communication is active.
+                   ;This is required on the Spartan-3E Starter Kit if the StrataFLASH
+                   ;is used because it shares the same data pins and conflicts must be avoided.
+                   ;
+                   CONSTANT LCD_E, 01                       ;   active High Enable        E - bit0
+                   CONSTANT LCD_RW, 02                      ;   Read=1 Write=0           RW - bit1
+                   CONSTANT LCD_RS, 04                      ;   Instruction=0 Data=1     RS - bit2
+                   CONSTANT LCD_drive, 08                   ;   Master enable (active High) - bit3
+                   CONSTANT LCD_DB4, 10                     ;   4-bit              Data DB4 - bit4
+                   CONSTANT LCD_DB5, 20                     ;   interface          Data DB5 - bit5
+                   CONSTANT LCD_DB6, 40                     ;                      Data DB6 - bit6
+                   CONSTANT LCD_DB7, 80                     ;                      Data DB7 - bit7
+                   CONSTANT delay_1us_constant, 0B          ;   required for LCD operation
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;; READ ONLY PORTS:
+                   ;;;;;;;;;;;;;;;;;;
+                   ; UART
+                   CONSTANT UARTstatusport, 00              ; port number for rx and tx status (read only)
+                   CONSTANT MIDIrxdataport, 01              ; port number for rx data register (read only)
+                   ; Slide switches
+                   CONSTANT SWITCH_PORT, 02                 ; port number for slide switches (read only)
+                   CONSTANT TRANSPOSE, 08                   ; port number for transposition factor
+                   CONSTANT TTYrxdataport, 09               ; port number for rx data register (read only)
+                   CONSTANT ACTIVE, 0A                      ; vibrational state of each string, one bit per string
+                   CONSTANT VERSION, 0F                     ; port for version character from hardware
+                   CONSTANT NCO_0_OFFSET, 04                ; read port address of NCO_0_OFFSET.
+                   CONSTANT NCO_1_OFFSET, 05                ; read port address of NCO_1_OFFSET.
+                   CONSTANT NCO_2_OFFSET, 06                ; read port address of NCO_2_OFFSET.
+                   CONSTANT NCO_3_OFFSET, 07                ; read port address of NCO_3_OFFSET.
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;; WRITE ONLY PORTS:
+                   ;;;;;;;;;;;;;;;;;;
+                   CONSTANT CHANNEL_PRESSURE_PORT, F0       ; channel pressure value, global
+                   CONSTANT PITCH_WHEEL_MSB_PORT, F1        ; pitch wheel MSB, global
+                   CONSTANT PITCH_WHEEL_LSB_PORT, F2        ; pitch wheel LSB, global
+                   CONSTANT MOD_WHEEL_PORT, F3              ; modulation wheel, global
+                   CONSTANT JOYSTICK_X_PORT, FA             ; joystick X, global
+                   CONSTANT JOYSTICK_Y_PORT, FB             ; joystick Y, global
+                   CONSTANT SUSTAIN_PORT, FC                ; FF when depressed, 00 when not depressed.
+                   CONSTANT VEL0_PORT, 80                   ; ports for sending velocity (per voice) to synth
+                   CONSTANT VEL1_PORT, 81
+                   CONSTANT VEL2_PORT, 82
+                   CONSTANT VEL3_PORT, 83
+                   CONSTANT VEL4_PORT, 84
+                   CONSTANT VEL5_PORT, 85
+                   CONSTANT VEL6_PORT, 86
+                   CONSTANT VEL7_PORT, 87
+                   CONSTANT NOTE0_PORT, 88                  ; ports for sending note number (per voice) to synth
+                   CONSTANT NOTE1_PORT, 89
+                   CONSTANT NOTE2_PORT, 8A
+                   CONSTANT NOTE3_PORT, 8B
+                   CONSTANT NOTE4_PORT, 8C
+                   CONSTANT NOTE5_PORT, 8D
+                   CONSTANT NOTE6_PORT, 8E
+                   CONSTANT NOTE7_PORT, 8F
+                   CONSTANT GATE_PORT, F8                   ; GATE signal, per voice
+                   CONSTANT LED_PORT, FE                    ; for diagnostics, may be removed later...
+                   CONSTANT resetport, FF                   ; this port doesn't actually output anything.
+                   ; Writing any data it's address resets the UART.
+                   CONSTANT LCD_output_port, 90             ; LCD character module output data and control
+                   CONSTANT SYSEX_MSB_PORT, 91              ; most significant 7 bits of the sysex address space
+                   ; System Exclusive Message structure:
+                   ; MFR ID
+                   ; MODEL NUMBER
+                   ; UNIT NUMBER
+                   ; PARAMETER ADDRESS MSB
+                   ; PARAMETER ADDRESS LSB
+                   ; PARAMETER DATA
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;; SCRATCH PAD RAM ADDRESSES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   CONSTANT NOTE0, 20                       ; save the note number for lookup later (to manage note off messages)
+                   CONSTANT NOTE1, 21
+                   CONSTANT NOTE2, 22
+                   CONSTANT NOTE3, 23
+                   CONSTANT NOTE4, 24
+                   CONSTANT NOTE5, 25
+                   CONSTANT NOTE6, 26
+                   CONSTANT NOTE7, 27
+                   CONSTANT GATES, 30                       ; spRAM storage for maintaining the gates
+                   CONSTANT ROUNDROBIN, 31                  ; used for selecting a "random" string when all are currently busy
+                   CONSTANT SUS, 32                         ; used to save sustain pedal state.
+                   CONSTANT MIDIinputBYTE, 3E
+                   CONSTANT TTYinputBYTE, 3F
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ; ports 00 through 7F are for sysex updatable registers
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ; Name and reserve registers.
+                   NAMEREG s0, MIDIbyte                     ; latest received MIDI byte
+                   NAMEREG s1, RUNNINGstatus                ; holds the current MIDI running status value
+                   NAMEREG s2, MessageTYPE                  ; Message type, i.e., high nybble
+                   NAMEREG s3, MessageCHANNEL               ; Message channel, i.e., low nybble
+                   ; DATAbyteCOUNT is the counter that controls what happens to MIDI data bytes.
+                   ; DATAbyteCOUNTrunstat holds the data byte count value to load into DATAbyteCOUNT to refresh
+                   ; it when a message comes in assuming valid running status.
+                   NAMEREG s4, DATAbyteCOUNT                ; how many more bytes to satisfy the current message
+                   NAMEREG s5, DATAbyteCOUNTrunstat         ; holds replenishment value for DATAbyteCOUNT for running status
+                   NAMEREG s6, DATAbyte1                    ; for current message storage of data byte 1
+                   NAMEREG s7, DATAbyte2                    ; for current message storage of data byte 2
+                   ;       1 means a complete MIDI message is ready to process
+                   ; The code which processes this message will reset MESSAGE_COMPLETE to zero
+                   ; s8  is used in the transpose function.
+                   NAMEREG s9, COMMANDbyte                  ; command byte, contains command nybble and channel nybble of current message
+                   NAMEREG sA, FLAGS                        ; FLAGS register contains single bit flags
+                   NAMEREG sB, SYSEX                        ; sysex state machine state register
+                   NAMEREG sC, UARTbyte                     ; incoming UART data byte, used by ISR
+                   ; sD    used for destination pointer, considered temporary data storage
+                   ; sE    used for a source pointer, considered temporary data storage.  sysex mode stores addr (port) here.
+                   ;       used in div12 subroutine.
+                   NAMEREG sF, TEMP                         ; local loop or routine temp storage
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;; CODE STARTS HERE ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ADDRESS 000
+       cold_start: 
+                   CALL SHOW_TITLE_IN_LCD                   ; do this first, only once, then we don't care about what registers it uses.
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ; initialize storage
+                   OUTPUT MessageTYPE, resetport            ; Causes reset by addressing port 80-FF.  content doesn't matter.
+                   LOAD MIDIbyte, 00
+                   LOAD FLAGS, 00
+                   LOAD RUNNINGstatus, 00
+                   LOAD DATAbyteCOUNT, 00
+                   LOAD DATAbyteCOUNTrunstat, 00
+                   LOAD DATAbyte1, 00
+                   LOAD DATAbyte2, 00
+                   LOAD SYSEX, 00
+                   LOAD TEMP, 00
+                   OUTPUT TEMP, GATE_PORT                   ; force GATEs off
+                   OUTPUT TEMP, VEL0_PORT                   ; force VELOCITY to zero
+                   OUTPUT TEMP, VEL1_PORT                   ; force VELOCITY to zero
+                   OUTPUT TEMP, VEL2_PORT                   ; force VELOCITY to zero
+                   OUTPUT TEMP, VEL3_PORT                   ; force VELOCITY to zero
+                   OUTPUT TEMP, VEL4_PORT                   ; force VELOCITY to zero
+                   OUTPUT TEMP, VEL5_PORT                   ; force VELOCITY to zero
+                   OUTPUT TEMP, VEL6_PORT                   ; force VELOCITY to zero
+                   OUTPUT TEMP, VEL7_PORT                   ; force VELOCITY to zero
+                   OUTPUT TEMP, PITCH_WHEEL_LSB_PORT
+                   STORE TEMP, GATES                        ; ensure both gates are off at startup.
+                   STORE TEMP, ROUNDROBIN
+                   STORE TEMP, SUS
+                   LOAD TEMP, 40
+                   OUTPUT TEMP, PITCH_WHEEL_MSB_PORT
+                   LOAD TEMP, FF                            ; set no-keys-down flag
+                   STORE TEMP, 00                           ; store in RAM location 00
+                   ENABLE INTERRUPT
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ; Wait for and process MIDI Bytes.
+                   ; This is the main dispatch loop that monitors the ISR's MIDIbyteVALID flag register and MESSAGE_COMPLETE flag.
+             idle: 
+                   TEST FLAGS, MESSAGEcomplete_bit
+                   JUMP NZ, ProcessMessage
+                   TEST FLAGS, MIDIbyteAVAILABLE_bit        ; see if isr set the byte available flag
+                   JUMP NZ, GetMIDIbyte
+                   TEST FLAGS, TTYbyteAVAILABLE_bit
+                   JUMP Z, idle
+                   ;GetTTYbyte:
+                   FETCH MIDIbyte, TTYinputBYTE
+                   AND FLAGS, TTYbyteAVAILABLE_clr          ; clear the MIDI byte available bit
+                   JUMP Procbyte
+      GetMIDIbyte: 
+                   FETCH MIDIbyte, MIDIinputBYTE
+                   AND FLAGS, MIDIbyteAVAILABLE_clr         ; clear the MIDI byte available bit
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+         Procbyte: 
+                   ; there is a byte to process
+                   ; First test for active sensing byte - nothing but problems, so get rid of it now.
+                   COMPARE MIDIbyte, FE
+                   JUMP Z, idle
+                   TEST MIDIbyte, 80                        ; is high bit set?
+                   JUMP NZ, MIDI_STATUS_BYTE
+                   ; We have a data byte because bit 7 is zero.
+                   ; check if we're in sysex mode:
+                   COMPARE SYSEX, 00
+                   JUMP Z, PerformanceData
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ; Deal with sysex message
+                   ; Sysexe is handled with a state machine.  Register SYSEX holds the current state.
+                   ; Setting the state to 7F causes the state machine to ignore the rest of any sysex message
+                   ; and wait for a F7 byte.
+                   ;
+                   COMPARE SYSEX, 01
+                   JUMP Z, CheckID                          ; check mfr ID
+                   COMPARE SYSEX, 02
+                   JUMP Z, ModelNumber                      ; check model number
+                   COMPARE SYSEX, 03
+                   JUMP Z, UnitNumber                       ; check unit number
+                   COMPARE SYSEX, 04
+                   JUMP Z, ParameterAddrMSB                 ; set parameter address
+                   COMPARE SYSEX, 05
+                   JUMP Z, ParameterAddrLSB
+                   COMPARE SYSEX, 06
+                   JUMP Z, ParameterData                    ; set parameter data
+                   COMPARE SYSEX, 7F
+                   ;  JUMP Z, idle                              ; we just jump to idle to simply wait for F7 to turn off sysex mode
+                   ; above instruction removed because we go idle regardless
+                   JUMP idle
+          CheckID: 
+                   LOAD SYSEX, 02                           ; move to next state, check UnitNumber
+                   COMPARE MIDIbyte, MFR_ID                 ; this device's mfr ID
+                   JUMP Z, idle                             ; if this is ours, go to idle and wait
+                   LOAD SYSEX, 7F                           ; not our message, bypass rest of message.
+                   JUMP idle
+      ModelNumber: 
+                   LOAD SYSEX, 03
+                   COMPARE MIDIbyte, MODEL_NUMBER
+                   JUMP Z, idle                             ; if this is ours, go to idle and wait
+                   LOAD SYSEX, 7F                           ; not our message, bypass rest of message.
+                   JUMP idle
+       UnitNumber: 
+                   LOAD SYSEX, 04                           ; set for parameter addr MSB mode
+                   COMPARE MIDIbyte, UNIT_NUMBER            ; compare message type byte, 00=parameter
+                   JUMP Z, idle
+                   LOAD SYSEX, 7F                           ; not our message, bypass rest of message.
+                   JUMP idle
+ ParameterAddrMSB: 
+                   LOAD SYSEX, 05                           ; set for parameter addr LSB mode
+                   LOAD sE, MIDIbyte                        ; get the MSB byte
+                   OUTPUT sE, SYSEX_MSB_PORT                ; store the byte in the external parameter selection hardware
+                   JUMP idle
+ ParameterAddrLSB: 
+                   LOAD SYSEX, 06                           ; set for parameter data mode
+                   LOAD sE, MIDIbyte                        ; save the address byte in sE  NOTE: sE is temporary storage elsewhere, but should be safe here
+                   JUMP idle
+    ParameterData: 
+                   LOAD SYSEX, 7F                           ; set to wait for F7
+                   OUTPUT MIDIbyte, (sE)                    ; send data byte to port number in sE (the address byte).
+                   JUMP idle
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  PerformanceData: 
+                   SUB DATAbyteCOUNT, 01                    ; decrement...
+                   JUMP Z, byte2                            ; if equal to 0 now, it was 1, so this is byte2
+                   LOAD DATAbyte1, MIDIbyte                 ; save this byte as data byte 1
+                   JUMP idle
+            byte2: ; in all cases, this is the last data byte.  Save it and set MESSAGE_COMPLETE
+                   LOAD DATAbyte2, MIDIbyte                 ; save this byte as data byte 2
+                   OR FLAGS, MESSAGEcomplete_set            ; set message complete bit
+                   LOAD DATAbyteCOUNT, DATAbyteCOUNTrunstat ; set the count again, next message could be running status data.
+                   JUMP idle
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ; This is a status or command byte.
+ MIDI_STATUS_BYTE: ; high bit is set, now determine what sort of message this is
+                   LOAD MessageTYPE, MIDIbyte
+                   LOAD MessageCHANNEL, MIDIbyte
+                   AND MessageTYPE, F0                      ; MessageTYPE now contains only upper nybble of MIDI command/status byte.
+                   AND MessageCHANNEL, 0F                   ; MessageCHANNEL contains only the channel nybble
+                   COMPARE MessageTYPE, K_System            ; If high nybble == F, then this is a special message
+                   JUMP NZ, NotFx
+                   ; We are here because this byte if Fx
+                   ; decode and act on other Fx messages here.  For now, it's just a jump to idle
+                   COMPARE MIDIbyte, F7                     ; end of sysex message
+                   JUMP NZ, NotF7
+                   LOAD SYSEX, 00                           ; sysex off.
+                   JUMP idle
+            NotF7: 
+                   COMPARE MIDIbyte, F0                     ; F0 ?  (start of sysex message)
+                   JUMP NZ, idle
+                   ; We have an F0
+                   LOAD SYSEX, 01                           ; set sysex state flag to check mfr ID
+                   JUMP idle
+            NotFx: 
+                   LOAD SYSEX, 00                           ; sysex always goes off on any status byte.
+                   LOAD COMMANDbyte, MIDIbyte               ; remember this message's command byte.
+                   COMPARE MessageTYPE, K_ProgramChange     ; is this PROGRAM CHANGE ?
+                   JUMP Z, ONE_DATA_BYTE
+                   COMPARE MessageTYPE, K_ChannelPressure   ; is this CHANNEL PRESSURE ?
+                   JUMP Z, ONE_DATA_BYTE
+                   LOAD DATAbyteCOUNT, 02                   ; If not channel pressure or program change, then 2 bytes of data
+                   JUMP SetCount
+    ONE_DATA_BYTE: 
+                   LOAD DATAbyteCOUNT, 01
+                   ; set count source for replenishing DATAbyteCOUNT when no status byte is sent (running status)
+         SetCount: 
+                   LOAD DATAbyteCOUNTrunstat, DATAbyteCOUNT
+                   JUMP idle
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ; A complete message is ready to process...
+                   ; Message type determines the number of data bytes.
+   ProcessMessage: 
+                   AND FLAGS, MESSAGEcomplete_clr           ; clear the message complete flag
+                   ; See if this is our message.  If not, go idle, if yes, do the message.
+                   LOAD TEMP, COMMANDbyte                   ; get the current command byte into TEMP
+                   AND TEMP, 0F                             ; isolate only the channel.
+                   INPUT sD, SWITCH_PORT                    ; get current MIDI channel number for this hardware
+                   COMPARE sD, TEMP                         ; compare MIDI channel setting with current running status channel number
+                   JUMP NZ, idle                            ; JUMP to idle if not our channel number.
+                   LOAD RUNNINGstatus, COMMANDbyte          ; this is a message on my channel so set running status.
+                   LOAD MessageTYPE, RUNNINGstatus
+                   AND MessageTYPE, F0                      ; get message type nybble
+                   ; This is where we act on complete messages.
+                   ; JUMP table of vectors to different message type needs.
+                   COMPARE MessageTYPE, K_NoteOff
+                   JUMP Z, NOTE_OFF
+                   COMPARE MessageTYPE, K_NoteOn
+                   JUMP Z, NOTE_ON
+                   COMPARE MessageTYPE, K_PolyKeyPressure
+                   JUMP Z, POLY_KEY_PRESSURE
+                   COMPARE MessageTYPE, K_ControllerChange
+                   JUMP Z, CONTROLLER_CHANGE
+                   COMPARE MessageTYPE, K_ProgramChange
+                   JUMP Z, PROGRAM_CHANGE
+                   COMPARE MessageTYPE, K_ChannelPressure
+                   JUMP Z, CHANNEL_PRESSURE
+                   COMPARE MessageTYPE, K_PitchBend
+                   JUMP Z, PITCH_BEND
+                   JUMP idle                                ; anything else, toss.
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;; This section will:
+                   ;; toggle the gate signal if it's on.
+                   ;; turn gate on if it's off.
+                   ;;
+          NOTE_ON: 
+                   ;SET_SYNTH:
+                   INPUT s8, TRANSPOSE                      ; sample the value of TRANSPOSE port
+                   COMPARE DATAbyte2, 00                    ; is velocity zero?
+                   JUMP NZ, PLUCK                           ; If not, we pluck a string
+         NOTE_OFF: 
+                   INPUT s8, TRANSPOSE                      ; a real note off message has no velocity.
+                   ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+          RELEASE: 
+                   ; "Release" refers to when the synth key is released.
+                   ; Determine to which string the note-off message belongs.
+                   ; The current note numbers are stored in scratch pad RAM
+                   ; NOTE0 - NOTE7 and velocity values of VEL0 - VEL7
+                   FETCH sE, GATES                          ; get current gates state
+         TRYREL01: 
+                   TEST sE, 01                              ; is bit 0 on?
+                   JUMP Z, TRYREL02
+                   FETCH sD, NOTE0
+                   COMPARE sD, DATAbyte1
+                   JUMP Z, REL0
+         TRYREL02: 
+                   TEST sE, 02                              ; is bit 1 on?
+                   JUMP Z, TRYREL04
+                   FETCH sD, NOTE1
+                   COMPARE sD, DATAbyte1
+                   JUMP Z, REL1
+         TRYREL04: 
+                   TEST sE, 04                              ; is bit 2 on?
+                   JUMP Z, TRYREL08
+                   FETCH sD, NOTE2
+                   COMPARE sD, DATAbyte1
+                   JUMP Z, REL2
+         TRYREL08: 
+                   TEST sE, 08                              ; is bit 3 on?
+                   JUMP Z, TRYREL10
+                   FETCH sD, NOTE3
+                   COMPARE sD, DATAbyte1
+                   JUMP Z, REL3
+         TRYREL10: 
+                   TEST sE, 10                              ; is bit 4 on?
+                   JUMP Z, TRYREL20
+                   FETCH sD, NOTE4
+                   COMPARE sD, DATAbyte1
+                   JUMP Z, REL4
+         TRYREL20: 
+                   TEST sE, 20                              ; is bit 5 on?
+                   JUMP Z, TRYREL40
+                   FETCH sD, NOTE5
+                   COMPARE sD, DATAbyte1
+                   JUMP Z, REL5
+         TRYREL40: 
+                   TEST sE, 40                              ; is bit 6 on?
+                   JUMP Z, TRYREL80
+                   FETCH sD, NOTE6
+                   COMPARE sD, DATAbyte1
+                   JUMP Z, REL6
+         TRYREL80: 
+                   TEST sE, 80                              ; is bit 7 on?
+                   JUMP Z, NONEBUSY
+                   FETCH sD, NOTE7
+                   COMPARE sD, DATAbyte1
+                   JUMP Z, REL7
+         NONEBUSY: 
+                   ; If we are here, we didn't find the current note number in the strings note number table
+                   JUMP idle                                ; What else can I do?
+             REL0: 
+                   AND sE, FE                               ; sE has new GATES value
+                   JUMP relsave
+             REL1: 
+                   AND sE, FD                               ; sE has new GATES value
+                   JUMP relsave
+             REL2: 
+                   AND sE, FB                               ; sE has new GATES value
+                   JUMP relsave
+             REL3: 
+                   AND sE, F7                               ; sE has new GATES value
+                   JUMP relsave
+             REL4: 
+                   AND sE, EF                               ; sE has new GATES value
+                   JUMP relsave
+             REL5: 
+                   AND sE, DF                               ; sE has new GATES value
+                   JUMP relsave
+             REL6: 
+                   AND sE, BF                               ; sE has new GATES value
+                   JUMP relsave
+             REL7: 
+                   AND sE, 7F                               ; sE has new GATES value
+                   ;  JUMP relsave  ; not necessary
+          relsave: ; save the new GATES state upon release
+                   STORE sE, GATES                          ; update SP RAM
+                   OUTPUT sE, GATE_PORT                     ; update synth hardware
+                   JUMP idle                                ; finished processing the note-off
+                   ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+            PLUCK: 
+                   ; determine which string to use
+                   FETCH TEMP, SUS                          ; Check sustain pedal state
+                   COMPARE TEMP, 00                         ; note: FETCH instruction does not change flags
+                   JUMP Z, PEDALUP
+                   ; The pedal is held down.  So first try to use an inactive voice before stealing
+                   INPUT TEMP, ACTIVE                       ; get vibrational state of all strings
+                   JUMP STRINGTEST
+                   ; First look for an unused voice by checking for unbusy voices.
+                   ; This needs to take into account that some keys can be held down
+                   ; and should not be stolen if there are any unbusy voices.
+          PEDALUP: 
+                   FETCH TEMP, GATES                        ; first get the state of the gates.
+       STRINGTEST: 
+                   ;  TEST TEMP, 01                               ; check if this voice is a held key
+                   ;  JUMP Z, PLUCK0                              ; voice is idle, pluck it.
+                   ;  TEST TEMP, 02                               ; check if this voice is a held key
+                   ;  JUMP Z, PLUCK1                              ; voice is idle, pluck it.
+                   ;  TEST TEMP, 04                               ; check if this voice is a held key
+                   ;  JUMP Z, PLUCK2                              ; voice is idle, pluck it.
+                   ;  TEST TEMP, 08                               ; check if this voice is a held key
+                   ;  JUMP Z, PLUCK3                              ; voice is idle, pluck it.
+                   ;  TEST TEMP, 10                               ; check if this voice is a held key
+                   ;  JUMP Z, PLUCK4                              ; voice is idle, pluck it.
+                   ;  TEST TEMP, 20                               ; check if this voice is a held key
+                   ;  JUMP Z, PLUCK5                              ; voice is idle, pluck it.
+                   ;  TEST TEMP, 40                               ; check if this voice is a held key
+                   ;  JUMP Z, PLUCK6                              ; voice is idle, pluck it.
+                   ;  TEST TEMP, 80                               ; check if this voice is a held key
+                   ;  JUMP Z, PLUCK7                              ; voice is idle, pluck it.
+                   ; If we fall through to here, all voices are busy.
+                   COMPARE TEMP, FF                         ; test if all voices are busy
+                   JUMP Z, RR                               ;   so do simple round robin to steal a voice
+                   ; round robin search for a free voice
+                   LOAD sD, 08                              ; sD used as a counter for the round robin loop
+              RR3: 
+                   FETCH sE, ROUNDROBIN
+                   SL0 sE
+                   JUMP NZ, RR2
+                   LOAD sE, 01
+              RR2: 
+                   STORE sE, ROUNDROBIN
+                   FETCH TEMP, GATES
+                   XOR TEMP, FF                             ; invert TEMP, bits on are free voices
+                   AND TEMP, sE                             ; nonzero if the round robin value corresponds to a free voice.
+                   JUMP NZ, Pluck_It                        ;   so go figure out which to pluck.
+                   SUB sD, 01                               ; decrement counter
+                   JUMP NZ, RR3                             ; loop 8 times until we find the free voice
+                   ; We shouldn't really ever get here, but if we
+                   ; are, just do a simple round robin and steal
+                   ; a voice.
+                   ; assign with round robin when all voices are busy
+                   ; This algorithm will steal a voice that is already busy
+               RR: 
+                   FETCH sE, ROUNDROBIN
+                   SL0 sE
+                   JUMP NZ, RR1                             ; if zero, go load a 01
+                   LOAD sE, 01
+              RR1: 
+                   STORE sE, ROUNDROBIN                     ; store for next cycle - hence "round robin"
+         Pluck_It: 
+                   TEST sE, 01                              ; sE contains string to be plucked, check each
+                   JUMP NZ, PLUCK0                          ; string bit for 1 and vector to the pluck code for it.
+                   TEST sE, 02
+                   JUMP NZ, PLUCK1
+                   TEST sE, 04
+                   JUMP NZ, PLUCK2
+                   TEST sE, 08
+                   JUMP NZ, PLUCK3
+                   TEST sE, 10
+                   JUMP NZ, PLUCK4
+                   TEST sE, 20
+                   JUMP NZ, PLUCK5
+                   TEST sE, 40
+                   JUMP NZ, PLUCK6
+                   TEST sE, 80
+                   JUMP NZ, PLUCK7
+                   ;  JUMP PLUCK0   ; jump not necessary, fall through                ; use string 0
+                   ; send note data to string we will pluck
+           PLUCK0: 
+                   STORE DATAbyte1, NOTE0                   ; save note value in SP RAM
+                   ADD DATAbyte1, s8                        ; add TRANSPOSE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_0_OFFSET                   ;
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A0
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_1_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A1
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_2_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A2
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_3_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A3
+                   OUTPUT DATAbyte2, VEL0_PORT
+                   LOAD TEMP, 01                            ; set gate flag bit 0, use string 0
+                   JUMP SendGATE                            ; go sent the gate on signal
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+           PLUCK1: 
+                   STORE DATAbyte1, NOTE1                   ; save note value in SP RAM
+                   ADD DATAbyte1, s8                        ; add TRANSPOSE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_0_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A4
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_1_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A5
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_2_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A6
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_3_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A7
+                   OUTPUT DATAbyte2, VEL1_PORT
+                   LOAD TEMP, 02                            ; set gate flag bit 0, use string 0
+                   JUMP SendGATE                            ; go sent the gate on signal
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+           PLUCK2: 
+                   STORE DATAbyte1, NOTE2                   ; save note value in SP RAM
+                   ADD DATAbyte1, s8                        ; add TRANSPOSE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_0_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A8
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_1_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, A9
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_2_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, AA
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_3_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, AB
+                   OUTPUT DATAbyte2, VEL2_PORT
+                   LOAD TEMP, 04                            ; set gate flag bit 0, use string 0
+                   JUMP SendGATE                            ; go sent the gate on signal
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+           PLUCK3: 
+                   STORE DATAbyte1, NOTE3                   ; save note value in SP RAM
+                   ADD DATAbyte1, s8                        ; add TRANSPOSE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_0_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, AC
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_1_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, AD
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_2_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, AE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_3_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, AF
+                   OUTPUT DATAbyte2, VEL3_PORT
+                   LOAD TEMP, 08                            ; set gate flag bit 0, use string 0
+                   JUMP SendGATE                            ; go sent the gate on signal
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+           PLUCK4: 
+                   STORE DATAbyte1, NOTE4                   ; save note value in SP RAM
+                   ADD DATAbyte1, s8                        ; add TRANSPOSE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_0_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B0
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_1_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B1
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_2_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B2
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_3_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B3
+                   OUTPUT DATAbyte2, VEL4_PORT
+                   LOAD TEMP, 10                            ; set gate flag bit 0, use string 0
+                   JUMP SendGATE                            ; go sent the gate on signal
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+           PLUCK5: 
+                   STORE DATAbyte1, NOTE5                   ; save note value in SP RAM
+                   ADD DATAbyte1, s8                        ; add TRANSPOSE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_0_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B4
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_1_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B5
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_2_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B6
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_3_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B7
+                   OUTPUT DATAbyte2, VEL5_PORT
+                   LOAD TEMP, 20                            ; set gate flag bit 0, use string 0
+                   JUMP SendGATE                            ; go sent the gate on signal
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+           PLUCK6: 
+                   STORE DATAbyte1, NOTE6                   ; save note value in SP RAM
+                   ADD DATAbyte1, s8                        ; add TRANSPOSE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_0_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B8
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_1_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, B9
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_2_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, BA
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_3_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, BB
+                   OUTPUT DATAbyte2, VEL6_PORT
+                   LOAD TEMP, 40                            ; set gate flag bit 0, use string 0
+                   JUMP SendGATE                            ; go sent the gate on signal
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+           PLUCK7: 
+                   STORE DATAbyte1, NOTE7                   ; save note value in SP RAM
+                   ADD DATAbyte1, s8                        ; add TRANSPOSE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_0_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, BC
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_1_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, BD
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_2_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, BE
+                   LOAD TEMP, DATAbyte1
+                   INPUT s8, NCO_3_OFFSET
+                   ADD TEMP, s8
+                   CALL div12
+                   OUTPUT TEMP, BF
+                   OUTPUT DATAbyte2, VEL7_PORT
+                   LOAD TEMP, 80                            ; set gate flag bit 0, use string 0
+                   JUMP SendGATE                            ; go sent the gate on signal
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;PLUCK1:
+                   ;  STORE DATAbyte1, NOTE1
+                   ;  ADD DATAbyte1, s8
+                   ;  LOAD TEMP, DATAbyte1
+                   ;  CALL div12
+                   ;  OUTPUT TEMP, NOTE1_PORT
+                   ;  OUTPUT DATAbyte2, VEL1_PORT
+                   ;  LOAD TEMP, 02                               ; set gate flag bit 2, use string 1
+                   ;  JUMP SendGATE                               ; go sent the gate on signal
+                   ;PLUCK2:
+                   ;  STORE DATAbyte1, NOTE2
+                   ;  ADD DATAbyte1, s8
+                   ;  LOAD TEMP, DATAbyte1
+                   ;  CALL div12
+                   ;  OUTPUT TEMP, NOTE2_PORT
+                   ;  OUTPUT DATAbyte2, VEL2_PORT
+                   ;  LOAD TEMP, 04                               ; set gate flag bit 4, use string 2
+                   ;  JUMP SendGATE                               ; go sent the gate on signal
+                   ;PLUCK3:
+                   ;  STORE DATAbyte1, NOTE3
+                   ;  ADD DATAbyte1, s8
+                   ;  LOAD TEMP, DATAbyte1
+                   ;  CALL div12
+                   ;  OUTPUT TEMP, NOTE3_PORT
+                   ;  OUTPUT DATAbyte2, VEL3_PORT
+                   ;  LOAD TEMP, 08                               ; set gate flag bit 8, use string 3
+                   ;  JUMP SendGATE                               ; go sent the gate on signal
+                   ;PLUCK4:
+                   ;  STORE DATAbyte1, NOTE4
+                   ;  ADD DATAbyte1, s8
+                   ;  LOAD TEMP, DATAbyte1
+                   ;  CALL div12
+                   ;  OUTPUT TEMP, NOTE4_PORT
+                   ;  OUTPUT DATAbyte2, VEL4_PORT
+                   ;  LOAD TEMP, 10                               ; set gate flag bit 10, use string 3
+                   ;  JUMP SendGATE                               ; go sent the gate on signal
+                   ;PLUCK5:
+                   ;  STORE DATAbyte1, NOTE5
+                   ;  ADD DATAbyte1, s8
+                   ;  LOAD TEMP, DATAbyte1
+                   ;  CALL div12
+                   ;  OUTPUT TEMP, NOTE5_PORT
+                   ;  OUTPUT DATAbyte2, VEL5_PORT
+                   ;  LOAD TEMP, 20                               ; set gate flag bit 20 use string 3
+                   ;  JUMP SendGATE                               ; go sent the gate on signal
+                   ;PLUCK6:
+                   ;  STORE DATAbyte1, NOTE6
+                   ;  ADD DATAbyte1, s8
+                   ;  LOAD TEMP, DATAbyte1
+                   ;  CALL div12
+                   ;  OUTPUT TEMP, NOTE6_PORT
+                   ;  OUTPUT DATAbyte2, VEL6_PORT
+                   ;  LOAD TEMP, 40                               ; set gate flag bit 40use string 3
+                   ;  JUMP SendGATE                               ; go sent the gate on signal
+                   ;PLUCK7:
+                   ;  STORE DATAbyte1, NOTE7
+                   ;  ADD DATAbyte1, s8
+                   ;  LOAD TEMP, DATAbyte1
+                   ;  CALL div12
+                   ;  OUTPUT TEMP, NOTE7_PORT
+                   ;  OUTPUT DATAbyte2, VEL7_PORT
+                   ;  LOAD TEMP, 80                               ; set gate flag bit 80 use string 3
+                   ;;  JUMP SendGATE   ; fall through                            ; go sent the gate on signal
+                   ; TEMP now contains a single bit which represents the gate to turn on.
+                   ;
+                   ; First force the gate in question off, XOR the pluck bit in TEMP with GATES, then
+                   ; send the byte to gates.  If the GATES bit was on, it will go off.  If it was off
+                   ; it will go on.  In the second case, the second OUTPUT instruction doesn't matter
+         SendGATE: 
+                   FETCH sD, GATES                          ; get current gates state
+                   LOAD sE, TEMP                            ; copy the gate bit to turn on into sE for inversion
+                   XOR sE, sD                               ; XOR the pluck bit in TEMP with GATES
+                   OUTPUT sE, GATE_PORT                     ; update the synth
+                   OR sD, TEMP                              ; OR in the gate we want to turn on with the current gates status
+                   OUTPUT sD, GATE_PORT                     ; update the gates status
+                   STORE sD, GATES                          ; save new gates state
+                   JUMP idle
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+CONTROLLER_CHANGE: ; handle mod wheel, sustain and joystick here
+                   COMPARE DATAbyte1, MOD_WHEEL
+                   JUMP NZ, tstCCsus
+                   OUTPUT DATAbyte2, MOD_WHEEL_PORT
+                   JUMP idle
+         tstCCsus: 
+                   COMPARE DATAbyte1, SUSTAIN               ; is it a sustain message?
+                   JUMP NZ, tstCCjoyx
+                   OUTPUT DATAbyte2, SUSTAIN_PORT           ; update synth
+                   STORE DATAbyte2, SUS                     ; save sustain state, (maybe) need it for release logic
+                   JUMP idle
+        tstCCjoyx: 
+                   COMPARE DATAbyte1, JOYSTICK_X
+                   JUMP NZ, tstCCjoyy
+                   OUTPUT DATAbyte2, JOYSTICK_X_PORT
+                   JUMP idle
+        tstCCjoyy: 
+                   COMPARE DATAbyte1, JOYSTICK_Y
+                   JUMP NZ, tstCCallnotesoff
+                   OUTPUT DATAbyte2, JOYSTICK_Y_PORT
+                   JUMP idle
+ tstCCallnotesoff: 
+                   COMPARE DATAbyte1, ALL_NOTES_OFF
+                   JUMP NZ, idle                            ; we don't recognize this CC
+                   LOAD sD, 00
+                   STORE sD, GATES
+                   OUTPUT sD, GATE_PORT
+                   JUMP idle
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ CHANNEL_PRESSURE: ; handle channel pressure here
+                   OUTPUT DATAbyte2, CHANNEL_PRESSURE_PORT
+                   JUMP idle
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+       PITCH_BEND: 
+                   OUTPUT DATAbyte2, PITCH_WHEEL_MSB_PORT
+                   OUTPUT DATAbyte1, PITCH_WHEEL_LSB_PORT   ; Writing to this port triggers second buffer write of ext. 16 bit register.
+                   JUMP idle
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;; IGNORE THESE MESSAGES
+                   ;; Here we just jump to the idle loop.  My keyboard can't send these, so I don't care.  Maybe you do?
+   PROGRAM_CHANGE: ; This synth doesn't react to this...
+POLY_KEY_PRESSURE: ; This synth doesn't react to this...
+                   JUMP idle                                ; so ignore
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;; SUBROUTINES
+         ROTPRESS: ; TEMP contains mod wheel state value
+                   JUMP SHOW_TITLE_IN_LCD
+                   ;; divide by 12 routine
+                   ;; uses sE, TEMP.  TEMP is the input value and the result is also returned in TEMP
+            div12: ; TEMP is input value (MIDI note number)
+                   LOAD sE, 00                              ; lowest valid octave.
+           Div12b: ; loop to divide by 12.  A binary divide needs 5 registers and is no faster.
+                   SUB TEMP, 0C                             ; subtract 12.
+                   JUMP C, DoneDiv12                        ; if result was negative, then we're done.
+                   ADD sE, 10                               ; increment octave number (upper 4 bits)
+                   JUMP Div12b                              ; loop to try subtract again.
+        DoneDiv12: 
+                   ADD TEMP, 0C                             ; we always get here on overflow so add 12 back.
+                   OR TEMP, sE                              ; OR note and octave nybbles together.  TEMP has return value.
+                   RETURN 
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;; LCD Project name and Author announce
+                   ;; This code was modified from the S-3Esk startup project code and has been modified for this synth.
+                   CONSTANT character_a, 61
+                   CONSTANT character_b, 62
+                   CONSTANT character_c, 63
+                   CONSTANT character_d, 64
+                   CONSTANT character_e, 65
+                   CONSTANT character_f, 66
+                   CONSTANT character_g, 67
+                   CONSTANT character_h, 68
+                   CONSTANT character_i, 69
+                   CONSTANT character_j, 6A
+                   CONSTANT character_k, 6B
+                   CONSTANT character_l, 6C
+                   CONSTANT character_m, 6D
+                   CONSTANT character_n, 6E
+                   CONSTANT character_o, 6F
+                   CONSTANT character_p, 70
+                   CONSTANT character_q, 71
+                   CONSTANT character_r, 72
+                   CONSTANT character_s, 73
+                   CONSTANT character_t, 74
+                   CONSTANT character_u, 75
+                   CONSTANT character_v, 76
+                   CONSTANT character_w, 77
+                   CONSTANT character_x, 78
+                   CONSTANT character_y, 79
+                   CONSTANT character_z, 7A
+                   CONSTANT character_A, 41
+                   CONSTANT character_B, 42
+                   CONSTANT character_C, 43
+                   CONSTANT character_D, 44
+                   CONSTANT character_E, 45
+                   CONSTANT character_F, 46
+                   CONSTANT character_G, 47
+                   CONSTANT character_H, 48
+                   CONSTANT character_I, 49
+                   CONSTANT character_J, 4A
+                   CONSTANT character_K, 4B
+                   CONSTANT character_L, 4C
+                   CONSTANT character_M, 4D
+                   CONSTANT character_N, 4E
+                   CONSTANT character_O, 4F
+                   CONSTANT character_P, 50
+                   CONSTANT character_Q, 51
+                   CONSTANT character_R, 52
+                   CONSTANT character_S, 53
+                   CONSTANT character_T, 54
+                   CONSTANT character_U, 55
+                   CONSTANT character_V, 56
+                   CONSTANT character_W, 57
+                   CONSTANT character_X, 58
+                   CONSTANT character_Y, 59
+                   CONSTANT character_Z, 5A
+                   CONSTANT character_0, 30
+                   CONSTANT character_1, 31
+                   CONSTANT character_2, 32
+                   CONSTANT character_3, 33
+                   CONSTANT character_4, 34
+                   CONSTANT character_5, 35
+                   CONSTANT character_6, 36
+                   CONSTANT character_7, 37
+                   CONSTANT character_8, 38
+                   CONSTANT character_9, 39
+                   CONSTANT character_colon, 3A
+                   CONSTANT character_stop, 2E
+                   CONSTANT character_semi_colon, 3B
+                   CONSTANT character_minus, 2D
+                   CONSTANT character_divide, 2F            ;'/'
+                   CONSTANT character_plus, 2B
+                   CONSTANT character_comma, 2C
+                   CONSTANT character_less_than, 3C
+                   CONSTANT character_greater_than, 3E
+                   CONSTANT character_equals, 3D
+                   CONSTANT character_space, 20
+                   CONSTANT character_CR, 0D                ;carriage return
+                   CONSTANT character_question, 3F          ;'?'
+                   CONSTANT character_dollar, 24
+                   CONSTANT character_exclaim, 21           ;'!'
+                   CONSTANT character_BS, 08                ;Back Space command character
+                   CONSTANT character_left_bkt, 5B          ; [
+                   CONSTANT character_right_bkt, 5D         ; ]
+                   ; Rename registers for better meaning in this LCD code:
+                   NAMEREG MIDIbyte, reg0
+                   NAMEREG RUNNINGstatus, reg1
+                   NAMEREG MessageTYPE, reg2
+                   NAMEREG MessageCHANNEL, reg3
+                   NAMEREG DATAbyteCOUNT, reg4
+                   NAMEREG DATAbyteCOUNTrunstat, reg5
+SHOW_TITLE_IN_LCD: 
+                   CALL LCD_reset
+                   LOAD reg5, 10                            ;Line 1 position 0
+                   CALL LCD_cursor
+                   LOAD reg5, character_G                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_a                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_t                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_e                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_M                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_a                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_n                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_P                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_o                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_l                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_y                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_divide              ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_8                   ;
+                   CALL LCD_write_data
+                   ; there are 16 locations per LCD line
+                   LOAD reg5, 20                            ;Line 2 position 0
+                   CALL LCD_cursor
+                   LOAD reg5, character_v                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_e                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_r                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_stop                ;
+                   CALL LCD_write_data
+                   INPUT reg5, VERSION
+                   CALL LCD_write_data
+                   LOAD reg5, character_space               ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_space               ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_space               ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_space               ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_space               ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_S                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_c                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_o                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_t                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_t                   ;
+                   CALL LCD_write_data
+                   LOAD reg5, character_G                   ;
+                   CALL LCD_write_data
+                   RETURN 
+                   ;;;;; LCD subroutines:
+       LCD_cursor: TEST reg5, 10                            ;test for line 1
+                   JUMP Z, set_line2
+                   AND reg5, 0F                             ;make address in range 80 to 8F for line 1
+                   OR reg5, 80
+                   CALL LCD_write_inst8                     ;instruction write to set cursor
+                   RETURN 
+        set_line2: AND reg5, 0F                             ;make address in range C0 to CF for line 2
+                   OR reg5, C0
+                   CALL LCD_write_inst8                     ;instruction write to set cursor
+                   RETURN 
+  LCD_write_inst8: LOAD reg4, reg5
+                   AND reg4, F0                             ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+                   OR reg4, LCD_drive                       ;Enable=1
+                   CALL LCD_write_inst4                     ;write upper nibble
+                   CALL delay_1us                           ;wait >1us
+                   LOAD reg4, reg5                          ;select lower nibble with
+                   SL1 reg4                                 ;Enable=1
+                   SL0 reg4                                 ;RS=0 Instruction
+                   SL0 reg4                                 ;RW=0 Write
+                   SL0 reg4                                 ;E=0
+                   CALL LCD_write_inst4                     ;write lower nibble
+                   CALL delay_40us                          ;wait >40us
+                   LOAD reg4, F0                            ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+                   OUTPUT reg4, LCD_output_port             ;Release master enable
+                   RETURN 
+  LCD_write_inst4: AND reg4, F8                             ;Enable=1 RS=0 Instruction, RW=0 Write, E=0
+                   OUTPUT reg4, LCD_output_port             ;set up RS and RW >40ns before enable pulse
+                   CALL LCD_pulse_E
+                   RETURN 
+        LCD_reset: CALL delay_20ms                          ;wait more that 15ms for display to be ready
+                   LOAD reg4, 30
+                   CALL LCD_write_inst4                     ;send '3'
+                   CALL delay_20ms                          ;wait >4.1ms
+                   CALL LCD_write_inst4                     ;send '3'
+                   CALL delay_1ms                           ;wait >100us
+                   CALL LCD_write_inst4                     ;send '3'
+                   CALL delay_40us                          ;wait >40us
+                   LOAD reg4, 20
+                   CALL LCD_write_inst4                     ;send '2'
+                   CALL delay_40us                          ;wait >40us
+                   LOAD reg5, 28                            ;Function set
+                   CALL LCD_write_inst8
+                   LOAD reg5, 06                            ;Entry mode
+                   CALL LCD_write_inst8
+                   LOAD reg5, 0C                            ;Display control
+                   CALL LCD_write_inst8
+        LCD_clear: LOAD reg5, 01                            ;Display clear
+                   CALL LCD_write_inst8
+                   CALL delay_1ms                           ;wait >1.64ms for display to clear
+                   CALL delay_1ms
+                   RETURN 
+   LCD_write_data: LOAD reg4, reg5
+                   AND reg4, F0                             ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+                   OR reg4, 0C                              ;Enable=1 RS=1 Data, RW=0 Write, E=0
+                   OUTPUT reg4, LCD_output_port             ;set up RS and RW >40ns before enable pulse
+                   CALL LCD_pulse_E                         ;write upper nibble
+                   CALL delay_1us                           ;wait >1us
+                   LOAD reg4, reg5                          ;select lower nibble with
+                   SL1 reg4                                 ;Enable=1
+                   SL1 reg4                                 ;RS=1 Data
+                   SL0 reg4                                 ;RW=0 Write
+                   SL0 reg4                                 ;E=0
+                   OUTPUT reg4, LCD_output_port             ;set up RS and RW >40ns before enable pulse
+                   CALL LCD_pulse_E                         ;write lower nibble
+                   CALL delay_40us                          ;wait >40us
+                   LOAD reg4, F0                            ;Enable=0 RS=0 Instruction, RW=0 Write, E=0
+                   OUTPUT reg4, LCD_output_port             ;Release master enable
+                   RETURN 
+      LCD_pulse_E: XOR reg4, LCD_E                          ;E=1
+                   OUTPUT reg4, LCD_output_port
+                   CALL delay_1us
+                   XOR reg4, LCD_E                          ;E=0
+                   OUTPUT reg4, LCD_output_port
+                   RETURN 
+        delay_1us: LOAD reg0, delay_1us_constant
+         wait_1us: SUB reg0, 01
+                   JUMP NZ, wait_1us
+                   RETURN 
+       delay_40us: LOAD reg1, 28                            ;40 x 1us = 40us
+        wait_40us: CALL delay_1us
+                   SUB reg1, 01
+                   JUMP NZ, wait_40us
+                   RETURN 
+        delay_1ms: LOAD reg2, 19                            ;25 x 40us = 1ms
+         wait_1ms: CALL delay_40us
+                   SUB reg2, 01
+                   JUMP NZ, wait_1ms
+                   RETURN 
+       delay_20ms: LOAD reg3, 14                            ;20 x 1ms = 20ms
+        wait_20ms: CALL delay_1ms
+                   SUB reg3, 01
+                   JUMP NZ, wait_20ms
+                   RETURN 
+         delay_1s: LOAD reg4, 32                            ;50 x 20ms = 1000ms
+          wait_1s: CALL delay_20ms
+                   SUB reg4, 01
+                   JUMP NZ, wait_1s
+                   RETURN 
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;; ISR - Handles MIDI and TTY rx data arrivals
+              isr: 
+                   INPUT UARTbyte, UARTstatusport           ; read both UARTs rx status bits
+                   AND UARTbyte, C0                         ; only the bits 6 and 7
+                   OR FLAGS, UARTbyte                       ; save status bits in FLAGS register
+                   TEST FLAGS, MIDI_UARTstatus_bit          ; is the MIDI UART status bit set? 40
+                   JUMP Z, test_TTY                         ; if not, go test the TTY UART status bit
+                   INPUT UARTbyte, MIDIrxdataport           ; MIDI UART status bit was set, update MIDIbyte
+                   STORE UARTbyte, MIDIinputBYTE
+                   OR FLAGS, MIDIbyteAVAILABLE_set          ; Notify idle loop that a new MIDI byte is available
+         test_TTY: 
+                   TEST FLAGS, TTY_UARTstatus_bit           ; is the TTY UART status bit set?  80
+                   JUMP Z, isr_exit                         ; if not, we're done
+                   INPUT UARTbyte, TTYrxdataport            ; TTY UART status bit was set, update MIDIbyte
+                   STORE UARTbyte, TTYinputBYTE
+                   OR FLAGS, TTYbyteAVAILABLE_set           ; Notify idle loop that a new TTY byte is available
+         isr_exit: 
+                   AND FLAGS, 3F                            ; turn off both UART rx status bits
+                   RETURNI ENABLE                           ; return from ISR, enable interrupts
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ;; Interrupt Vector
+                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                   ADDRESS 3FF
+                   JUMP isr

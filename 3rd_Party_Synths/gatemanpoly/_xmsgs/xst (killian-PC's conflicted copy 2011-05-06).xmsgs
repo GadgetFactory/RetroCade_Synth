@@ -1,0 +1,1668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated
+     by the Xilinx ISE software.  Any direct editing or
+     changes made to this file may result in unpredictable
+     behavior or data corruption.  It is strongly advised that
+     users do not edit the contents of this file. -->
+<messages>
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 402:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2268:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 564:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 595:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 718:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 726:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1285:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 493:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 535:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 637:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 709:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 785:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 794:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 833:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 842:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 881:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 890:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 929:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 938:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 977:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 986:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1025:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1034:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1073:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1082:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1121:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1130:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1169:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1178:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1217:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1226:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1313:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1340:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1367:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1394:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1421:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1448:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1475:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1502:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1877:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1886:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1903:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1919:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1934:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1949:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1964:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1979:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1994:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2009:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2024:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2049:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2060:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2086:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2112:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2138:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2164:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2190:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2216:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2242:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2280:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2324:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2333:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2348:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2357:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2372:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2381:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2396:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2405:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2420:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2429:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2444:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2453:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2468:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2477:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2492:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2501:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 444:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 483:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 515:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 525:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 544:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 554:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 580:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 605:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 615:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 666:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 676:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 699:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1270:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1525:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1540:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1722:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1734:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1750:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1766:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1782:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1798:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1814:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1830:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1846:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2307:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2522:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2532:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2548:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2779:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2807:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2835:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2863:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2891:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1295:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1322:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1349:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1376:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1403:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1430:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1457:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1484:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2581:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2600:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2619:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2638:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2657:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2676:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2695:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2714:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2733:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 2752:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1552:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1572:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1592:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1612:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1632:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1652:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1672:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;kcpsm3.v&quot; line 1692:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INITP_00</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INITP_01</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INITP_02</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INITP_03</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INITP_04</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INITP_05</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INITP_06</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INITP_07</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_00</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_01</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_02</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_03</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_04</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_05</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_06</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_07</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_08</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_09</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_0A</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_0B</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_0C</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_0D</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_0E</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_0F</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_10</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_11</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_12</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_13</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_14</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_15</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_16</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_17</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_18</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_19</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_1A</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_1B</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_1C</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_1D</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_1E</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_1F</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_20</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_21</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_22</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_23</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_24</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_25</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_26</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_27</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_28</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_29</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_2A</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_2B</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_2C</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_2D</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_2E</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_2F</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_30</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_31</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_32</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_33</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_34</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_35</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_36</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_37</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_38</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_39</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_3A</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_3B</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_3C</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_3D</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_3E</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 39:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT_3F</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 321:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 339:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 357:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 375:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 393:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 411:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 429:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="2591" delta="new" ><arg fmt="%s" index="1">&quot;MIDICTRL.V&quot; line 447:</arg> <arg fmt="%s" index="2">attribute on instance</arg> &lt;<arg fmt="%s" index="3">INIT</arg>&gt; overrides <arg fmt="%s" index="4">generic/parameter on entity</arg>. It is possible that simulator will not take this attribute into account.
+</msg>
+
+<msg type="warning" file="Xst" num="653" delta="new" >Signal &lt;<arg fmt="%s" index="1">tdo2</arg>&gt; is used but never assigned. This sourceless signal will be automatically connected to value <arg fmt="%s" index="2">0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">shift</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">sel2</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">reset</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">drck2</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">dopa&lt;0&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">doa</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">capture</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">sdo</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="737" delta="new" >Found <arg fmt="%d" index="1">1</arg>-bit latch for signal &lt;<arg fmt="%s" index="2">ck_ena</arg>&gt;. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+</msg>
+
+<msg type="info" file="Xst" num="2371" delta="new" >HDL ADVISOR - Logic functions respectively driving the data and gate enable inputs of this latch share common terms. This situation will potentially lead to setup/hold violations and, as a result, to simulation problems. This situation may come from an incomplete case statement (all selector values are not covered). You should carefully review if it was in your intentions to describe such a latch.
+</msg>
+
+<msg type="warning" file="Xst" num="737" delta="new" >Found <arg fmt="%d" index="1">1</arg>-bit latch for signal &lt;<arg fmt="%s" index="2">dac_cs</arg>&gt;. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+</msg>
+
+<msg type="info" file="Xst" num="2371" delta="new" >HDL ADVISOR - Logic functions respectively driving the data and gate enable inputs of this latch share common terms. This situation will potentially lead to setup/hold violations and, as a result, to simulation problems. This situation may come from an incomplete case statement (all selector values are not covered). You should carefully review if it was in your intentions to describe such a latch.
+</msg>
+
+<msg type="warning" file="Xst" num="647" delta="new" >Input &lt;<arg fmt="%s" index="1">BTN_E</arg>&gt; is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+</msg>
+
+<msg type="warning" file="Xst" num="647" delta="new" >Input &lt;<arg fmt="%s" index="1">BTN_N</arg>&gt; is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+</msg>
+
+<msg type="warning" file="Xst" num="647" delta="new" >Input &lt;<arg fmt="%s" index="1">BTN_W</arg>&gt; is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">svfADSRout&lt;3:0&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">strataflash_we</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">strataflash_oe</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">strataflash_ce</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">spi_sdi</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">spi_sck</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">spi_rom_cs</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">spi_dac_cs</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">spi_dac_clr</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">spi_amp_shdn</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">spi_amp_cs</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">spi_adc_conv</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">sh&lt;14:0&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">rstd&lt;3&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">platformflash_oe</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">led_reg</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">intPhInc&lt;32:30&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">SYNCH</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">SVFsusMDsrc</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">SVFpkMDsrc</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">SVFpk</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">SVFmin</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">SUSTAIN</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">PWM_STAT</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">PWM_MOD_SRC</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">PW</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">P3&lt;16:0&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">P2&lt;16:0&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">P1&lt;16:0&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">P0&lt;16:0&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">NCOreset</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">NCAsusMDsrc</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">NCApeakMDsrc</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">MCU_LED</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">GATEchgd</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="new" >Signal &lt;<arg fmt="%s" index="1">DIAG</arg>&gt; is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">DAC_SHIFTER&lt;8:0&gt;</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">CLKIN_IBUFG_OUT</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="new" >Signal &lt;<arg fmt="%s" index="1">CLK0_OUT</arg>&gt; is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+</msg>
+
+<msg type="info" file="Xst" num="1767" delta="new" >HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">B2_0</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">B2_1</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">B2_2</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">B2_17</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">B3_0</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">B3_1</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">B3_2</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">B3_17</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_2</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_3</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_4</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_5</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_6</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_2</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_3</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_4</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_5</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_6</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_2</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_3</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_4</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_5</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_6</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">in_port_reg_7</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">intPhInc_30</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">intPhInc_31</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">intPhInc_32</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2404" delta="new" > FFs/Latches &lt;<arg fmt="%s" index="1">B3</arg>&lt;<arg fmt="%d" index="2">17</arg>:<arg fmt="%d" index="3">17</arg>&gt;&gt; (without init value) have a constant value of <arg fmt="%c" index="4">0</arg> in block &lt;<arg fmt="%s" index="5">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2404" delta="new" > FFs/Latches &lt;<arg fmt="%s" index="1">B2</arg>&lt;<arg fmt="%d" index="2">17</arg>:<arg fmt="%d" index="3">17</arg>&gt;&gt; (without init value) have a constant value of <arg fmt="%c" index="4">0</arg> in block &lt;<arg fmt="%s" index="5">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_stateRAM</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_OUTregRAM</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_SVF_in</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_OCT</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_NOTE</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_VEL</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_CRSTUN</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_FINTUNhi</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_FINTUNlo</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_LEVhi</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_LEVlo</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_NZmodlo</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_NZmodhi</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_NZbw</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_PWMstatic</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_PWMmdSRC</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_WAVSEL</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_BOOST</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3218" delta="new" >HDL ADVISOR - The RAM &lt;<arg fmt="%s" index="1">Mram_PA</arg>&gt; will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+</msg>
+
+<msg type="info" file="Xst" num="2385" delta="new" >HDL ADVISOR - You can improve the performance of the multiplier <arg fmt="%s" index="1">Mmult_P0</arg> by adding <arg fmt="%d" index="2">1</arg> register level(s).
+</msg>
+
+<msg type="info" file="Xst" num="2385" delta="new" >HDL ADVISOR - You can improve the performance of the multiplier <arg fmt="%s" index="1">Mmult_P3</arg> by adding <arg fmt="%d" index="2">1</arg> register level(s).
+</msg>
+
+<msg type="info" file="Xst" num="2385" delta="new" >HDL ADVISOR - You can improve the performance of the multiplier <arg fmt="%s" index="1">Mmult_P2</arg> by adding <arg fmt="%d" index="2">1</arg> register level(s).
+</msg>
+
+<msg type="info" file="Xst" num="2385" delta="new" >HDL ADVISOR - You can improve the performance of the multiplier <arg fmt="%s" index="1">Mmult_P1</arg> by adding <arg fmt="%d" index="2">1</arg> register level(s).
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_z2</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="3231" delta="new" >The small RAM &lt;<arg fmt="%s" index="1">Mram_z1</arg>&gt; will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+</msg>
+
+<msg type="info" file="Xst" num="2385" delta="new" >HDL ADVISOR - You can improve the performance of the multiplier <arg fmt="%s" index="1">Mmult_m1P</arg> by adding <arg fmt="%d" index="2">1</arg> register level(s).
+</msg>
+
+<msg type="info" file="Xst" num="2385" delta="new" >HDL ADVISOR - You can improve the performance of the multiplier <arg fmt="%s" index="1">Mmult_m0P</arg> by adding <arg fmt="%d" index="2">1</arg> register level(s).
+</msg>
+
+<msg type="info" file="Xst" num="3218" delta="new" >HDL ADVISOR - The RAM &lt;<arg fmt="%s" index="1">Mram_acc1</arg>&gt; will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_7</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_8</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_9</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_10</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_11</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_12</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_13</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_2</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_3</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_4</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_5</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_6</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_2</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_3</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_4</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_5</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_6</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">in_port_reg_7</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">in_port_reg_sliced1_-1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">in_port_reg_sliced1_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_sliced1_-1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">NZMOD_sliced1_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_sliced1_-1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">FINETUNE_sliced1_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_sliced1_-1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">LV_sliced1_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">intPhInc_30</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">intPhInc_31</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">intPhInc_32</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">ser_reg_0</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">spi_dac_out</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="new" >Due to other FF/Latch trimming, FF/Latch &lt;<arg fmt="%s" index="1">ser_reg_1</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">spi_dac_out</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="new" >Due to other FF/Latch trimming, FF/Latch &lt;<arg fmt="%s" index="1">ser_reg_2</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">spi_dac_out</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="new" >Due to other FF/Latch trimming, FF/Latch &lt;<arg fmt="%s" index="1">ser_reg_3</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">spi_dac_out</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">name</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="new" >FF/Latch &lt;<arg fmt="%s" index="1">name2</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">GateManPoly</arg>&gt;. This FF/Latch will be trimmed during the optimization process.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">PAcache_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">PAcache_1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">PAcache_2</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">Mram_PA1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">Mram_PA2</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">Mram_PA3</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">Mram_PA6</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">Mram_PA4</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">Mram_PA5</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">SVF/Mram_z136</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">SVF/z1_cache_35</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="new" >The FF/Latch &lt;<arg fmt="%s" index="1">SVF_ena</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">2 FFs/Latches</arg>, which will be removed : <arg fmt="%s" index="4">&lt;name1&gt; &lt;name3&gt; </arg>
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/dac_cs</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/spi_sck</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/spi_dac_cs</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/spi_sdo</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_23</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_22</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_21</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_20</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_19</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_18</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_17</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_16</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_15</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_14</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_13</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_12</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_11</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_10</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_9</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_8</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_7</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_6</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_5</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="new" >Node &lt;<arg fmt="%s" index="1">DAC/ser_reg_4</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">GateManPoly</arg>&gt;.
+</msg>
+
+<msg type="info" file="Xst" num="2169" delta="new" >HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/count_lut_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/count_lut_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/count_lut_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/count_lut_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/count_lut_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_9</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_8</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/stack_bit_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/read_active_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/write_active_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/io_decode_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/mux_lut_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/or_lut_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/mux_lut_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/or_lut_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/mux_lut_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/or_lut_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/mux_lut_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/or_lut_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/mux_lut_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/or_lut_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/mux_lut_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/or_lut_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/mux_lut_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/or_lut_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/mux_lut_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/or_lut_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/input_fetch_type_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_lut_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_carry_out_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_lut_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_lut_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_lut_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_lut_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_lut_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_lut_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_lut_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/arith_carry_in_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/sel_arith_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_mux_lut_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_mux_lut_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_mux_lut_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_mux_lut_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_mux_lut_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_mux_lut_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_mux_lut_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_mux_lut_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/shift_carry_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/low_shift_in_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/high_shift_in_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/logical_lut_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/logical_lut_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/logical_lut_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/logical_lut_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/logical_lut_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/logical_lut_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/logical_lut_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/logical_lut_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/sel_logical_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_bit_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_bit_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_bit_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_bit_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_bit_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_bit_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_bit_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_bit_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_enable_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/memory_type_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/operand_select_mux_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/reg_loop_register_bit_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/operand_select_mux_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/reg_loop_register_bit_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/operand_select_mux_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/reg_loop_register_bit_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/operand_select_mux_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/reg_loop_register_bit_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/operand_select_mux_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/reg_loop_register_bit_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/operand_select_mux_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/reg_loop_register_bit_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/operand_select_mux_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/reg_loop_register_bit_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/operand_select_mux_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/reg_loop_register_bit_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/register_enable_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/register_type_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_9</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_9</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_8</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_8</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_1</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/value_select_mux_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/vector_select_mux_0</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/sel_shadow_carry_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/sel_shift_carry_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/sel_arith_carry_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/sel_parity_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/high_parity_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/low_parity_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/sel_shadow_zero_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/high_zero_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/low_zero_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/flag_enable_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/flag_type_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/valid_move_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/push_pop_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/call_type_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/normal_count_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/condition_met_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/move_group_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/int_value_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/int_update_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/int_pulse_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">MCU0/t_state_lut</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">PSM_ROM0/srlC8</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">PSM_ROM0/srlC7</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">PSM_ROM0/srlC6</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">PSM_ROM0/srlC5</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">PSM_ROM0/srlC4</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">PSM_ROM0/srlC3</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">PSM_ROM0/srlC2</arg>.
+</msg>
+
+<msg type="warning" file="Xst" num="616" delta="new" >Invalid property &quot;<arg fmt="%s" index="1">XC_PROPS</arg> <arg fmt="%s" index="2">INIT</arg>&quot;: Did not attach to <arg fmt="%s" index="3">PSM_ROM0/srlC1</arg>.
+</msg>
+
+</messages>
+

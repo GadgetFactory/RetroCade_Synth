@@ -1,0 +1,94 @@
+#
+# Period constraint for 32MHz operation
+#
+NET "CLKIN_IN" PERIOD = 31.25ns HIGH 50 %;
+#
+# soldered 32MHz Clock.
+#
+NET "CLKIN_IN" LOC = "P94" | IOSTANDARD = LVTTL;
+#
+NET "CLKIN_IN" TNM_NET = "CLKIN_IN";
+#
+# Simple LEDs
+# Require only 3.5mA.
+# BL
+NET "led<0>" LOC = "P48" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
+NET "led<1>" LOC = "P51" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
+NET "led<2>" LOC = "P56" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
+NET "led<3>" LOC = "P58" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
+NET "led<4>" LOC = "P61" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
+NET "led<5>" LOC = "P66" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
+NET "led<6>" LOC = "P67"  | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
+NET "led<7>" LOC = "P75"  | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
+#
+# Rotary encoder.
+#   Rotation contacts require pull UP resistors to provide High level.
+#   Press contact requires pull DOWN resistor to provide Low when not pressed..
+#
+#NET "ROTa"     LOC = "K18" | IOSTANDARD = LVTTL | PULLUP;
+#NET "ROTb"     LOC = "G18" | IOSTANDARD = LVTTL | PULLUP;
+#NET "ROTpress" LOC = "V16" | IOSTANDARD = LVTTL | PULLDOWN;
+#
+# SPI devices
+#
+#NET "spi_sck"      LOC = "P58" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 8;
+#NET "spi_sdi"      LOC = "P54"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 8;
+#NET "spi_sdo"      LOC = "P41" | IOSTANDARD = LVCMOS33;
+#NET "spi_rom_cs"   LOC = "P36"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 8;
+#NET "spi_amp_cs"   LOC = "P34"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 8;
+#NET "spi_adc_conv" LOC = "P32" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 8;
+#NET "spi_dac_cs"   LOC = "P25"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 8;
+#NET "spi_amp_shdn" LOC = "P22"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 8;
+#NET "spi_dac_clr"  LOC = "P91"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 8;
+#
+# Strata Flash (need to disable to use SDO signal of the SPI bus)
+#
+#NET "strataflash_oe" LOC = "P92" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+#NET "strataflash_ce" LOC = "P94" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+#NET "strataflash_we" LOC = "P95" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+#
+# Platform Flash (need to disable to use SDO signal of the SPI bus)
+# BH
+NET "deltaS_out" LOC = "P97" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8;  #W2C<4>
+//NET "deltaS_out_plus" LOC = "P40" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8;  #W2C<4>
+#
+# Simple switches for MIDI Channel
+#   Pull UP resistors used to stop floating condition during switching.
+#
+#NET "SW<0>" LOC = "P2" | IOSTANDARD = LVTTL | PULLUP;
+#NET "SW<1>" LOC = "P3" | IOSTANDARD = LVTTL | PULLUP;
+#NET "SW<2>" LOC = "P4" | IOSTANDARD = LVTTL | PULLUP;
+#NET "SW<3>" LOC = "P5" | IOSTANDARD = LVTTL | PULLUP;
+#
+# PUshbuttons surrounding Rotary Encoder
+# CL
+NET "BTN_E" LOC = "P59" | IOSTANDARD = LVTTL  ;
+NET "BTN_N" LOC = "P50" | IOSTANDARD = LVTTL  ;
+NET "BTN_S" LOC = "P55" | IOSTANDARD = LVTTL  ;
+NET "BTN_W" LOC = "P57" | IOSTANDARD = LVTTL  ;
+#
+# MIDI Input from 6N138 FX2_IO12
+# CH Wing Slot
+NET "Raw_MIDI_In" LOC = "P115" | IOSTANDARD = LVTTL ;		#CH Wing Slot
+#
+# DCE serial connections
+NET "TTY_In" LOC = "P105" | IOSTANDARD = LVTTL ; 	
+# For LCD:
+#
+# LCD display
+# Very slow so can use lowest drive strength. 
+#	Wing Slot AH
+NET "lcd_contrast" LOC = "P133" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+NET "lcd_rs"   LOC = "P62" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+NET "lcd_rw"   LOC = "P95" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+NET "lcd_e"    LOC = "P74" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+NET "lcd_d<4>" LOC = "P78" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+NET "lcd_d<5>" LOC = "P80" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+NET "lcd_d<6>" LOC = "P82" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+NET "lcd_d<7>" LOC = "P84" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 2;
+#
+# config pin, J1 pin 1
+#NET "cfg" LOC = "B4" | IOSTANDARD = LVTTL ;
+#
+# End of File
+#
