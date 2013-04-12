@@ -86,6 +86,7 @@ ChangeLog:
 #include "SmallFS.h"
 #include <LiquidCrystal.h>
 #include <SD.h>
+#include "VolumeController.h"
 
 byte lastpitch[8];
 File root;
@@ -99,9 +100,13 @@ RETROCADE retrocade;
 //SID sid;
 
 void setup(){
+  int input;
   Serial.begin(115200);
   Serial1.begin(31250);
 
+  for (input=0; input<8; input++) {
+      VolumeController.set(input, 255, 255);
+  }
   //Setup pins for RetroCade MegaWing
   retrocade.setupMegaWing(); 
   
