@@ -92,7 +92,7 @@ byte lastpitch[8];
 File root;
 
 #undef DO_CHECKS
-//#define DEBUG
+#define DEBUG
 
 //Instantiate the objects we will be using.
 RETROCADE retrocade;
@@ -104,16 +104,19 @@ void setup(){
   Serial.begin(115200);
   Serial1.begin(31250);
 
-  for (input=0; input<8; input++) {
-      VolumeController.set(input, 255, 255);
-  }
+  VolumeController.set(1, 65535, 65535);
+  VolumeController.set(2, 0, 65535);
+
+  /*for (input=0; input<8; input++) {
+      VolumeController.set(input, 65535, 65535);
+  } */
   //Setup pins for RetroCade MegaWing
   retrocade.setupMegaWing(); 
   
   ///Give some volume
-  retrocade.ym2149.V1.setVolume(11);
-  retrocade.ym2149.V2.setVolume(11);
-  retrocade.ym2149.V3.setVolume(11);   
+  retrocade.ym2149.V1.setVolume(15);
+  retrocade.ym2149.V2.setVolume(15);
+  retrocade.ym2149.V3.setVolume(15);
   retrocade.sid.setVolume(15);
 
   //Select an instrument for each SID Voice.
@@ -128,8 +131,8 @@ void setup(){
   MIDI.setHandleNoteOn(HandleNoteOn); // Put only the name of the function
   MIDI.setHandleControlChange(HandleControlChange); // Put only the name of the function
   MIDI.setHandleNoteOff(HandleNoteOff); // Put only the name of the function
-// MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
- MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
+  // MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
+  MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
   
   retrocade.modplayer.setup();
   retrocade.ymplayer.setup(&retrocade.ym2149); 
