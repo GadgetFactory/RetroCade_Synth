@@ -56,6 +56,34 @@ void YMVoice::setBase(int freqAddress, int volumeAddress)
   YM_ADDR_LEVEL = volumeAddress; 
 }
 
+/*!
+@par Description
+Set a voice to a MIDI Note
+@par Syntax
+ym2149.V1.setNote(note, active)\n
+ym2149.V2.setNote(note, active)\n
+ym2149.V3.setNote(note, active)
+
+@param note The MIDI note to use
+@param active Whether to activate the gate and play the note. 1 plays the note 0 does not
+
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	ym2149.V1.setNote(51, 1)
+	ym2149.V2.setNote(52, 1)
+	ym2149.V3.setNote(53, 1)
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YMVoice::setNote(int note, boolean active)
 {
   //setTone(active);
@@ -64,17 +92,72 @@ void YMVoice::setNote(int note, boolean active)
   currentFreq = YM2149::MIDI2freq[note];
 }
 
+/*!
+@par Description
+Set the frequency of the YM2149 voice
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![Freq] (freq1.png)
+![Freq] (freq2.png)
+@par Syntax
+ym2149.V1.setFreq(freq)\n
+ym2149.V2.setFreq(freq)\n
+ym2149.V3.setFreq(freq)
+
+@param freq The frequency to use for the voice.
+
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	ym2149.V1.setFreq(6207)
+	ym2149.V2.setFreq(6577)
+	ym2149.V3.setFreq(6968)
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YMVoice::setFreq(int freq)
 {
   YM2149::writeData(YM_ADDR_FREQ, freq);
   YM2149::writeData(YM_ADDR_FREQ+1, (freq >> 8));  
 }
 
+/*!
+@par Description
+Return what the current frequency is set to.
+@par Syntax
+int frequency = ym2149.V1.getCurrentFreq()
+@par Returns
+the frequency of the voice (int)
+
+\n
+*/
 int YMVoice::getCurrentFreq()
 {
   return currentFreq;
 }
 
+/*!
+@par Description
+Sets the Noise bit of the control register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![Noise] (noise.png)
+
+@par Syntax
+ym2149.V1.setNoise(active)
+
+@param active 1 on 0 turns off
+
+\n
+*/
 void YMVoice::setNoise(boolean active)
 {
   switch (YM_ADDR_FREQ) { 
@@ -94,12 +177,40 @@ void YMVoice::setNoise(boolean active)
   YM2149REG(YM_ADDR_MIXER) = *(char*)&YM_REG_MIXER;
 }
 
+/*!
+@par Description
+Sets the Envelope bit of the level register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![Envelope] (level.png)
+
+@par Syntax
+ym2149.V1.setEnvelope(active)
+
+@param active 1 on 0 turns off
+
+\n
+*/
 void YMVoice::setEnvelope(boolean active)
 {
       YM_REG_LEVEL.MODE = active;
       YM2149REG(YM_ADDR_LEVEL) = *(char*)&YM_REG_LEVEL;  
 }
 
+/*!
+@par Description
+Sets the Tone bit of the Mixer register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![Tone] (mixer.png)
+
+@par Syntax
+ym2149.V1.setTone(active)
+
+@param active 1 on 0 turns off
+
+\n
+*/
 void YMVoice::setTone(boolean active)
 {
   int tmp;
@@ -125,6 +236,34 @@ void YMVoice::setTone(boolean active)
   //Serial.println(*(char*)&YM_REG_MIXER, BIN);
 }
 
+/*!
+@par Description
+Sets the Volume bit of the level register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![Volume] (level.png)
+
+@par Syntax
+ym2149.V1.setVolume(volume)
+
+@param volume byte from 0 to 15 sets the volume, 15 is loudest.
+
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	//Turn volume to the max value
+	ym2149.setVolume(15);
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YMVoice::setVolume(byte volume)
 {
   YM_REG_LEVEL.LEVEL = volume;   
@@ -132,11 +271,47 @@ void YMVoice::setVolume(byte volume)
   //YM2149::writeData(YM_ADDR_LEVEL, volume & 0x0f);
 }
 
+/*!
+@par Description
+Return what the current volume is set to.
+@par Syntax
+int frequency = ym2149.V1.getVolume()
+@par Returns
+the volume of the voice (int)
+
+\n
+*/
 byte YMVoice::getVolume()
 {
   return YM_REG_LEVEL.LEVEL;
 }
 
+/*!
+@par Description
+Reset a specific voice to zeroes.
+@par Syntax
+ym2149.V1.reset()
+ym2149.V2.reset()
+ym2149.V3.reset()
+@par Parameters
+none
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	ym2149.V1.reset();
+	ym2149.V2.reset();
+	ym2149.V3.reset();
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YMVoice::reset()
 {
   //set frequency to no freq
@@ -192,6 +367,37 @@ void YMVoice::handleCC(byte number, byte value)
   }     
 }
 
+/*!
+@par Description
+	Contructor that creates an instance of the YM2149 object that contains three YM2149Voice objects. V1, V2, V3 
+These objects are used to interact with and control the registers for the YM2149 hardware implemented inside the Papilio FPGA board.
+Calling this contructor will initialize the YM2149 and YM2149Voice objects to their default values.
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+A list of the YM2149 Registers:
+![Register] (registers.png)
+@par Syntax
+	YM2149()
+@par Parameters
+	none
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	ym2149.setVolume(15);
+	ym2149.V1.setNote(51, 1);
+	ym2149.V2.setNote(51, 1);
+	ym2149.V3.setNote(51, 1);	
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 YM2149::YM2149(){  
   V1.setBase(YM_ADDR_FREQ_A, YM_ADDR_LEVEL_A);
   V2.setBase(YM_ADDR_FREQ_B, YM_ADDR_LEVEL_B);
@@ -199,16 +405,68 @@ YM2149::YM2149(){
   reset();
 }
 
+/*!
+@par Description
+Use this public function to bypass the YM2149 and YM2149Voice functions and write directly to the registers of the YM2149 hardware.
+@par Syntax
+YM2149::writeData(address, data)
+@param address the address from the YM2149 datasheet for the register you want to write to.
+@param data what you want to write to the YM2149 register
+
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	//This will set Voice 1 Freq Lo to 0
+	YM2149::writeData(0, 0);
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YM2149::writeData(unsigned char address, unsigned char data)
 {
   YM2149REG(address) = data;
 }
 
+/*!
+@par Description
+Sets the Noise frequency bits of the Noise Frequency register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![noise] (noise.png)
+
+@par Syntax
+ym2149.V1.setNoiseFrequency(freq)
+
+@param freq 5 bit noise frequency
+
+\n
+*/
 void YM2149::setNoiseFrequency(byte freq)
 {    
   writeData(YM_ADDR_NOISE, freq);
 }
 
+/*!
+@par Description
+Sets the 16 bit Envelope Frequency registers
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![envelope] (envelope.png)
+
+@par Syntax
+ym2149.V1.setEnvelopeFrequency(freq)
+
+@param freq 16 bit Envelope Frequency
+
+\n
+*/
 void YM2149::setEnvelopeFrequency(int freq)
 {    
   writeData(YM_ADDR_FREQ_E, freq);
@@ -225,30 +483,112 @@ void YM2149::setEnvelopeFrequencyHi(byte freq)
   writeData(YM_ADDR_FREQ_E+1, (freq >> 8));
 }
 
+/*!
+@par Description
+Sets the CONT bit of the Envelope Shape Register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![envelope] (envshape1.png)
+![envelope] (envshape2.png)
+
+@par Syntax
+ym2149.V1.setEnvelopeCONT(active)
+
+@param active 1 for on 0 for off
+
+\n
+*/
 void YM2149::setEnvelopeCONT(boolean active)
 {
   YM_REG_ENVSHAPE.CONT = active; 
   YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
 }
 
+/*!
+@par Description
+Sets the ATT bit of the Envelope Shape Register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![envelope] (envshape1.png)
+![envelope] (envshape2.png)
+
+@par Syntax
+ym2149.V1.setEnvelopeATT(active)
+
+@param active 1 for on 0 for off
+
+\n
+*/
 void YM2149::setEnvelopeATT(boolean active)
 {
   YM_REG_ENVSHAPE.ATT = active; 
   YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
 }
 
+/*!
+@par Description
+Sets the ALT bit of the Envelope Shape Register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![envelope] (envshape1.png)
+![envelope] (envshape2.png)
+
+@par Syntax
+ym2149.V1.setEnvelopeALT(active)
+
+@param active 1 for on 0 for off
+
+\n
+*/
 void YM2149::setEnvelopeALT(boolean active)
 {
   YM_REG_ENVSHAPE.ALT = active; 
   YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
 }
 
+/*!
+@par Description
+Sets the HOLD bit of the Envelope Shape Register
+@par Datasheet
+[From Datasheet] (https://github.com/GadgetFactory/RetroCade_Synth/blob/master/docs/ym2149.pdf?raw=true)\n
+![envelope] (envshape1.png)
+![envelope] (envshape2.png)
+
+@par Syntax
+ym2149.V1.setEnvelopeHOLD(active)
+
+@param active 1 for on 0 for off
+
+\n
+*/
 void YM2149::setEnvelopeHOLD(boolean active)
 {
   YM_REG_ENVSHAPE.HOLD = active; 
   YM2149REG(YM_ADDR_SHAPE_E) = *(char*)&YM_REG_ENVSHAPE;
 }
 
+/*!
+@par Description
+Set all YM2149 registers to their default values.
+@par Syntax
+ym2149.reset()
+@par Parameters
+none
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	ym2149.reset();
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YM2149::reset(){
   //no noise 
   writeData(YM_ADDR_NOISE, 0x00);

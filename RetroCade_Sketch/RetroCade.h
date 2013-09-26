@@ -20,6 +20,7 @@
 #include "SmallFS.h"
 #include "modplayer.h"
 #include "ymplayer.h"
+#include "sidplayer.h"
 #include "SID.h"
 #include "YM2149.h"
 
@@ -61,16 +62,17 @@ enum kButtonDirection {
 	Left                = 0, 
 	Right               = 1,  
 	Up                  = 2,  
-        Down                = 3,  
+    Down                = 3,  
 	Select              = 4,
-        None                = 5
+    None                = 5
 };
 
 class RETROCADE
 { 
   public:
    YMPLAYER ymplayer;
-   MODPLAYER modplayer; 
+   MODPLAYER modplayer;
+   SIDPLAYER sidplayer;
    YM2149 ym2149;
    SID sid;   
    void setupMegaWing(); 
@@ -88,7 +90,8 @@ class RETROCADE
    void smallfsModFileJoystick(byte type);
    void instrumentJoystick();
    void modFileJoystick();
-   void ymFileJoystick();   
+   void ymFileJoystick(); 
+   void sidFileJoystick(); 
    byte lcdMode;
    kButtonDirection buttonPressed;
    byte activeChannel;

@@ -18,6 +18,29 @@ YMPLAYER::YMPLAYER(){
   
 }
  
+/*!
+@par Description
+Initialize the YMPlayer
+@par Syntax
+ymplayer.setup(ym)
+@param YM2149 Pointer to a YM2149 object
+
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+#include "ymplayer.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	ymplayer.setup(&ym2149);
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YMPLAYER::setup(YM2149* ym){    
   //underruns = 0;
   timerTicks = 0;
@@ -29,6 +52,31 @@ void YMPLAYER::setup(YM2149* ym){
   volumeAdjust = 4;
 }
 
+/*!
+@par Description
+Load a ym file from smallfs or a SD card. The provided file name will be searched for in the smallfs filesystem first and the SD file system second. If the filename exists in both locations the SD version will override the smallfs version.
+@par Syntax
+ymplayer.loadFile(name)
+@param name filename of the ym file to open.
+
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+#include "ymplayer.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	ymplayer.setup(&ym2149);
+	ymplayer.loadFile("track1.ymd");
+	ymplayer.play(true);
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YMPLAYER::loadFile(const char* name)
 {
   ymSDfile.close();
@@ -48,6 +96,31 @@ void YMPLAYER::loadFile(const char* name)
   }
 }
 
+/*!
+@par Description
+Play a ym file after it has been loaded.
+@par Syntax
+ymplayer.play(play)
+@param play Will play the file if set to 1 or true. 
+
+@par Example
+~~~~~~~~{.c}
+#include "YM2149.h"
+#include "ymplayer.h"
+
+YM2149 ym2149;
+
+void setup()
+{
+	ymplayer.setup(&ym2149);
+	ymplayer.loadFile("track1.ymd");
+	ymplayer.play(true);
+}
+
+void loop() {}
+~~~~~~~~
+\n
+*/
 void YMPLAYER::play(boolean play)
 {
   boolean smallfscheck = ymSmallFSfile.valid();
