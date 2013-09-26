@@ -2,6 +2,8 @@ This is a snapshot of the ZPUino RetroCade Variant.
 
 The Gadget Factory branch of the ZPUino RetroCade Source code is located at:
 https://github.com/GadgetFactory/ZPUino-HDL
+or
+https://github.com/GadgetFactory/Papilio-SOC
 
 Alvaro's official ZPUino repository is at:
 https://github.com/alvieboy/ZPUino-HDL

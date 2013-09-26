@@ -21,6 +21,10 @@ http://www.gadgetfactory.net
 License: GPL
 
 ChangeLog:
+9/26/2013       Version 1.1
+        -Added SID Analog Filters!!!!!!!!  Thanks to Alvie for writing the VHDL code.
+        -Added SidPlayer library to process SID files from smallFS and SD Cards. Thanks to Alvie for porting to the ZPUino.
+
 1/9/2013        Version 1.02
         -NoteOff fix from Lee O'D
 
@@ -86,7 +90,7 @@ ChangeLog:
 #include "SmallFS.h"
 #include <LiquidCrystal.h>
 #include <SD.h>
-#include "VolumeController.h"
+//#include "VolumeController.h"
 #include "ymplayer.h"
 #include "modplayer.h"
 #include "ramFS.h"
@@ -112,9 +116,9 @@ void setup(){
   Serial.begin(115200);
   Serial1.begin(31250);
 
-  for (input=0; input<8; input++) {
-      VolumeController.set(input, 255, 255);
-  }
+//  for (input=0; input<8; input++) {
+//      VolumeController.set(input, 255, 255);
+//  }
   //Setup pins for RetroCade MegaWing
   retrocade.setupMegaWing(); 
   

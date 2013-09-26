@@ -8,6 +8,10 @@ Requirements:
   *You must have FlowStone installed to modify the Dashboard. The free version can be downloaded from: http://www.dsprobotics.com/download.php
   
 ChangeLog:
+9/26/2013       Version 1.1
+        -Added SID Analog Filters!!!!!!!!  Thanks to Alvie for writing the VHDL code.
+        -Added SidPlayer library to process SID files from smallFS and SD Cards. Thanks to Alvie for porting to the ZPUino.
+
 1/9/2013        Version 1.02
         -NoteOff fix from Lee O'D
 		
