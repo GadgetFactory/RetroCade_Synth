@@ -11,10 +11,14 @@
  #include "LiquidCrystal.h"
  #include "binary.h"
  #include "spaceinvaders.h"
+ #include "SPIADC.h"
+ #include "SPI.h"
+
  
 #define FREQ 17000          //Freq for modplayer 
 #define TIMEOUTMAX 7000    //Timeout for joystick 
 #define INVADERSTIMERMAX 2000    //Timeout for LCD 
+#define ANALOGTIMERMAX 12000    //Timeout for Analog Read 
 
 //Defines for lcdMode
 #define WELCOME 0
@@ -26,8 +30,9 @@
 #define SMALLFSSIDFILE 6
 #define YMFILE 7
 #define SMALLFSYMFILE 8
-#define ABOUT 9
-#define LCDMODEMAX 10
+#define ANALOG 9
+#define ABOUT 10
+#define LCDMODEMAX 11
 
 char smallfsModTrack[] = "track1.mod";
 //char smallfsYmTrack[] = "track1.mod";
@@ -46,12 +51,16 @@ char sidInstrumentName[SIDINSTRUMENTS][20]=        //TODO: Goofy way to do this,
  
 LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);
 
+Sd2Card card;
+
 void RETROCADE::setupMegaWing()
 {
   activeChannel = 0;
+  analogChannel = 0;
   activeInstrument = 0;
   smallfsActiveTrack = 0;
   timeout = TIMEOUTMAX;
+  analogTimeout = ANALOGTIMERMAX;
   smallFs = false;
   sdFs = false;
   invadersCurLoc = 0;
@@ -59,39 +68,6 @@ void RETROCADE::setupMegaWing()
   invadersTimer = INVADERSTIMERMAX;
   lcdMode = WELCOME;
   buttonPressed = None;
-  
-
-  SIGMADELTACTL=0x3;
-  //Move the audio output to the appropriate pins on the Papilio Hardware
-  pinMode(AUDIO_J1_L,OUTPUT);
-  digitalWrite(AUDIO_J1_L,HIGH);
-  //outputPinForFunction(AUDIO_J1_L, IOPIN_SIGMADELTA0);
-  outputPinForFunction(AUDIO_J1_L, 5);
-  pinModePPS(AUDIO_J1_L, HIGH);
-
-  pinMode(AUDIO_J1_R,OUTPUT);
-  digitalWrite(AUDIO_J1_R,HIGH);
-  outputPinForFunction(AUDIO_J1_R, 5);
-  //outputPinForFunction(AUDIO_J1_R, IOPIN_SIGMADELTA1);
-  pinModePPS(AUDIO_J1_R, HIGH);
-  
-  pinMode(AUDIO_J2_L,OUTPUT);
-  digitalWrite(AUDIO_J2_L,HIGH);
-  outputPinForFunction(AUDIO_J2_L, 8);
-  pinModePPS(AUDIO_J2_L, HIGH);
-
-  pinMode(AUDIO_J2_R,OUTPUT);
-  digitalWrite(AUDIO_J2_R,HIGH);
-  outputPinForFunction(AUDIO_J2_R, 8);
-  pinModePPS(AUDIO_J2_R, HIGH);
-  
-  //Move the second serial port pin to where we need it, this is for MIDI input.
-  pinMode(SERIAL1RXPIN,INPUT);
-  inputPinForFunction(SERIAL1RXPIN, 1);
-  pinMode(SERIAL1TXPIN,OUTPUT);
-  //digitalWrite(SERIAL1TXPIN,HIGH);
-  outputPinForFunction(SERIAL1TXPIN, 6);
-  pinModePPS(SERIAL1TXPIN, HIGH);
  
    //Start SmallFS
   if (SmallFS.begin()<0) {
@@ -113,55 +89,30 @@ void RETROCADE::setupMegaWing()
   pinMode(JRIGHT, INPUT);  
  
   //Setup LCD
-  pinMode(WING_C_14, OUTPUT);     //Set contrast to GND
-  digitalWrite(WING_C_14, LOW);   //Set contrast to GND    
+//  pinMode(WING_C_14, OUTPUT);     //Set contrast to GND    SOME LCD's need this setting and some need to be set as an input.
+//  digitalWrite(WING_C_14, LOW);   //Set contrast to GND    
+  
+  pinMode(WING_C_14, INPUT);     //Set contrast to GND   
+  
  // set up the LCD's number of columns and rows:
  lcd.begin(16,2);
  // clear the LCD screen:
  lcd.clear();
-
- //Setup timer for YM and mod players, this generates an interrupt at 1700hz
-  TMR0CTL = 0;
-  TMR0CNT = 0;
-  TMR0CMP = ((CLK_FREQ/2) / FREQ )- 1;
-  TMR0CTL = _BV(TCTLENA)|_BV(TCTLCCM)|_BV(TCTLDIR)|
-  	_BV(TCTLCP0) | _BV(TCTLIEN);
-  INTRMASK = BIT(INTRLINE_TIMER0); // Enable Timer0 interrupt
-  INTRCTL=1;    
+  
+  //Setup Analog SPI ADC devices
+  analog.begin(CS(WING_C_9),WISHBONESLOT(8),ADCBITS(SPIADC_8BIT));
+  analog1.begin(CS(WING_C_5),WISHBONESLOT(6),ADCBITS(SPIADC_8BIT));
 
 }
 
 void RETROCADE::initSD()
 {
-  int i;
-  USPICTL=BIT(SPICP1)|BIT(SPICPOL)|BIT(SPISRE)|BIT(SPIEN)|BIT(SPIBLOCK);
-  outputPinForFunction( SDIPIN, IOPIN_USPI_MOSI );
-  pinModePPS(SDIPIN,HIGH);
-  pinMode(SDIPIN,OUTPUT);
-
-  outputPinForFunction( SCKPIN, IOPIN_USPI_SCK);
-  pinModePPS(SCKPIN,HIGH);
-  pinMode(SCKPIN,OUTPUT);
-
-  pinModePPS(CSPIN,LOW);
-  pinMode(CSPIN,OUTPUT);
-
-  inputPinForFunction( SDOPIN, IOPIN_USPI_MISO );
-  pinMode(SDOPIN,INPUT);    
-
+  
   Serial.println("Starting SD Card");
   
-	digitalWrite(CSPIN,HIGH);
+  pinMode(CSPIN,OUTPUT);
 
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;
-
-	digitalWrite(CSPIN,LOW);
-
-	for (i=0;i<51200;i++)
-		USPIDATA=0xff;  
-
-  if (!SD.begin(CSPIN)) {
+  if (!SD.begin(CSPIN,SDWISHBONESLOT)) {
 	Serial.println("init failed!");
 	Serial.println(SD.errorCode());
         sdFs = false;
@@ -177,7 +128,9 @@ void RETROCADE::setTimeout()
   if (timeout!=0)
     timeout--;  
   if (invadersTimer!=0)
-    invadersTimer--;      
+    invadersTimer--;
+  if (analogTimeout!=0)
+    analogTimeout--;    
 }
 
 byte RETROCADE::getActiveChannel()
@@ -213,24 +166,10 @@ void RETROCADE::handleJoystick()
   if (buttonPressed < 5) {
     switch (lcdMode) {
       case WELCOME:
-        lcd.clear();
-        lcd.setCursor(0,1);
-        lcd.print("RetroCade Synth");        
+          welcomeJoystick();       
         break;
       case CHANNEL:
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("Channel");
-        if (buttonPressed == Up) {
-          if (activeChannel<7)
-            activeChannel++;  
-        }        
-        if (buttonPressed == Down) {
-          if (activeChannel!=0)
-            activeChannel--; 
-        }            
-        lcd.setCursor(0,1);
-        lcd.print(activeChannel);        
+         channelJoystick();       
         break;
       case INSTRUMENT:
         instrumentJoystick();
@@ -250,17 +189,15 @@ void RETROCADE::handleJoystick()
         break; 		
       case YMFILE:
         ymFileJoystick();
-        break; 
+        break;       
       case SMALLFSYMFILE:   
         smallfsModFileJoystick(1);
+        break;  
+      case ANALOG:
+        analogJoystick();
         break;           
       case ABOUT:
-        smallfsActiveTrack = 0;
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("RetroCade Synth");          
-        lcd.setCursor(0,1);
-        lcd.print("Version: 1.1");          
+        aboutJoystick();         
         break;        
       default:
         //return;
@@ -363,6 +300,56 @@ void RETROCADE::instrumentJoystick()
   lcd.print(sidInstrumentName[activeInstrument]);     
 }
 
+void RETROCADE::analogJoystick() 
+{
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Analog");
+  if (buttonPressed == Up) {
+    if (analogChannel<16)
+      analogChannel++;  
+  }        
+  if (buttonPressed == Down) {
+    if (analogChannel!=0)
+      analogChannel--; 
+  }            
+  lcd.setCursor(0,1);
+  lcd.print(analogChannel);    
+}
+
+void RETROCADE::channelJoystick() 
+{
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Channel");
+  if (buttonPressed == Up) {
+    if (activeChannel<7)
+      activeChannel++;  
+  }        
+  if (buttonPressed == Down) {
+    if (activeChannel!=0)
+      activeChannel--; 
+  }            
+  lcd.setCursor(0,1);
+  lcd.print(activeChannel);      
+}
+
+void RETROCADE::welcomeJoystick() 
+{
+  lcd.clear();
+  lcd.setCursor(0,1);
+  lcd.print("RetroCade Synth");      
+}
+
+void RETROCADE::aboutJoystick() 
+{
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("RetroCade Synth");          
+  lcd.setCursor(0,1);
+  lcd.print("Version: 1.3");      
+}
+
 void RETROCADE::smallfsModFileJoystick(byte type) 
 {
 //  char smallfsModTrack[] = "track1.mod";
@@ -399,33 +386,54 @@ void RETROCADE::smallfsModFileJoystick(byte type)
     lcd.print(smallfsModTrack);
   }      
   if (buttonPressed == Up) {
-//    if (type == 0)    
-      modplayer.play(false);
-//    if (type == 1)
-      ymplayer.play(false);
-	  sidplayer.play(false);
-	  sid.reset();
-	  ym2149.reset();
-    lcd.setCursor(0,1);   
-    lcd.print("Stop Track");    
+    if (smallfsActiveTrack>1) {
+      smallfsActiveTrack--;
+      smallfsModTrack[5] = (0x30 + smallfsActiveTrack );
+    }
+    else {
+      smallfsActiveTrack=9;
+      smallfsModTrack[5] = (0x30 + smallfsActiveTrack );
+    }
+    lcd.setCursor(0,1); 
+    lcd.print(smallfsModTrack);    
+////    if (type == 0)    
+//    modplayer.play(false);
+////    if (type == 1)
+//    ymplayer.play(false);
+//    sidplayer.play(false);
+//    sid.reset();
+//    ym2149.reset();
+//    lcd.setCursor(0,1);   
+//    lcd.print("Stop Track");    
   }            
   if (buttonPressed == Select) {
+    boolean playing;
     Serial.println("Select Pressed");
     Serial.println(smallfsModTrack);
     if (type == 0){    
       modplayer.loadFile(smallfsModTrack);
-      modplayer.play(true);  
+      playing = !modplayer.getPlaying();  //Every time select is pressed we toggle the playing state.
+      modplayer.play(playing);       
     }
     if (type == 1){
       ymplayer.loadFile(smallfsModTrack);
-      ymplayer.play(true);  
+      playing = !ymplayer.getPlaying();  //Every time select is pressed we toggle the playing state.
+      ymplayer.play(playing);
+      if (playing == false)
+        ym2149.reset();
     }   
     if (type == 2){
       sidplayer.loadFile(smallfsModTrack);
-      sidplayer.play(true);  
+      playing = !sidplayer.getPlaying();  //Every time select is pressed we toggle the playing state.
+      sidplayer.play(playing);
+      if (playing == false)
+        sid.reset();      
     }   	
-    lcd.setCursor(0,1);   
-    lcd.print(smallfsModTrack);
+    lcd.setCursor(0,1);
+    if (playing == false)
+      lcd.print("Stop");
+    else   
+      lcd.print(smallfsModTrack);
   }    
 }
 
@@ -490,6 +498,21 @@ int RETROCADE::fileExtension(const char* name, const char* extension, size_t len
     return strncmp(ldot + 1, extension, length) == 0;
   }
   return 0;
+}
+
+void RETROCADE::updateAnalog(){
+  if (analogTimeout == 0 && lcdMode == ANALOG)
+  {  
+    analogTimeout = ANALOGTIMERMAX;
+    byte analogResult;
+    if (analogChannel < 8 )
+      analogResult = analog.read(analogChannel);
+    else
+      analogResult = analog1.read(analogChannel-8);
+    lcd.setCursor(4,1);  
+    lcd.print(analogResult);
+    lcd.print("   ");    
+  }    
 }
 
 void RETROCADE::spaceInvadersLCD(){

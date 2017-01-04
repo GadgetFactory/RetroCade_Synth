@@ -1,0 +1,35 @@
+#set lib_path "d:/Dropbox/GadgetFactory/GadgetFactory_Engineering/ZAP--ZPUino-Arduino-Papilio--IDE/build/windows/work/examples/00.Papilio_Schematic_Library/Libraries"
+set lib_path "D:/Dropbox/GadgetFactory/GadgetFactory_Engineering/Papilio-Schematic-Library/Libraries"
+
+set xilinx_projects [glob -nocomplain -type f *.xise]
+
+foreach i $xilinx_projects {
+
+	project open $i
+
+	lib_vhdl delete benchy
+	lib_vhdl delete board
+	lib_vhdl delete wishbone
+	lib_vhdl delete zpuino
+	xfile remove Utility.sch
+	xfile remove *.ucf
+
+	lib_vhdl new benchy
+	lib_vhdl new board
+	lib_vhdl new wishbone
+	lib_vhdl new zpuino
+	
+	set shortName [file rootname $i]
+	puts $shortName
+	
+	xfile add $lib_path/Benchy/*.vhd -lib_vhdl benchy
+	xfile add $lib_path/ZPUino_1/$shortName/*.vhd -lib_vhdl board
+	xfile add $lib_path/Wishbone_Peripherals/*.vhd -lib_vhdl wishbone
+	xfile add $lib_path/ZPUino_1/*.vhd -lib_vhdl zpuino
+	
+	xfile add $lib_path/ZPUino_1/$shortName/*.ucf
+	xfile add $lib_path/ZPUino_1/Utility.sch
+
+	project close
+
+}

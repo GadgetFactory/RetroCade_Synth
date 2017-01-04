@@ -1,26 +1,46 @@
 /*
-Gadget Factory
-RetroCade Synthesizer
-This example will let you play the YM2149 and SID audio chip integrated into the ZPUino Soft Processor using a MIDI instrument such as a keyboard or guitar.
-To learn more about this example visit its home page at the Papilio RetroCade Wiki:
-http://retrocade.gadgetfactory.net
+ Gadget Factory
+ RetroCade Synth
+ To learn more about the Papilio Schematic Library please visit http://learn.gadgetfactory.net
 
-To learn more about the Papilio and Gadget Factory products visit:
-http://www.GadgetFactory.net
+ Hardware:
+   Use a Papilio Pro with the RetroCade MegaWing attached to it.
+   
+ Special Application Notes:
+    Click on the link below to open the RetroCade Dashboard (Windows Only)
+      sketchdir://Dashboards/FlowStone/RetroCade_Synth_DashBoard.exe
 
-Hardware:
-* Connect a RetroCade MegaWing
-
-*******IMPORTANT********************
-Be sure to load the ZPUino "RetroCade" variant to the Papilio's SPI Flash before loading this sketch.
-
-created 2012
-by Jack Gassett
-http://www.gadgetfactory.net
-
+    Click on the link below to load the latest production RetroCade bit file with all of the sample audio files
+      sketchdir://circuit/RetroCade-1.3-zpuino-2.0-PapilioPro-S6LX9-RetroCade-1.3.bit
+      sketchdir://circuit/RetroCade-1.3-lcd-contrast-fix-zpuino-2.0-PapilioPro-S6LX9-RetroCade-1.3.bit   //Use this is you have problems with contrast on your LCD
+      
+    To use the older 1.1 version of the firmware (You will not be able to upload this sketch with the 1.0 version of ZPUino)
+      sketchdir://circuit/RetroCade-1.1-zpuino-1.0-PapilioPro-S6LX9-RetroCade-1.1.bit
+      
+    NOTE: If you want all of the production samples available when you load this sketch to the RetroCade first load the production bit file to your board and then hold down the left shift key before uploading. 
+    This will cause the program to be loaded directly to SDRAM and will not wipe out the samples in SPI Flash. Or, hit CTRL-K to open the sketch directory and rename smallfs-production to smallfs.
+    It will take a long time to upload all of the music files every time you make a code change. The current smallfs folder has very small files in it to speed up code changes.
+    
+ created 2014
+ by Jack Gassett
+ http://www.gadgetfactory.net
+ 
+ This example code is in the public domain.
 License: GPL
 
 ChangeLog:
+1/4/2017      Version 1.3.1
+        -Fix for some LCDs that have contrast issues.
+
+4/21/2015      Version 1.3
+        -Updated MIDI library to better handle NoteOffs.
+        -Moved to ZPUino 2.0 with a DesignLab schematic.
+
+1/29/2014      Version 1.2
+        -Moved to Papilio Schematic Library and drew up a schematic of the RetroCade system.
+        -Added Analog mode to the LCD.
+        -Made joystick interaction for smallFS more intuitive. Cannot do the same for SD Card access without a lot of rework...
+
 9/26/2013       Version 1.1
         -Added SID Analog Filters!!!!!!!!  Thanks to Alvie for writing the VHDL code.
         -Added SidPlayer library to process SID files from smallFS and SD Cards. Thanks to Alvie for porting to the ZPUino.
@@ -81,7 +101,7 @@ ChangeLog:
 
 */
 
-  HardwareSerial Serial1(11);   //This is to define Serial1 for the ZPUino.
+  HardwareSerial Serial1(WishboneSlot(11));   //This is to define Serial1 for the ZPUino.
 
 #include "RetroCade.h"
 #include "SID.h"
@@ -96,6 +116,9 @@ ChangeLog:
 #include "ramFS.h"
 #include "cbuffer.h"
 #include "sidplayer.h"
+#include "SPIADC.h"
+#include "SPI.h" 
+#include <Timer.h>
 
 
 byte lastpitch[8];
@@ -103,7 +126,6 @@ File root;
 
 int sidplayercounter = 0;
 
-#undef DO_CHECKS
 //#define DEBUG
 
 //Instantiate the objects we will be using.
@@ -111,16 +133,66 @@ RETROCADE retrocade;
 //YM2149 ym2149;
 //SID sid;
 
+struct MySettings : public midi::DefaultSettings
+{
+    static const long BaudRate = 115200;
+};
+
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
+#ifndef DEBUG
+MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial, midiB, MySettings);
+#endif   
+
 void setup(){
   int input;
   Serial.begin(115200);
-  Serial1.begin(31250);
+  //Serial1.begin(31250);
 
 //  for (input=0; input<8; input++) {
 //      VolumeController.set(input, 255, 255);
 //  }
   //Setup pins for RetroCade MegaWing
   retrocade.setupMegaWing(); 
+  
+  //Set Wishbone slots for audio chips
+  retrocade.sid.setup(14);
+  retrocade.ym2149.setup(13);
+   
+  // Initiate MIDI communications, listen to all channels
+  MIDI.begin(MIDI_CHANNEL_OMNI);
+  #ifndef DEBUG
+    midiB.begin(MIDI_CHANNEL_OMNI);
+  #endif    
+ 
+  // Connect the HandleNoteOn function to the library, so it is called upon reception of a NoteOn.
+  MIDI.setHandleNoteOn(HandleNoteOn); // Put only the name of the function
+  MIDI.setHandleControlChange(HandleControlChange); // Put only the name of the function
+  MIDI.setHandleNoteOff(HandleNoteOff); // Put only the name of the function
+// MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
+  MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
+  
+  #ifndef DEBUG
+    midiB.setHandleNoteOn(HandleNoteOn); // Put only the name of the function
+    midiB.setHandleControlChange(HandleControlChange); // Put only the name of the function
+    midiB.setHandleNoteOff(HandleNoteOff); // Put only the name of the function
+    midiB.setHandlePitchBend(HandlePitchBend); // Put only the name of the function  
+  #endif  
+  
+  retrocade.modplayer.setup(5);
+  retrocade.ymplayer.setup(&retrocade.ym2149,13); 
+  retrocade.sidplayer.setup(14);
+  
+  //retrocade.sidplayer.loadFile("music.sid");
+  //retrocade.sidplayer.play(true);
+  
+  //analog.begin(CS(WING_C_9),WISHBONESLOT(8),ADCBITS(SPIADC_8BIT));
+
+ //Setup timer for YM and mod players, this generates an interrupt at 1700hz
+  Timers.begin();
+  int r = Timers.periodicHz(17000, timer, 0, 1);
+  if (r<0) {
+      Serial.println("Fatal error!");
+  }    
   
   ///Give some volume
   retrocade.ym2149.V1.setVolume(11);
@@ -129,31 +201,14 @@ void setup(){
   retrocade.sid.setVolume(15);
 
   //Select an instrument for each SID Voice.
-  retrocade.sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,0); //Calliope
-  retrocade.sid.V2.setInstrument("Accordian",12,0,12,0,0,0,1,0,0); //Accordian
+  retrocade.sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,2048); //Calliope
+  retrocade.sid.V2.setInstrument("Accordian",12,0,12,0,0,0,1,0,2048); //Accordian
   retrocade.sid.V3.setInstrument("Harpsicord",0,9,0,0,0,1,0,0,512); //Harpsicord
-   
-  // Initiate MIDI communications, listen to all channels
-  MIDI.begin(MIDI_CHANNEL_OMNI);
- 
-  // Connect the HandleNoteOn function to the library, so it is called upon reception of a NoteOn.
-  MIDI.setHandleNoteOn(HandleNoteOn); // Put only the name of the function
-  MIDI.setHandleControlChange(HandleControlChange); // Put only the name of the function
-  MIDI.setHandleNoteOff(HandleNoteOff); // Put only the name of the function
-// MIDI.setHandleProgramChange(HandleProgramChange); // Put only the name of the function
- MIDI.setHandlePitchBend(HandlePitchBend); // Put only the name of the function
-  
-  retrocade.modplayer.setup();
-  retrocade.ymplayer.setup(&retrocade.ym2149); 
-  retrocade.sidplayer.setup();
-  
-  //retrocade.sidplayer.loadFile("music.sid");
-  //retrocade.sidplayer.play(true);
 
 }
 
 
-void _zpu_interrupt()
+bool timer(void*)
 {
   sidplayercounter++;
   retrocade.modplayer.zpu_interrupt();
@@ -163,6 +218,7 @@ void _zpu_interrupt()
     sidplayercounter = 1;
   }
   retrocade.setTimeout();
+  return true;
 }
 
 void HandleControlChange(byte channel, byte number, byte value) {
@@ -298,10 +354,11 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
     Serial.print("Channel Received: ");
     Serial.println(channel);
   #endif     
-  lastpitch[channel-1]=pitch;
+  
   byte activeChannel = retrocade.getActiveChannel();
   if ( activeChannel != 0 )
     channel = activeChannel;
+  lastpitch[channel-1]=pitch;
   switch (channel){
     case 1:
       retrocade.sid.V1.setNote(pitch, 1);
@@ -376,15 +433,22 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
 
 void loop(){
   // Call MIDI.read the fastest you can for real-time performance.
-  MIDI.read(&Serial);
-  MIDI.read(&Serial1);  
+  MIDI.read();
+  #ifndef DEBUG
+    midiB.read();
+  #endif    
   if (retrocade.modplayer.getPlaying() == 1)
     retrocade.modplayer.audiofill();
   else
+  {
     retrocade.spaceInvadersLCD();          //Don't move the space invader when a mod file is playing
+     
+  }
   if (retrocade.ymplayer.getPlaying() == 1)
-    retrocade.ymplayer.audiofill(); 
-  retrocade.handleJoystick(); 
-  retrocade.sidplayer.audiofill();  
+    retrocade.ymplayer.audiofill();
+  if (retrocade.sidplayer.getPlaying() == 1)
+    retrocade.sidplayer.audiofill(); 
+  retrocade.handleJoystick();
+  retrocade.updateAnalog();  
 }
 

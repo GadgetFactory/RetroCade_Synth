@@ -1,0 +1,35 @@
+#set lib_path "d:/Dropbox/GadgetFactory/GadgetFactory_Engineering/ZAP--ZPUino-Arduino-Papilio--IDE/build/windows/work/examples/00.Papilio_Schematic_Library/Libraries"
+#set user_lib_path "C:/Users/Jack/Documents/Arduino/libraries/*"
+set user_lib_path [lindex $argv 1]
+#puts $user_lib_path
+
+#set xilinx_projects [glob -nocomplain -type f *.xise]
+#set xilinx_projects [list PSL_Papilio_Pro_LX9.xise]
+
+set directories [glob -nocomplain -type d $user_lib_path]
+
+#foreach i $xilinx_projects {
+
+	project open [lindex $argv 0]
+	
+	foreach x $directories {
+	
+		#puts $x
+		
+		set shortName [file tail $x]
+		
+		#puts $shortName
+
+		lib_vhdl delete $shortName
+
+		lib_vhdl new $shortName
+
+		xfile add $x/*.vhd -lib_vhdl $shortName
+	
+	}
+
+	project close
+
+#}
+return 0
+exit

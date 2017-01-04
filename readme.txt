@@ -8,6 +8,18 @@ Requirements:
   *You must have FlowStone installed to modify the Dashboard. The free version can be downloaded from: http://www.dsprobotics.com/download.php
   
 ChangeLog:
+1/4/2017      Version 1.3.1
+        -Fix for some LCDs that have contrast issues.
+
+4/21/2015      Version 1.3
+        -Updated MIDI library to better handle NoteOffs.
+        -Moved to ZPUino 2.0 with a DesignLab schematic.
+
+1/29/2014      Version 1.2
+        -Moved to Papilio Schematic Library and drew up a schematic of the RetroCade system.
+        -Added Analog mode to the LCD.
+        -Made joystick interaction for smallFS more intuitive. Cannot do the same for SD Card access without a lot of rework...
+		
 9/26/2013       Version 1.1
         -Added SID Analog Filters!!!!!!!!  Thanks to Alvie for writing the VHDL code.
         -Added SidPlayer library to process SID files from smallFS and SD Cards. Thanks to Alvie for porting to the ZPUino.
