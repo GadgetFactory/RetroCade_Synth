@@ -6,6 +6,7 @@ The RetroCade Synth boasts the capability to play the built-in Commodore 64 SID 
 
 Requirements:
   *You must have FlowStone installed to modify the Dashboard. The free version can be downloaded from: http://www.dsprobotics.com/download.php
+  If you want to modify the source code then please install DesignLab software.
   
 ChangeLog:
 1/4/2017      Version 1.3.1
